@@ -39,72 +39,32 @@ p {
 /*------------------------     title     ------------------------*/
 
 .l-headingBar {
-    display: flex;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+    &__wrap {
+        border-top: 1px solid rgb(230, 230, 230);
+        border-bottom: 1px solid rgb(230, 230, 230);
+    }
 
-    &__link {
+    &__content {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
         align-items: center;
+        max-width: 1216px;
+        margin: 0 auto;
     }
-
-    &__backWrap {
-        flex: 0 0 auto;
-        display: flex;
-        align-items: center;
-    }
-
-    &__back {
-        flex: 0 0 auto;
-        width: 24px;
-        margin-bottom: 3px;
-    }
-
-    &__back+&__title {
-        margin-left: 4px;
-    }
-
+    
     &__title {
-        flex: 1 1 auto;
+        font-size: 24px;
+        letter-spacing: 0.5em;
+        padding: 10px;
+        border-left: 1px solid rgb(230, 230, 230);
+        border-right: 1px solid rgb(230, 230, 230);
+        background: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.067), rgba(0, 0, 0, 0.067) 2px, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0) 4px);
     }
 
-    &__actions {
-        flex: 1 1 auto;
-        text-align: right;
-    }
-
-    &__subtitle {
-        width: 100%;
-        margin: 16px 0 0;
-        flex: 1 1 auto;
-    }
-
-    &--title {
-        margin-bottom: 20px;
-    }
-
-    &.has-text & {
-        &__title {
-            flex: 0 0 auto;
-        }
-
-        &__text {
-            flex: 1 0 auto;
-            margin: 0 16px;
-        }
-    }
-
-    @include breakpoint-down("mobile") {
-        &.has-text & {
-            &__action {
-                width: 100%;
-                margin-top: 24px;
-            }
-        }
+    &__link {
+        text-decoration: none;
+        margin-right: 10px;
     }
 }
 

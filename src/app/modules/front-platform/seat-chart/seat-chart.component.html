@@ -1,0 +1,43 @@
+<div class="l-seatChart">
+    <div class="l-seatChart__wrap">
+        <div class="l-seatChart__title">
+            <div class="l-seatChart__icon">
+                <i class="o-icon o-icon--green"></i>
+                <span class="u-font-sm u-gapT-min">已選取</span>
+            </div>
+            <div class="l-seatChart__icon">
+                <i class="o-icon o-icon--yellow"></i>
+                <span class="u-font-sm u-gapT-min">無法選取</span>
+            </div>
+        </div>
+
+        <div class="l-seatChart__screen">
+            銀幕
+        </div>
+
+        <div class="l-seatChart__text">
+            <span href="#" appStopPropagation class="c-seatChart__item c-seatChart__item--column">
+                排
+            </span>
+            <span href="#" appStopPropagation class="c-seatChart__item c-seatChart__item--column">
+                排
+            </span>
+        </div>
+
+        <div class="c-seatChart">
+            <ng-container *ngFor="let item of seatChartNo">
+                <span class="c-seatChart__item c-seatChart__item--column">
+                    {{ item.column }}
+                </span>
+                <a href="#" appStopPropagation class="c-seatChart__item" *ngFor="let seat of item.seat"
+                    [class.is-hidden]="seat.no === null" [class.is-noSelect]="seat.disableSeat === true"
+                    [class.is-select]="seat.isSelect" (click)="changeSeat(item.column, seat)">
+                    {{ seat.no }}
+                </a>
+                <span class="c-seatChart__item c-seatChart__item--column">
+                    {{ item.column }}
+                </span>
+            </ng-container>
+        </div>
+    </div>
+</div>

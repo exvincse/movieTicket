@@ -1,0 +1,137 @@
+import { CommonModule } from "@angular/common";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+    FormBuilder, FormGroup, FormsModule, ReactiveFormsModule,
+    Validators
+} from "@angular/forms";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { Subscription } from "rxjs";
+
+import { TmdbRepositoryService } from "../../../core/api/tmdb/tmdb.repository.service";
+import { DatePickerComponent } from "../../../shared/base/component/date-picker/date-picker.component";
+import { PagerComponent } from "../../../shared/base/component/pager/pager.component";
+import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+
+/**
+ * MovieListComponent
+ */
+@Component({
+    selector: "app-movie-list",
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        ReactiveFormsModule,
+        StopPropagationDirective,
+        PagerComponent,
+        DatePickerComponent
+    ],
+    templateUrl: "./movie-list.component.html",
+    styleUrl: "./movie-list.component.scss"
+})
+export class MovieListComponent implements OnInit, OnDestroy {
+    /**
+     * constructor
+     * @param tmdbRepositoryService TmdbRepositoryService
+     * @param router router
+     * @param route activatedRoute
+     * @param fb FormBuilder
+     */
+    constructor(
+        public tmdbRepositoryService: TmdbRepositoryService,
+        public router: Router,
+        public route: ActivatedRoute,
+        public fb: FormBuilder
+    ) {
+        this.sub = this.route.queryParams.subscribe((params: any) => {
+            this.nowPage = parseInt(params.page, 10) || 1;
+            this.getAllMovieList(this.nowPage, params.startDate, params.endDate);
+        });
+
+        this.searchForm = this.fb.group({
+            startDate: ["", Validators.required],
+            endDate: ["", Validators.required]
+        });
+    }
+
+    searchForm!: FormGroup;
+
+    sub: Subscription;
+
+    movieList: any[] = [];
+
+    total = 0;
+
+    nowPage = 1;
+
+    localeConfig = {
+        format: "YYYY-MM-DD",
+    };
+
+    /**
+     * on init
+     */
+    ngOnInit() {
+        this.getAllMovieList();
+    }
+
+    /**
+     * destory
+     */
+    ngOnDestroy() {
+        this.sub.unsubscribe();
+    }
+
+    /**
+     * submitForm
+     */
+    submitForm() {
+        const dateValue = this.searchForm.getRawValue();
+        this.router.navigate(["./"], {
+            relativeTo: this.route,
+            queryParams: {
+                startDate: dateValue.startDate,
+                endDate: dateValue.endDate,
+                page: 1
+            }
+        });
+    }
+
+    /**
+     * getAllMovieList
+     * @param page page
+     * @param startDate startDate
+     * @param endDate endDate
+     */
+    getAllMovieList(page = 1, startDate?: string, endDate?: string) {
+        const params = {
+            language: "zh-TW",
+            sort_by: "popularity.desc",
+            "primary_release_date.gte": startDate || "",
+            "primary_release_date.lte": endDate || "",
+            page
+        };
+
+        this.tmdbRepositoryService.getMovieList(params).subscribe((res) => {
+            this.total = res.total_results;
+            this.movieList = res.results;
+        });
+    }
+
+    /**
+     * changePageEmitter
+     * @param page page
+     */
+    changePageEmitter(page: number) {
+        this.nowPage = page;
+        this.router.navigate(["./"], {
+            relativeTo: this.route,
+            queryParams: {
+                startDate: this.route.snapshot.queryParams["startDate"] || "",
+                endDate: this.route.snapshot.queryParams["endDate"] || "",
+                page
+            }
+        });
+    }
+}

@@ -1,0 +1,208 @@
+<div class="l-headingBar">
+    <div class="l-headingBar__wrap">
+        <div class="l-headingBar__content">
+            <div class="l-headingBar__title">電影簡介</div>
+        </div>
+    </div>
+</div>
+
+<div class="l-card">
+    <div class="c-movieCard c-movieCard--row">
+        <div class="c-movieCard__img c-movieCard__img--detail"></div>
+        <div class="c-movieCard__content">
+            <div class="l-movieDetail">
+                <div class="l-movieDetail__head">
+                    <div class="l-movieDetail__title">獅子王：木法沙</div>
+                    <div class="l-movieDetail__subTitle">Mufasa：The Lion King</div>
+                </div>
+                <div class="l-movieDetail__content">
+                    <div class="c-form c-form--column">
+                        <div class="c-form__item">
+                            <div class="c-form__label">級別</div>
+                            <div class="c-form__text">
+                                <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png" width="28"
+                                    height="28" alt="" srcset="">
+                            </div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">片長</div>
+                            <div class="c-form__text">118分</div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">上映日</div>
+                            <div class="c-form__text">2024/12/19</div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">類型</div>
+                            <div class="c-form__text">冒險，劇情，家庭，奇幻，歌劇，動畫</div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">演員</div>
+                            <div class="c-form__text">亞倫皮埃爾，凱爾文哈里遜，塞斯羅根，阿妮卡諾尼羅斯，布拉林蘭金斯</div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">導演</div>
+                            <div class="c-form__text">貝瑞傑金斯</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="l-headingBar">
+    <div class="l-headingBar__wrap">
+        <div class="l-headingBar__content">
+            <div class="l-headingBar__title">線上訂票</div>
+        </div>
+    </div>
+</div>
+
+<div class="l-card">
+    <div class="l-swiper u-gapH-md">
+        <swiper-container appSwiper [swiperConfig]="swiperConfig" init="false"
+            class="swiper-container c-dateTab c-dateTab--underline">
+            <swiper-slide *ngFor="let item of date; let index = index" class="c-dateTab__item"
+                [ngClass]="{ 'is-active': index === 0 }">
+                <a href="#" appStopPropagation class="c-dateTab__link">{{ item }}</a>
+            </swiper-slide>
+        </swiper-container>
+
+        <a href="#" appStopPropagation class="c-dateTab__prev"></a>
+        <a href="#" appStopPropagation class="c-dateTab__next"></a>
+    </div>
+    <div class="u-gapH-md-t u-gapT-sm-m">
+        <table class="c-table c-table--card c-table--underline">
+            <tbody>
+                <tr>
+                    <td data-label="語言" class="is-center">2D英語</td>
+                    <td data-label="時間">
+                        <div class="l-btn">
+                            <div class="l-btn__item">
+                                <a href="#" class="c-btn c-btn--lg c-btn--reverseColor">13:10</a>
+                            </div>
+
+                            <div class="l-btn__item">
+                                <a href="#" class="c-btn c-btn--lg c-btn--reverseColor">16:10</a>
+                            </div>
+
+                            <div class="l-btn__item">
+                                <a href="#" class="c-btn c-btn--lg c-btn--reverseColor">17:10</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td data-label="語言" class="is-center">2D國語</td>
+                    <td data-label="時間">
+                        <div class="l-btn">
+                            <div class="l-btn__item">
+                                <a href="#" class="c-btn c-btn--lg c-btn--reverseColor">20:10</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="l-headingBar">
+    <div class="l-headingBar__wrap">
+        <div class="l-headingBar__content">
+            <div class="l-headingBar__title">選取票種</div>
+        </div>
+    </div>
+</div>
+
+<div class="l-card">
+    <div class="u-gapH-md-t">
+        <table class="c-table c-table--card c-table--underline">
+            <colgroup>
+                <col>
+                <col style="width: 121px;">
+                <col style="width: 121px;">
+                <col style="width: 121px;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>票種</th>
+                    <th class="is-center">單價</th>
+                    <th class="is-center">數量</th>
+                    <th class="is-center">小計</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="票種">雙人吉拿套票</td>
+                    <td data-label="單價" class="is-center">$830</td>
+                    <td data-label="數量" class="is-center">
+                        <select class="o-selectbox">
+                            <option value="">1</option>
+                            <option value="">2</option>
+                            <option value="">3</option>
+                            <option value="">4</option>
+                            <option value="">5</option>
+                            <option value="">6</option>
+                            <option value="">7</option>
+                            <option value="">8</option>
+                            <option value="">9</option>
+                            <option value="">10</option>
+                        </select>
+                    </td>
+                    <td data-label="小計" class="is-center">$0</td>
+                </tr>
+
+                <tr>
+                    <td data-label="票種">雙人吉拿套票</td>
+                    <td data-label="單價" class="is-center">$830</td>
+                    <td data-label="數量" class="is-center">
+                        <select class="o-selectbox">
+                            <option value="">1</option>
+                            <option value="">2</option>
+                            <option value="">3</option>
+                            <option value="">4</option>
+                            <option value="">5</option>
+                            <option value="">6</option>
+                            <option value="">7</option>
+                            <option value="">8</option>
+                            <option value="">9</option>
+                            <option value="">10</option>
+                        </select>
+                    </td>
+                    <td data-label="小計" class="is-center">$0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="l-btn l-btn--right">
+            <div class="l-btn__item">
+                <a href="#" class="c-btn c-btn--reverseColor c-btn--animate">
+                    選取座位
+                    <fa-icon [icon]="faGreaterThan" [size]="'2xs'"></fa-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="l-headingBar">
+    <div class="l-headingBar__wrap">
+        <div class="l-headingBar__content">
+            <div class="l-headingBar__title">選取座位</div>
+        </div>
+    </div>
+</div>
+
+<div class="l-card">
+    <div class="u-gapH-md-t">
+        <app-seat-chart></app-seat-chart>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="c-pager ">
+    <a href="#" appStopPropagation class="c-pager__first" [class.disable]="_nowPage === 1" (click)="changePage(1)"></a>
+    <a href="#" appStopPropagation class="c-pager__prev" [class.disable]="_nowPage === 1"
+        (click)="changePage(_nowPage - 1)"></a>
+    <div class="c-pager__list">
+        <a href="#" appStopPropagation class="c-pager__no" [class.is-active]="_nowPage === item"
+            *ngFor="let item of renderPages" (click)="changePage(item)">
+            {{ item }}
+        </a>
+    </div>
+    <div class="c-pager__select">
+        <select class="o-selectbox" [ngModel]="_nowPage" (ngModelChange)="changePage($event)">
+            <option [value]="item" *ngFor="let item of renderPages">{{ item }}</option>
+        </select>
+    </div>
+    <a href="#" appStopPropagation class="c-pager__next" [class.disable]="_nowPage === _total"
+        (click)="changePage(_nowPage + 1)"></a>
+    <a href="#" appStopPropagation class="c-pager__last" [class.disable]="_nowPage === _total"
+        (click)="changePage(_total)"></a>
+</div>

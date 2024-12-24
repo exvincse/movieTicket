@@ -1,0 +1,147 @@
+.l-form {
+    &__title {
+        padding: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #c3c9cf;
+    }
+
+    &__content {
+        padding: 16px;
+    }
+}
+
+.c-form {
+    display: flex;
+
+    &__require {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .c-form__item:not(:first-child) {
+        margin-left: 10px;
+    }
+
+    &--column {
+        flex-direction: column;
+
+        .c-form__item:not(:first-child) {
+            margin-top: 10px;
+            margin-left: 0;
+        }
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+
+        &--column {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    // &__item + &__item {
+    //     margin-top: 10px;
+    // }
+
+    &__label {
+        width: 80px;
+    }
+
+    &__text {
+        width: 100%;
+    }
+
+    &__error {
+        font-size: 12px;
+        color: red;
+    }
+}
+
+.l-radio {
+    display: flex;
+    align-items: center;
+
+    &__item + &__item {
+        margin-left: 8px;
+    }
+}
+
+.l-address {
+    display: flex;
+    flex-wrap: wrap;
+
+    &__item {
+        flex: 1 1 auto;
+        margin-left: 16px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+
+        &.is-full {
+            flex: 1 1 100%;
+            margin-left: 0;
+            margin-top: 16px;
+        }
+    }
+
+    @include breakpoint-down('mobile') {
+        flex-direction: column;
+        &__item {
+            margin-left: 0;
+            margin-top: 8px;
+        }
+    }
+}
+
+
+.o-inputbox {
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    max-width: 200px;
+    padding: 10px 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #111111;
+    border: 1px solid #c3c9cf;
+    background-color: #fff;
+    outline: none;
+    appearance: none;
+    transition: border-color ease 0.3s, background-color ease 0.3s;
+
+    &--full {
+        max-width: 100%
+    }
+
+    &.is-error {
+        border: 1px solid red;
+    }
+}
+
+.o-selectbox {
+    position: static;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    max-width: 80px;
+    padding: 10px 20px;
+    border: 1px solid #c3c9cf;
+    appearance: none;
+    clip: auto;
+    clip-path: none;
+    text-overflow: ellipsis;
+    background: url('../images/icons/down-lg-bu.svg') #fff no-repeat right 16px center;
+
+    &:focus {
+        outline: none;
+    }
+
+    &--full {
+        max-width: 100%;
+    }
+}

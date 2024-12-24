@@ -1,0 +1,44 @@
+<!-- 導航欄 -->
+<nav class="l-header">
+    <a href="#" class="c-logo">
+        <!-- <img src="/api/placeholder/50/50" alt="Company Logo" class="o-img"> -->
+        <h1 class="c-logo__text">Movie Tick</h1>
+    </a>
+
+    <a href="#" appStopPropagation class="c-menu__bar" (click)="toggleList()">
+        <fa-icon [icon]="isShowMobileList === false ? faBars : faTimes" [size]="'xl'"></fa-icon>
+    </a>
+    <div class="c-menu" [class.is-open]="isShowMobileList">
+        <div class="c-menu__item">
+            <a href="#" appStopPropagation class="c-menu__btn" (click)="toggleVisibility(0)">電影類型</a>
+            <div class="c-menu__content">
+                <div class="c-menuLink" [@slideInOut]="menuList[0] ? 'slideIn' : 'slideOut'">
+                    <a href="#" class="c-menuLink__item">動作冒險</a>
+                    <a href="#" class="c-menuLink__item">喜劇</a>
+                    <a href="#" class="c-menuLink__item">劇情</a>
+                    <a href="#" class="c-menuLink__item">科幻奇幻</a>
+                    <a href="#" class="c-menuLink__item">恐怖驚悚</a>
+                    <a href="#" class="c-menuLink__item">動畫</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="c-menu__item">
+            <a href="#" appStopPropagation class="c-menu__btn" (click)="toggleVisibility(1)">影集類型</a>
+            <div class="c-menu__content">
+                <div class="c-menuLink" [@slideInOut]="menuList[1] ? 'slideIn' : 'slideOut'">
+                    <a href="#" class="c-menuLink__item">動作冒險</a>
+                    <a href="#" class="c-menuLink__item">喜劇</a>
+                    <a href="#" class="c-menuLink__item">劇情</a>
+                    <a href="#" class="c-menuLink__item">科幻奇幻</a>
+                    <a href="#" class="c-menuLink__item">恐怖驚悚</a>
+                    <a href="#" class="c-menuLink__item">動畫</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="c-menu__item">
+            <a href="#" appStopPropagation class="c-menu__btn" (click)="openLoginDialog()">登入</a>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,68 @@
+.c-table {
+    width: 100%;
+    border-collapse: collapse;
+    tr {
+        th {
+            padding: 20px;
+            text-align: left;
+            &.is-center {
+                text-align: center;
+            }
+        }
+
+        td {
+            padding: 20px;
+            &.is-center {
+                text-align: center;
+            }
+        }
+    }
+
+    &--underline {
+        tr {
+            border-bottom: 1px solid rgb(204, 204, 204);
+        }
+    }
+
+    /* 手機版卡片佈局 */
+    @include breakpoint-down("mobile") {
+        &--card {
+            colgroup {
+                display: none;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                display: block;
+                margin-bottom: 15px;
+                padding: 10px;
+                border: 1px solid #ddd;
+                background-color: white;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                border-radius: 8px;
+                overflow: hidden;
+
+                td {
+                    display: flex;
+                    align-items: center;
+
+                    &.is-center {
+                        text-align: left;
+                    }
+
+                    &::before {
+                        content: attr(data-label);
+                        width: 6em;
+                        flex: 0 0 auto;
+                        font-weight: bold;
+                        margin-right: 15px;
+                        color: #333;
+                    }
+                }
+            }
+        }
+    }
+}

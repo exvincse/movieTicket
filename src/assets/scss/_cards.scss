@@ -1,0 +1,126 @@
+.l-movieCard {
+    &__wrap {
+        max-width: 1216px;
+        margin: 20px auto;
+
+        &--full {
+            max-width: 100%;
+        }
+    }
+
+    &__itme {
+        margin: 10px;
+
+        &--sm {
+            display: inline-block;
+            width: 216px;
+        }
+    }
+}
+
+.l-card {
+    max-width: 1216px;
+    margin: 20px auto;
+    padding: 0 30px;
+}
+
+.c-movieCard {
+    &--row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__img {
+        padding-top: 150%;
+        background-image: url('https://capi.showtimes.com.tw/assets/d3/d3b2d173a83e46df015c03907e9e007a.jpg');
+        background-position: center;
+        background-size: cover;
+
+        &--detail {
+            padding-top: 0;
+            width: 100%;
+            max-width: 300px;
+            height: 450px;
+            margin-right: 20px;
+        }
+    }
+
+    &__content {
+        display: flex;
+        padding: 10px;
+
+        &>img {
+            margin-left: 8px;
+        }
+
+        &--gary {
+            background-color: #FAFAFA;
+        }
+    }
+
+    &__title {
+        width: 148px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    &__subTitle {
+        color: #212529;
+        font-size: 12px;
+        width: 148px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        height: 54px;
+        box-sizing:border-box;
+    }
+
+    &__date {
+        color: #212529;
+        font-size: 12px;
+    }
+
+    &--zoom {
+        transform: scale(1);
+        transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+        &:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    @include breakpoint-down("mobile") {
+        justify-content: center;
+
+        &__img {
+            &--detail {
+                max-width: 300px;
+                height: 450px;
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+.l-movieDetail {
+    &__head {
+        margin-bottom: 40px;
+    }
+
+    &__title {
+        color: #2660A9;
+        font-size: 24px;
+        font-weight: 700;
+    }
+
+    &__subTitle {
+        font-size: 14px;
+        letter-spacing: 0.1em;
+        font-weight: 300;
+        color: rgb(51, 51, 51);
+    }
+}

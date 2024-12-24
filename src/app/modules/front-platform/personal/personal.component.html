@@ -1,0 +1,25 @@
+<div class="l-headingBar">
+    <div class="l-headingBar__wrap">
+        <div class="l-headingBar__content">
+            <div class="l-headingBar__title">個人資料</div>
+        </div>
+    </div>
+</div>
+
+<div class="l-card">
+    <div class="l-swiper">
+        <swiper-container appSwiper [swiperConfig]="swiperConfig" init="false"
+            class="swiper-container c-dateTab c-dateTab--underline">
+            <swiper-slide *ngFor="let item of path; let index = index" class="c-dateTab__item"
+                [ngClass]="{ 'is-active': item.link === router.url}">
+                <a [routerLink]="[item.link]" appStopPropagation class="c-dateTab__link">{{ item.name }}</a>
+            </swiper-slide>
+        </swiper-container>
+
+        <a href="#" appStopPropagation class="c-dateTab__prev"></a>
+        <a href="#" appStopPropagation class="c-dateTab__next"></a>
+    </div>
+    <div class="u-gapT-sm-m">
+        <router-outlet></router-outlet>
+    </div>
+</div>

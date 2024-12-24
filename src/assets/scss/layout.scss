@@ -13,9 +13,24 @@ body {
     height: 100%;
 }
 
+.l-main {
+    @include breakpoint-down('mobile') {
+        margin-top: 58px;
+    }
+}
+
+.l-footer {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: #2660A9;
+    padding: 10px;
+}
+
 .l-wrap {
     @include wrap();
-
 }
 
 /* ==========================================================================

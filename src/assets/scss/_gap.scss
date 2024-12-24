@@ -94,7 +94,7 @@ $value in $gaps {
     }
 }
 
-@include breakpoint-only('tablet') {
+@include breakpoint-up('tablet') {
 
     @each $name,
     $value in $gaps {
@@ -105,7 +105,7 @@ $value in $gaps {
     }
 }
 
-@include breakpoint-only('mobile') {
+@include breakpoint-up('mobile') {
 
     @each $name,
     $value in $gaps {
