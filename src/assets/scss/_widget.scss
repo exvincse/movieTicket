@@ -1,0 +1,114 @@
+.l-widget {
+    position: relative;
+    max-width: calc(100% + 24px);
+    margin: -12px;
+    overflow-x: hidden;
+
+    &__item {
+        position: absolute;
+        box-sizing: border-box;
+        width: 50%;
+        padding: 12px;
+        z-index: 1;
+
+        &.muuri-item-hidden {
+            z-index: 0;
+        }
+
+        &.muuri-item-releasing {
+            z-index: 2;
+        }
+
+        &.muuri-item-dragging {
+            z-index: 3;
+        }
+    }
+
+    &--dock {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &--dock & {
+        &__item {
+            position: static;
+            width: 25%;
+            flex: 0 0 auto;
+        }
+    }
+
+    @include breakpoint-down('tablet') {
+        max-width: calc(100% + 16px);
+        margin: -8px;
+
+        &__item {
+            padding: 8px;
+        }
+
+        &--dock & {
+            &__item {
+                width: 50%;
+            }
+        }
+    }
+
+    @include breakpoint-down('mobile') {
+        &__item {
+            width: 100%;
+        }
+
+        &--dock & {
+            &__item {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.c-dock {
+    margin: 40px -32px 0;
+    padding: 24px 32px;
+    background-color: #cdd7e6;
+
+    &__title {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: #3072b3;
+    }
+
+    &__title+&__seats {
+        margin-top: 16px;
+    }
+
+    @include breakpoint-down("tablet") {
+        margin: 40px -24px 0;
+        padding: 24px;
+    }
+
+    @include breakpoint-down("mobile") {
+        margin: 32px -16px 0;
+        padding: 16px;
+    }
+}
+
+.o-dragContainer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(80% - 64px + 24px);
+    max-width: calc(1440px - 288px - 64px + 24px);
+    z-index: 1000;
+
+    @include breakpoint-down('tablet') {
+        width: calc(100% - 48px + 16px);
+    }
+
+    @include breakpoint-down('mobile') {
+        width: calc(100% - 32px + 16px);
+    }
+}
+
+.muuri-item-placeholder {
+    opacity: 0.3;
+}

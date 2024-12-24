@@ -1,0 +1,205 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+
+    &.t1,
+    &.t2,
+    &.t3,
+    &.t4,
+    &.t5 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+.t1 {
+    font-size: 24px;
+}
+
+.t2 {
+    font-size: 20px;
+}
+
+.t3 {
+    font-size: 18px;
+}
+
+.t4 {
+    font-size: 16px;
+}
+
+.t5 {
+    font-size: 14px;
+}
+
+/*------------------------     title     ------------------------*/
+
+.l-headingBar {
+    display: flex;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    &__link {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__backWrap {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+    }
+
+    &__back {
+        flex: 0 0 auto;
+        width: 24px;
+        margin-bottom: 3px;
+    }
+
+    &__back+&__title {
+        margin-left: 4px;
+    }
+
+    &__title {
+        flex: 1 1 auto;
+    }
+
+    &__actions {
+        flex: 1 1 auto;
+        text-align: right;
+    }
+
+    &__subtitle {
+        width: 100%;
+        margin: 16px 0 0;
+        flex: 1 1 auto;
+    }
+
+    &--title {
+        margin-bottom: 20px;
+    }
+
+    &.has-text & {
+        &__title {
+            flex: 0 0 auto;
+        }
+
+        &__text {
+            flex: 1 0 auto;
+            margin: 0 16px;
+        }
+    }
+
+    @include breakpoint-down("mobile") {
+        &.has-text & {
+            &__action {
+                width: 100%;
+                margin-top: 24px;
+            }
+        }
+    }
+}
+
+.o-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #3791EA;
+
+    &--sub {
+        font-size: 18px;
+        color: #000;
+    }
+}
+
+.o-subtitle {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #959595;
+}
+
+.c-stickyTitle {
+    position: relative;
+    padding-left: 17px;
+    font-weight: bold;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 5px;
+        height: 100%;
+        background-color: #3791EA;
+    }
+
+    &--love {
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 5px;
+            height: 100%;
+            background-color: #ffae9e;
+        }
+    }
+
+
+    &--umbrella {
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 5px;
+            height: 100%;
+            background-color: #25bbb7;
+        }
+    }
+}
+
+.l-stickyTitle {
+    display: flex;
+    margin-bottom: 16px;
+
+    &__main {}
+
+    &__sub {
+        display: flex;
+    }
+
+    &--apart & {
+        &__sub {
+            margin-left: 48px;
+        }
+    }
+
+    @include breakpoint-down("mobile") {
+        flex-direction: column;
+
+        &__sub {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &--apart & {
+            &__sub {
+                margin-top: 16px;
+                margin-left: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,137 @@
+{
+    "root": true,
+    "ignorePatterns": [
+        "projects/**/*"
+    ],
+    "plugins": [
+        "jsdoc",
+        "unused-imports",
+        "simple-import-sort"
+    ],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "overrides": [
+        {
+            "files": [
+                "*.ts"
+            ],
+            "extends": [
+                "airbnb-base",
+                "airbnb-typescript/base",
+                "plugin:@typescript-eslint/recommended",
+                "plugin:@typescript-eslint/stylistic",
+                "plugin:@angular-eslint/recommended",
+                "plugin:@angular-eslint/template/process-inline-templates"
+            ],
+            "rules": {
+                "class-methods-use-this": "off",
+                "no-useless-constructor": "off",
+                "linebreak-style": [
+                    "off",
+                    "windows"
+                ],
+                "no-empty-function": "off",
+                "@typescript-eslint/no-empty-function": "off",
+                // ESLint rules
+                "import/prefer-default-export": "off",
+                "import/first": "error",
+                "import/newline-after-import": "error",
+                "import/no-duplicates": "error",
+                "max-len": [
+                    "error",
+                    120
+                ],
+                "simple-import-sort/imports": "error",
+                "simple-import-sort/exports": "error",
+                // eslint-plugin-unused-imports rules
+                "unused-imports/no-unused-imports": "error",
+                "unused-imports/no-unused-vars": [
+                    "warn",
+                    {
+                        "vars": "all",
+                        "varsIgnorePattern": "^_",
+                        "args": "after-used",
+                        "argsIgnorePattern": "^_"
+                    }
+                ],
+                // TypeScript Eslint rules
+                "@typescript-eslint/indent": [
+                    "error",
+                    4
+                ],
+                "@typescript-eslint/comma-dangle": "off",
+                "@typescript-eslint/lines-between-class-members": "off",
+                "@typescript-eslint/quotes": [
+                    "error",
+                    "double"
+                ],
+                "@typescript-eslint/no-shadow": "error",
+                "@typescript-eslint/no-explicit-any": 0,
+                // Angular ESLint rules
+                "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                        "type": "attribute",
+                        "prefix": "app",
+                        "style": "camelCase"
+                    }
+                ],
+                "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                        "type": "element",
+                        "prefix": "app",
+                        "style": "kebab-case"
+                    }
+                ],
+                // "jsdoc/check-examples": 1,
+                "jsdoc/check-param-names": 2,
+                "jsdoc/check-syntax": 1,
+                "jsdoc/check-tag-names": 0,
+                "jsdoc/check-types": 1,
+                "jsdoc/require-description": [
+                    "error",
+                    {
+                        "descriptionStyle": "any",
+                        "checkConstructors": false,
+                        "contexts": [
+                            "ClassDeclaration",
+                            "ArrowFunctionExpression",
+                            "FunctionDeclaration",
+                            "FunctionExpression"
+                        ]
+                    }
+                ],
+                "jsdoc/require-jsdoc": [
+                    "error",
+                    {
+                        "require": {
+                            "ClassDeclaration": true,
+                            "ArrowFunctionExpression": true,
+                            "ClassExpression": true,
+                            "FunctionDeclaration": true,
+                            "FunctionExpression": true,
+                            "MethodDefinition": true
+                        }
+                    }
+                ],
+                "jsdoc/require-param": 2,
+                "jsdoc/require-param-description": 2,
+                "jsdoc/require-param-name": 2,
+                "jsdoc/require-returns": 2,
+                "jsdoc/require-returns-check": 2,
+                "jsdoc/require-returns-description": 2,
+                "jsdoc/valid-types": 1
+            }
+        },
+        {
+            "files": [
+                "*.html"
+            ],
+            "extends": [
+                "plugin:@angular-eslint/template/recommended"
+            ]
+        }
+    ]
+}

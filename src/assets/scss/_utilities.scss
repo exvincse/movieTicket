@@ -1,0 +1,340 @@
+// 水平對齊
+.u-tac {
+    text-align: center;
+
+    @include breakpoint-down('tablet') {
+        &-t {
+            text-align: center;
+        }
+    }
+
+    @include breakpoint-down('mobile') {
+        &-m {
+            text-align: center;
+        }
+    }
+}
+
+.u-tar {
+    text-align: right;
+
+    @include breakpoint-down('tablet') {
+        &-t {
+            text-align: right;
+        }
+    }
+
+    @include breakpoint-down('mobile') {
+        &-m {
+            text-align: right;
+        }
+    }
+}
+
+.u-tal {
+    text-align: left;
+
+    @include breakpoint-down('tablet') {
+        &-t {
+            text-align: left;
+        }
+    }
+
+    @include breakpoint-down('mobile') {
+        &-m {
+            text-align: left;
+        }
+    }
+}
+
+.u-vam {
+    vertical-align: middle;
+}
+
+.u-vat {
+    vertical-align: top;
+}
+
+// 定位
+.u-relative {
+    position: relative;
+}
+
+.u-static {
+    position: static;
+}
+
+// display
+.u-block {
+    display: block;
+}
+
+.u-inblock {
+    display: inline-block;
+
+    @include breakpoint-only('desktop') {
+        &-d {
+            display: inline-block;
+        }
+    }
+}
+
+.u-inline {
+    display: inline;
+}
+
+.u-flex {
+    display: flex;
+}
+
+.u-inflex {
+    display: inline-flex;
+}
+
+.u-align-center {
+    align-items: center;
+}
+
+.u-flex-align-center {
+    display: flex;
+    align-items: center;
+}
+
+.u-hidden {
+    display: none;
+
+    @include breakpoint-down('tablet') {
+        &-t {
+            display: none;
+        }
+    }
+
+    @include breakpoint-down('mobile') {
+        &-m {
+            display: none;
+        }
+    }
+}
+
+.u-hiddenImp {
+    display: none !important;
+
+    @include breakpoint-down('tablet') {
+        &-t {
+            display: none !important;
+        }
+    }
+
+    @include breakpoint-down('mobile') {
+        &-m {
+            display: none !important;
+        }
+    }
+}
+
+.u-show {
+
+    @include breakpoint-up('desktop') {
+
+        &-t,
+        &-m {
+            display: none;
+        }
+    }
+
+    @include breakpoint-up('tablet') {
+        &-m {
+            display: none;
+        }
+    }
+}
+
+// 字體
+// 橘色 orange
+.u-font-og {
+    color: #ff7a00;
+}
+
+.u-font-log {
+    color: #ff983a;
+}
+
+// 灰色 gray
+.u-font-gy {
+    color: #959595;
+}
+
+// 淺灰色 light gray
+.u-font-ltGy {
+    color: #bdbdbd;
+}
+
+// 紫色 purple
+.u-font-pl {
+    color: #959afa;
+}
+
+// 粉紅色 pink
+.u-font-pk {
+    color: #ff87be;
+}
+
+// 紅色 red
+.u-font-rd {
+    color: #ff2626;
+}
+
+// 橘紅色
+.u-font-ogRd {
+    color: #ff6c6c;
+}
+
+// 黃色 yellow
+.u-font-yl {
+    color: #fec300;
+}
+
+.u-font-dyl {
+    color: #d5a900;
+}
+
+// 靛青色 indigo
+.u-font-ig {
+    color: #80dcf8;
+}
+
+// 綠色 green
+.u-font-gn {
+    color: #46b760;
+}
+
+// 天藍色 azure
+.u-font-az {
+    color: #2368ac;
+}
+
+// 海軍藍 navy blue
+.u-font-nb {
+    color: #5c8bb9;
+}
+
+//強調藍
+.u-font-bu {
+    color: #68b3ff;
+}
+
+// 主色(藍色)
+.u-font-primary {
+    color: #3791ea;
+}
+
+// 黑色
+.u-font-black {
+    color: #111111;
+}
+
+// 淺紅色
+.u-font-shRd {
+    color: #ff7a7a;
+}
+
+// 強調數字
+.u-font-numeric {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+// 提示訊息
+.u-font-hint {
+    font-size: 14px;
+    color: #959595;
+}
+
+.u-font-hint-important {
+    font-size: 14px;
+    color: #4a4a4a;
+}
+
+//職場風格探索背景色
+.u-body-adaptive {
+    background-color: #fff;
+}
+
+.u-font-sm {
+    font-size: 14px;
+}
+
+.u-font-lg {
+    font-size: 18px;
+}
+
+.u-bold {
+    font-weight: bold;
+}
+
+.u-normal {
+    font-weight: normal !important;
+}
+
+.u-nowrap {
+    white-space: nowrap;
+}
+
+.u-ellipsis {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    max-height: 1.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.u-keep-all {
+    word-break: keep-all
+}
+
+.u-ml-xs {
+    margin-left: 8px;
+}
+
+.u-limit {
+    max-height: 210px;
+    overflow: auto;
+    padding-right: 24px;
+
+    &.is-show {
+        display: block;
+    }
+}
+
+.u-full {
+    width: 100%;
+
+    @include breakpoint-down('tablet') {
+        &-t {
+            width: 100%;
+        }
+    }
+
+    @include breakpoint-down('mobile') {
+        &-m {
+            width: 100%;
+        }
+    }
+}
+
+.u-showALL {
+    @include breakpoint-down('mobile') {
+        &-m {
+            display: block;
+            overflow: initial;
+            text-overflow: initial;
+            max-height: none !important;
+        }
+    }
+}
+
+.u-password {
+    font-family: 'MaskWord';
+    letter-spacing: 1px;
+}
