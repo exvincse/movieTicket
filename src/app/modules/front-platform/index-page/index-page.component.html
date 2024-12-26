@@ -33,164 +33,26 @@
                     <div class="l-swiper">
                         <swiper-container appSwiper [swiperConfig]="movieListConfig" init="false"
                             class="swiper-container">
-                            <swiper-slide>
+                            <swiper-slide *ngFor="let item of hotMovieList">
                                 <div class="l-movieCard__itme">
                                     <div class="c-movieCard c-movieCard--zoom">
                                         <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
+                                            <div class="c-movieCard__img"
+                                                [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ item.poster_path + ')'}">
+                                            </div>
                                         </a>
                                         <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
+                                            <div class="c-movieCard__title">
+                                                {{ item.title }}
                                             </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
+                                            <div class="c-movieCard__subTitle">
+                                                {{ item.overview }}
                                             </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
+                                            <div class="c-movieCard__date">上映日期：{{ item.release_date }}</div>
+                                            <!-- <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
+                                                width="40" height="40" alt="" srcset=""> -->
                                         </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
-                                            </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
-                                            </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
-                                            </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
-                                            </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
+                                        <a appStopPropagation [routerLink]="['/ticketing', item.id]"
                                             class="c-btn c-btn--gap">線上訂票</a>
                                     </div>
                                 </div>
@@ -229,165 +91,26 @@
                     <div class="l-swiper">
                         <swiper-container appSwiper [swiperConfig]="comingMovieListConfig" init="false"
                             class="swiper-container">
-                            <swiper-slide>
+                            <swiper-slide *ngFor="let item of comingMovieList">
                                 <div class="l-movieCard__itme">
                                     <div class="c-movieCard c-movieCard--zoom">
                                         <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
+                                            <div class="c-movieCard__img"
+                                                [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ item.poster_path + ')'}">
+                                            </div>
                                         </a>
                                         <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
+                                            <div class="c-movieCard__title">
+                                                {{ item.title }}
                                             </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
+                                            <div class="c-movieCard__subTitle">
+                                                {{ item.overview }}
                                             </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
+                                            <div class="c-movieCard__date">上映日期：{{ item.release_date }}</div>
+                                            <!-- <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
+                                                width="40" height="40" alt="" srcset=""> -->
                                         </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
-                                            </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
-                                            </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div
-                                            class="c-movieCard__content c-movieCard__content--gary c-movieCard__content c-movieCard__content--gary--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
-                                            </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
-                                            class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                            <swiper-slide>
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" class="o-link">
-                                            <div class="c-movieCard__img"></div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div>
-                                                <div class="c-movieCard__title">NCT DREAM Mystery Lab：DREAM( )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__subTitle">NCT DREAM Mystery Lab：DREAM(
-                                                    )SCAPE
-                                                    in
-                                                    Cinemas
-                                                </div>
-                                                <div class="c-movieCard__date">上映日期：2024/12/11</div>
-                                            </div>
-                                            <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset="">
-                                        </div>
-                                        <a appStopPropagation [routerLink]="['/ticketing', 11234]"
+                                        <a appStopPropagation [routerLink]="['/ticketing', item.id]"
                                             class="c-btn c-btn--gap">線上訂票</a>
                                     </div>
                                 </div>

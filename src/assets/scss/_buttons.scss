@@ -45,6 +45,11 @@
     &--animate {
         animation: btnAnimate 2.5s infinite;
     }
+
+    &.is-disabled {
+        pointer-events: none;
+        background-color: gray;
+    }
 }
 
 .l-btn {

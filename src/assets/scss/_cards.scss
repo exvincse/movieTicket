@@ -47,6 +47,7 @@
 
     &__content {
         display: flex;
+        flex-direction: column;
         padding: 10px;
 
         &>img {
@@ -59,16 +60,15 @@
     }
 
     &__title {
-        width: 148px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        word-break: break-all;
     }
 
     &__subTitle {
         color: #212529;
         font-size: 12px;
-        width: 148px;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -76,6 +76,7 @@
         -webkit-line-clamp: 3;
         height: 54px;
         box-sizing:border-box;
+        word-break: break-all;
     }
 
     &__date {

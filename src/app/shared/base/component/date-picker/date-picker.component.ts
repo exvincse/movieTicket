@@ -1,7 +1,8 @@
 import { CommonModule } from "@angular/common";
 import {
     AfterViewInit,
-    Component, ElementRef, forwardRef, Input,
+    Component, ElementRef, EventEmitter, forwardRef, Input,
+    Output,
     ViewChild
 } from "@angular/core";
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
@@ -29,6 +30,7 @@ import { Instance } from "flatpickr/dist/types/instance";
 })
 export class DatePickerComponent implements AfterViewInit {
     @ViewChild("datepicker") datepicker: ElementRef | undefined;
+    @Output() touched = new EventEmitter<void>();
     @Input() placeholder = "";
     @Input() isError = false;
     value = "";
@@ -42,7 +44,16 @@ export class DatePickerComponent implements AfterViewInit {
         if (this.datepicker) {
             this.bindEl = flatpickr.default(this.datepicker.nativeElement, {
                 locale: Chinese.zh_tw,
-                dateFormat: "Y-m-d"
+                dateFormat: "Y-m-d",
+                /**
+                 * onChange
+                 * @param selectedDates selectedDates
+                 * @param dateStr dateStr
+                 */
+                onChange: (selectedDates: Date[], dateStr: string) => {
+                    this.onChange(dateStr);
+                    this.value = dateStr;
+                }
             });
         }
     }

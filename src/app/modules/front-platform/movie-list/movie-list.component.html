@@ -15,10 +15,20 @@
                         <div class="c-form__require">
                             <div class="c-form__text">
                                 <app-date-picker formControlName="startDate"
-                                    [isError]="searchForm.get('startDate')?.invalid || false"
-                                    [placeholder]="'請輸入起始日'"></app-date-picker>
+                                    [isError]="!searchForm.controls['startDate'].valid && searchForm.controls['startDate'].touched"
+                                    [placeholder]="'請輸入起始日'" (input)="formTouch()"></app-date-picker>
                             </div>
-                            <div class="c-form__error" *ngIf="searchForm.get('startDate')?.invalid">123</div>
+                            <div class="c-form__error"
+                                *ngIf="searchForm.controls['startDate'].hasError('required') && searchForm.controls['startDate'].touched">
+                                請輸入起始日
+                            </div>
+                            <div class="c-form__error" *ngIf="searchForm.controls['startDate'].hasError('invalidDate')">
+                                請輸入正確日期格式
+                            </div>
+                            <div class="c-form__error"
+                                *ngIf="searchForm.controls['startDate'].hasError('startDateAfterEndDate')">
+                                起始日需小於结束日
+                            </div>
                         </div>
                     </div>
 
@@ -26,15 +36,26 @@
                         <div class="c-form__require">
                             <div class="c-form__text">
                                 <app-date-picker formControlName="endDate"
-                                    [isError]="searchForm.get('endDate')?.invalid || false"
-                                    [placeholder]="'請輸入結束日'"></app-date-picker>
+                                    [isError]="!searchForm.controls['endDate'].valid && searchForm.controls['endDate'].touched"
+                                    [placeholder]="'請輸入結束日'" (input)="formTouch()"></app-date-picker>
                             </div>
-                            <div class="c-form__error" *ngIf="searchForm.get('endDate')?.invalid">123</div>
+                            <div class="c-form__error"
+                                *ngIf="searchForm.controls['endDate'].hasError('required') && searchForm.controls['endDate'].touched">
+                                請輸入結束日
+                            </div>
+                            <div class="c-form__error" *ngIf="searchForm.controls['endDate'].hasError('invalidDate')">
+                                請輸入正確日期格式
+                            </div>
+                            <div class="c-form__error"
+                                *ngIf="searchForm.controls['endDate'].hasError('startDateAfterEndDate')">
+                                结束日需大於起始日
+                            </div>
                         </div>
                     </div>
 
                     <div class="c-form__item">
-                        <a href="#" appStopPropagation class="c-btn" (click)="submitForm()">送出</a>
+                        <a href="#" appStopPropagation class="c-btn" [class.is-disabled]="searchForm.invalid"
+                            (click)="submitForm()">送出</a>
                     </div>
                 </div>
             </div>
@@ -50,19 +71,18 @@
                                 </div>
                             </a>
                             <div class="c-movieCard__content c-movieCard__content--gary">
-                                <div>
-                                    <div class="c-movieCard__title">
-                                        {{ item.title }}
-                                    </div>
-                                    <div class="c-movieCard__subTitle">
-                                        {{ item.overview }}
-                                    </div>
-                                    <div class="c-movieCard__date">上映日期：{{ item.release_date }}</div>
+                                <div class="c-movieCard__title">
+                                    {{ item.title }}
                                 </div>
-                                <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png" width="40"
-                                    height="40" alt="" srcset="">
+                                <div class="c-movieCard__subTitle">
+                                    {{ item.overview }}
+                                </div>
+                                <div class="c-movieCard__date">上映日期：{{ item.release_date }}</div>
+                                <!-- <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png" width="40"
+                                    height="40" alt="" srcset=""> -->
                             </div>
-                            <a appStopPropagation [routerLink]="['/ticketing', 11234]" class="c-btn c-btn--gap">線上訂票</a>
+                            <a appStopPropagation [routerLink]="['/ticketing', item.id]"
+                                class="c-btn c-btn--gap">線上訂票</a>
                         </div>
                     </div>
                 </div>

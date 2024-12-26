@@ -8,6 +8,7 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Subscription } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/tmdb/tmdb.repository.service";
+import { DateRangeValidatorService } from "../../../services/form-validator/date-range-validator.service";
 import { DatePickerComponent } from "../../../shared/base/component/date-picker/date-picker.component";
 import { PagerComponent } from "../../../shared/base/component/pager/pager.component";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
@@ -34,25 +35,32 @@ export class MovieListComponent implements OnInit, OnDestroy {
     /**
      * constructor
      * @param tmdbRepositoryService TmdbRepositoryService
+     * @param dateRangeValidatorService DateRangeValidatorService
      * @param router router
      * @param route activatedRoute
      * @param fb FormBuilder
      */
     constructor(
         public tmdbRepositoryService: TmdbRepositoryService,
+        public dateRangeValidatorService: DateRangeValidatorService,
         public router: Router,
         public route: ActivatedRoute,
         public fb: FormBuilder
     ) {
         this.sub = this.route.queryParams.subscribe((params: any) => {
             this.nowPage = parseInt(params.page, 10) || 1;
-            this.getAllMovieList(this.nowPage, params.startDate, params.endDate);
+            this.getAllMovieList(this.nowPage, params.startDate, params.endDate, params.genres);
         });
 
-        this.searchForm = this.fb.group({
-            startDate: ["", Validators.required],
-            endDate: ["", Validators.required]
-        });
+        this.searchForm = this.fb.group(
+            {
+                startDate: ["", Validators.required],
+                endDate: ["", Validators.required]
+            },
+            {
+                validators: this.dateRangeValidatorService.dateRangeValidator()
+            }
+        );
     }
 
     searchForm!: FormGroup;
@@ -87,15 +95,26 @@ export class MovieListComponent implements OnInit, OnDestroy {
      * submitForm
      */
     submitForm() {
-        const dateValue = this.searchForm.getRawValue();
-        this.router.navigate(["./"], {
-            relativeTo: this.route,
-            queryParams: {
-                startDate: dateValue.startDate,
-                endDate: dateValue.endDate,
-                page: 1
-            }
-        });
+        if (this.searchForm.valid) {
+            const dateValue = this.searchForm.getRawValue();
+            this.router.navigate(["./"], {
+                relativeTo: this.route,
+                queryParams: {
+                    startDate: dateValue.startDate,
+                    endDate: dateValue.endDate,
+                    genres: this.route.snapshot.queryParams["genres"] || "",
+                    page: 1
+                }
+            });
+        }
+    }
+
+    /**
+     * formTouch
+     */
+    formTouch() {
+        this.searchForm.controls["endDate"].markAsTouched();
+        this.searchForm.controls["startDate"].markAsTouched();
     }
 
     /**
@@ -103,13 +122,15 @@ export class MovieListComponent implements OnInit, OnDestroy {
      * @param page page
      * @param startDate startDate
      * @param endDate endDate
+     * @param with_genres with_genres
      */
-    getAllMovieList(page = 1, startDate?: string, endDate?: string) {
+    getAllMovieList(page = 1, startDate?: string, endDate?: string, with_genres = "") {
         const params = {
             language: "zh-TW",
             sort_by: "popularity.desc",
             "primary_release_date.gte": startDate || "",
             "primary_release_date.lte": endDate || "",
+            with_genres,
             page
         };
 
@@ -130,6 +151,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
             queryParams: {
                 startDate: this.route.snapshot.queryParams["startDate"] || "",
                 endDate: this.route.snapshot.queryParams["endDate"] || "",
+                genres: this.route.snapshot.queryParams["genres"] || "",
                 page
             }
         });

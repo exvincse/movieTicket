@@ -25,7 +25,8 @@ describe("TmdbRepositoryService", () => {
         // Arrange
         const mockParams = {
             page: 1,
-            sort_by: "popularity.desc"
+            sort_by: "popularity.desc",
+            language: "zh-TW"
         };
         const mockResponse = {
             results: [],
