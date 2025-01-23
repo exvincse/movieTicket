@@ -32,7 +32,7 @@
 
     &__img {
         padding-top: 150%;
-        background-image: url('https://capi.showtimes.com.tw/assets/d3/d3b2d173a83e46df015c03907e9e007a.jpg');
+        background-image: url("https://capi.showtimes.com.tw/assets/d3/d3b2d173a83e46df015c03907e9e007a.jpg");
         background-position: center;
         background-size: cover;
 
@@ -50,12 +50,12 @@
         flex-direction: column;
         padding: 10px;
 
-        &>img {
+        & > img {
             margin-left: 8px;
         }
 
         &--gary {
-            background-color: #FAFAFA;
+            background-color: #fafafa;
         }
     }
 
@@ -75,7 +75,7 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 3;
         height: 54px;
-        box-sizing:border-box;
+        box-sizing: border-box;
         word-break: break-all;
     }
 
@@ -86,7 +86,9 @@
 
     &--zoom {
         transform: scale(1);
-        transition: transform 0.2s ease, box-shadow 0.3s ease;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.3s ease;
 
         &:hover {
             transform: scale(1.02);
@@ -113,7 +115,7 @@
     }
 
     &__title {
-        color: #2660A9;
+        color: #2660a9;
         font-size: 24px;
         font-weight: 700;
     }

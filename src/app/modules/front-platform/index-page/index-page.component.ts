@@ -9,7 +9,10 @@ import moment from "moment";
 import { lastValueFrom } from "rxjs";
 import { SwiperOptions } from "swiper/types";
 
-import { TmdbRepositoryService } from "../../../core/api/tmdb/tmdb.repository.service";
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb.repository.service";
+import { GlightboxComponent } from "../../../shared/base/component/glightbox/glightbox.component";
+import { GlightboxService } from "../../../shared/base/component/glightbox/service/glightbox.service";
+import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
 
 /**
@@ -18,7 +21,7 @@ import { SwiperDirective } from "../../../shared/base/directives/swiper.directiv
 @Component({
     selector: "app-index-page",
     standalone: true,
-    imports: [CommonModule, FontAwesomeModule, SwiperDirective, RouterModule],
+    imports: [CommonModule, FontAwesomeModule, SwiperDirective, RouterModule, StopPropagationDirective],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: "./index-page.component.html",
     styleUrl: "./index-page.component.scss"
@@ -27,17 +30,16 @@ export class IndexPageComponent implements OnInit {
     /**
      * constructor
      * @param tmdbRepositoryService tmdbRepositoryService
+     * @param glightboxService glightboxService
      */
-    constructor(public tmdbRepositoryService: TmdbRepositoryService) { }
+    constructor(
+        public tmdbRepositoryService: TmdbRepositoryService,
+        public glightboxService: GlightboxService
+    ) { }
 
     faGreaterThan = faGreaterThan;
     faChevronLeft = faChevronLeft;
     faChevronRight = faChevronRight;
-
-    bannerImage = [
-        "https://capi.showtimes.com.tw/assets/b2/b27a8f4185dffe0c4d9b57b4b6dd6b2f.png",
-        "https://capi.showtimes.com.tw/assets/b2/b27a8f4185dffe0c4d9b57b4b6dd6b2f.png"
-    ];
 
     bannerSwiperConfig: SwiperOptions = {
         slidesPerView: 1,
@@ -45,6 +47,8 @@ export class IndexPageComponent implements OnInit {
         loop: true,
         pagination: false,
         navigation: false,
+        observer: true,
+        observeParents: true,
         autoplay: {
             delay: 2500,
             disableOnInteraction: false
@@ -117,5 +121,17 @@ export class IndexPageComponent implements OnInit {
 
         const res = await lastValueFrom(this.tmdbRepositoryService.getMovieList(params));
         return res;
+    }
+
+    /**
+     * openLightbox
+     * @param url url
+     */
+    openLightbox(url: string): void {
+        this.glightboxService.open(GlightboxComponent, { url });
+        // const ref = this.glightboxService.open(GlightboxComponent, { url });
+        // ref.instance.afterClose.subscribe((res: any) => {
+        //     console.log(res);
+        // });
     }
 }

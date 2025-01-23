@@ -8,10 +8,12 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import * as OpenCC from "opencc-js";
+import { OverlayscrollbarsModule } from "overlayscrollbars-ngx";
 
-import { TmdbRepositoryService } from "../../../core/api/tmdb/tmdb.repository.service";
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb.repository.service";
 import { LoginComponent } from "../../../modules/front-platform/login/login.component";
 import { StopPropagationDirective } from "../../base/directives/stopPropagation/stop-propagation-directive.directive";
+import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
 
 /**
  * HeaderComponent
@@ -19,19 +21,19 @@ import { StopPropagationDirective } from "../../base/directives/stopPropagation/
 @Component({
     selector: "app-header",
     standalone: true,
-    imports: [CommonModule, FontAwesomeModule, StopPropagationDirective, RouterModule],
+    imports: [CommonModule, FontAwesomeModule, RouterModule, StopPropagationDirective, OverlayscrollbarsModule],
     providers: [],
     templateUrl: "./header.component.html",
     styleUrl: "./header.component.scss",
     animations: [
         trigger("slideInOut", [
             state("slideIn", style({
-                "max-height": "300px",
-                "overflow-y": "scroll"
+                height: "300px",
+                overflow: "auto"
             })),
             state("slideOut", style({
-                "max-height": "0px",
-                "overflow-y": "hidden"
+                height: "0px",
+                overflow: "hidden"
             })),
             transition("slideIn <=> slideOut", [
                 animate("300ms ease-in-out")
@@ -44,11 +46,19 @@ export class HeaderComponent implements OnInit {
      * constructor
      * @param modalService modalService
      * @param tmdbRepositoryService tmdbRepositoryService
+     * @param userRepositoryService UserRepositoryService
      */
     constructor(
         private modalService: NgbModal,
-        public tmdbRepositoryService: TmdbRepositoryService
+        public tmdbRepositoryService: TmdbRepositoryService,
+        public userRepositoryService: UserRepositoryService
     ) { }
+
+    scrollOptions = {
+        scrollbars: {
+            theme: "os-theme-light"
+        }
+    };
 
     faBars = faBars;
     faTimes = faTimes;
@@ -62,6 +72,10 @@ export class HeaderComponent implements OnInit {
      */
     ngOnInit() {
         this.getAllMovieList();
+
+        this.userRepositoryService.getUserProfile().subscribe((a) => {
+            console.log(a);
+        });
     }
 
     /**

@@ -65,7 +65,8 @@
                 <div class="l-movieCard__wrap">
                     <div class="l-movieCard__itme l-movieCard__itme--sm" *ngFor="let item of movieList">
                         <div class="c-movieCard c-movieCard--zoom">
-                            <a href="#" class="o-link">
+                            <a href="#" appStopPropagation class="o-link"
+                                (click)="openLightbox('https://image.tmdb.org/t/p/original'+ item.poster_path)">
                                 <div class="c-movieCard__img"
                                     [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ item.poster_path + ')'}">
                                 </div>

@@ -1,24 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
-import { environment } from "../../../environments/environment.prod";
+import { environment } from "../../../../environments/environment.prod";
 
 /**
- * ApiService
+ * RestfulApiService
  */
 @Injectable({
     providedIn: "root"
 })
-export class ApiService {
-    private baseApiUrl = environment.apiUrl;
+export class RestfulApiService {
+    protected baseApiUrl = environment.apiUrl;
 
     /**
      * constructor
      * @param http http
      */
-    constructor(private http: HttpClient) { }
+    constructor(protected http: HttpClient) { }
 
     /**
      * restful get
@@ -49,11 +49,7 @@ export class ApiService {
      * @returns req
      */
     post(url: string, data: any): Observable<any> {
-        const options = {
-            headers: new HttpHeaders().set("Content-Type", "application/json"),
-        };
-
-        return this.http.post(`${this.baseApiUrl}/${url}`, data, options);
+        return this.http.post(`${this.baseApiUrl}/${url}`, data);
     }
 
     /**
@@ -63,10 +59,6 @@ export class ApiService {
      * @returns req
      */
     put(url: string, data: any): Observable<any> {
-        const options = {
-            headers: new HttpHeaders().set("Content-Type", "application/json"),
-        };
-
-        return this.http.put(`${this.baseApiUrl}/${url}`, data, options);
+        return this.http.put(`${this.baseApiUrl}/${url}`, data);
     }
 }

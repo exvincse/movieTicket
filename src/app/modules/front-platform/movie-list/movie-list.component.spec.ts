@@ -4,7 +4,7 @@ import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
 import { of } from "rxjs";
 
-import { TmdbRepositoryService } from "../../../core/api/tmdb/tmdb.repository.service";
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb.repository.service";
 import { MovieListComponent } from "./movie-list.component";
 
 const mockMovieResponse = {

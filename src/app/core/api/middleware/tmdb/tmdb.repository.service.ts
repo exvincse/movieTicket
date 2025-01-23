@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
-import { TmdbApiService } from "../TMDBApiService.service";
-import { TmdbApiUrl } from "./url";
+import { TmdbUrl } from "../../api-url/tmdb-url";
+import { TmdbRestfulApiService } from "../../restful/tmdb-restful-api.service";
 /**
  * RepositoryService
  */
@@ -12,9 +12,9 @@ import { TmdbApiUrl } from "./url";
 export class TmdbRepositoryService {
     /**
      * constructor
-     * @param tmdbApiService tmdbApiService
+     * @param tmdbRestfulApiService TmdbRestfulApiService
      */
-    constructor(public tmdbApiService: TmdbApiService) { }
+    constructor(public tmdbRestfulApiService: TmdbRestfulApiService) { }
 
     /**
      * 取得電影列表
@@ -22,7 +22,7 @@ export class TmdbRepositoryService {
      * @returns any
      */
     getMovieList<T extends { language: string }>(params: T): Observable<any> {
-        return this.tmdbApiService.get(TmdbApiUrl.getMovieList, params);
+        return this.tmdbRestfulApiService.get(TmdbUrl.getMovieList, params);
     }
 
     /**
@@ -32,7 +32,7 @@ export class TmdbRepositoryService {
      * @returns any
      */
     getMovieDetail<T extends { language: string }>(id: string, params: T): Observable<any> {
-        return this.tmdbApiService.get(`${TmdbApiUrl.getMovieDetail}/${id}`, params);
+        return this.tmdbRestfulApiService.get(`${TmdbUrl.getMovieDetail}/${id}`, params);
     }
 
     /**
@@ -42,7 +42,7 @@ export class TmdbRepositoryService {
      * @returns any
      */
     getMovieDetailCredits<T extends { language: string }>(id: string, params: T): Observable<any> {
-        return this.tmdbApiService.get(`${TmdbApiUrl.getMovieDetail}/${id}/credits`, params);
+        return this.tmdbRestfulApiService.get(`${TmdbUrl.getMovieDetail}/${id}/credits`, params);
     }
 
     /**
@@ -52,7 +52,7 @@ export class TmdbRepositoryService {
      * @returns any
      */
     getMovieDetailRate<T extends { language: string }>(id: string, params: T): Observable<any> {
-        return this.tmdbApiService.get(`${TmdbApiUrl.getMovieDetail}/${id}/release_dates`, params);
+        return this.tmdbRestfulApiService.get(`${TmdbUrl.getMovieDetail}/${id}/release_dates`, params);
     }
 
     /**
@@ -61,6 +61,6 @@ export class TmdbRepositoryService {
      * @returns any
      */
     getMovieGenre<T extends { language: string }>(params: T): Observable<any> {
-        return this.tmdbApiService.get(`${TmdbApiUrl.getMovieGenre}`, params);
+        return this.tmdbRestfulApiService.get(`${TmdbUrl.getMovieGenre}`, params);
     }
 }

@@ -9,7 +9,7 @@ import * as OpenCC from "opencc-js";
 import { lastValueFrom } from "rxjs";
 import { SwiperOptions } from "swiper/types";
 
-import { TmdbRepositoryService } from "../../../core/api/tmdb/tmdb.repository.service";
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb.repository.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
 import { SeatChartComponent } from "../seat-chart/seat-chart.component";

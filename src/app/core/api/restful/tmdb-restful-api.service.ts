@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
-import { environmentTMDB } from "../../../environments/environment";
+import { environmentTMDB } from "../../../../environments/environment";
+import { RestfulApiService } from "./restful-api.service";
 
 /**
  * ApiService
@@ -11,8 +12,8 @@ import { environmentTMDB } from "../../../environments/environment";
 @Injectable({
     providedIn: "root"
 })
-export class TmdbApiService {
-    private baseApiUrl = environmentTMDB.apiUrl;
+export class TmdbRestfulApiService extends RestfulApiService {
+    protected override baseApiUrl = environmentTMDB.apiUrl;
     private baseApiKey = environmentTMDB.apiKey;
 
     private options = {
@@ -23,18 +24,12 @@ export class TmdbApiService {
     };
 
     /**
-     * constructor
-     * @param http http
-     */
-    constructor(private http: HttpClient) { }
-
-    /**
      * restful get
      * @param url url
      * @param params params
      * @returns req
      */
-    get(url: string, params?: any): Observable<any> {
+    override get(url: string, params?: any): Observable<any> {
         if (params) {
             const newParams = new URLSearchParams();
 
@@ -56,7 +51,7 @@ export class TmdbApiService {
      * @param data data
      * @returns req
      */
-    post(url: string, data: any): Observable<any> {
+    override post(url: string, data: any): Observable<any> {
         return this.http.post(`${this.baseApiUrl}/${url}`, data, this.options);
     }
 
@@ -66,7 +61,7 @@ export class TmdbApiService {
      * @param data data
      * @returns req
      */
-    put(url: string, data: any): Observable<any> {
+    override put(url: string, data: any): Observable<any> {
         const options = {
             headers: new HttpHeaders().set("Content-Type", "application/json"),
         };

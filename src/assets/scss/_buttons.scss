@@ -1,13 +1,13 @@
 @keyframes btnAnimate {
-    0%   {
+    0% {
         transform: scale(0.95);
         box-shadow: rgba(39, 67, 177, 0.667) 0px 0px 0px 0px;
     }
-    50%  {
+    50% {
         transform: scale(1);
         box-shadow: rgba(87, 45, 136, 0) 0px 0px 0px 10px;
     }
-    100%  {
+    100% {
         transform: scale(0.95);
         box-shadow: rgba(87, 45, 136, 0) 0px 0px 0px 10px;
     }
@@ -17,7 +17,7 @@
     display: block;
     text-decoration: none;
     color: #fff;
-    background-color: #2660A9;
+    background-color: #2660a9;
     padding: 5px 10px;
     text-align: center;
 
@@ -25,15 +25,22 @@
         letter-spacing: 0.5em;
     }
 
-    &--reverseColor {
-        color: #2660A9;
+    &:hover {
+        color: #2660a9;
         background-color: #fff;
-        border: 1px solid #2660A9;
+        border: 1px solid #2660a9;
+        transition: 0.4s;
+    }
+
+    &--reverseColor {
+        color: #2660a9;
+        background-color: #fff;
+        border: 1px solid #2660a9;
 
         &:hover {
             color: #fff;
-            background-color: #2660A9;
-            border: 1px solid #2660A9;
+            background-color: #2660a9;
+            border: 1px solid #2660a9;
             transition: 0.4s;
         }
     }

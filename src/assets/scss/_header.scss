@@ -1,11 +1,11 @@
-.l-header{
+.l-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2660A9;
+    background-color: #2660a9;
     padding: 10px 20px;
 
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         position: fixed;
         width: 100%;
         z-index: 1000;
@@ -42,7 +42,7 @@
     &__content {
         position: absolute;
         width: 100%;
-        top: 46px;
+        top: 41px;
         background-color: #333;
         height: auto;
     }
@@ -51,14 +51,14 @@
         display: none;
     }
 
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         position: fixed;
         top: 58px;
         left: 0;
         width: 100%;
         max-height: 100%;
         flex-direction: column;
-        background-color: #AAAAAA;
+        background-color: #aaaaaa;
         transform: translateX(-100%);
         transition: 0.5s;
         z-index: 99;
@@ -73,7 +73,7 @@
         }
 
         &__content {
-            position:static;
+            position: static;
         }
 
         &__bar {
@@ -88,7 +88,7 @@
         }
 
         &::before {
-            content: '';
+            content: "";
             position: fixed;
             top: 0;
             left: 0;
@@ -105,13 +105,15 @@
     flex-direction: column;
 
     &__item {
+        width: 100%;
+        display: inline-block;
         padding: 10px 0px;
         text-decoration: none;
         color: #fff;
         text-align: center;
 
         &:hover {
-            background-color: #2660A9;
+            background-color: #2660a9;
             transition: 0.3s;
         }
     }

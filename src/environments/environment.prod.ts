@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiUrl: "http://180.214.180.208:8012/api/webapi",
+    apiUrl: "https://localhost:44341/api",
     apiKey: "",
     imgUrl: "",
     enableMocking: false

@@ -3,7 +3,7 @@ import { HttpTestingController, provideHttpClientTesting } from "@angular/common
 import { InjectionToken } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 
-import { TmdbApiService } from "./TMDBApiService.service";
+import { TmdbRestfulApiService } from "./tmdb-restful-api.service";
 
 export const ENVIRONMENT_TMDB = new InjectionToken<EnvironmentTMDB>("environmentTMDB");
 
@@ -15,15 +15,15 @@ interface EnvironmentTMDB {
     enableMocking: boolean;
 }
 
-describe("TmdbApiService", () => {
-    let service: TmdbApiService;
+describe("TmdbRestfulApiService", () => {
+    let service: TmdbRestfulApiService;
     let httpMock: HttpTestingController;
     let environmentTMDB: EnvironmentTMDB;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                TmdbApiService,
+                TmdbRestfulApiService,
                 provideHttpClient(withInterceptorsFromDi()),
                 provideHttpClientTesting(),
                 {
@@ -39,7 +39,7 @@ describe("TmdbApiService", () => {
             ]
         });
 
-        service = TestBed.inject(TmdbApiService);
+        service = TestBed.inject(TmdbRestfulApiService);
         httpMock = TestBed.inject(HttpTestingController);
 
         environmentTMDB = TestBed.inject(ENVIRONMENT_TMDB);

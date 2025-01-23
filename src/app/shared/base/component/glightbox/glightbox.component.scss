@@ -1,0 +1,19 @@
+/* glightbox.component.css */
+.thumbnail {
+    width: 200px;
+    height: auto;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 5px;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.glightbox {
+    display: inline-block;
+}

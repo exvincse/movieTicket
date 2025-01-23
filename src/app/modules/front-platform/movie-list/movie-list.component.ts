@@ -1,5 +1,7 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+    Component, OnDestroy, OnInit
+} from "@angular/core";
 import {
     FormBuilder, FormGroup, FormsModule, ReactiveFormsModule,
     Validators
@@ -7,9 +9,11 @@ import {
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { Subscription } from "rxjs";
 
-import { TmdbRepositoryService } from "../../../core/api/tmdb/tmdb.repository.service";
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb.repository.service";
 import { DateRangeValidatorService } from "../../../services/form-validator/date-range-validator.service";
 import { DatePickerComponent } from "../../../shared/base/component/date-picker/date-picker.component";
+import { GlightboxComponent } from "../../../shared/base/component/glightbox/glightbox.component";
+import { GlightboxService } from "../../../shared/base/component/glightbox/service/glightbox.service";
 import { PagerComponent } from "../../../shared/base/component/pager/pager.component";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 
@@ -36,6 +40,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
      * constructor
      * @param tmdbRepositoryService TmdbRepositoryService
      * @param dateRangeValidatorService DateRangeValidatorService
+     * @param glightboxService glightboxService
      * @param router router
      * @param route activatedRoute
      * @param fb FormBuilder
@@ -43,6 +48,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
     constructor(
         public tmdbRepositoryService: TmdbRepositoryService,
         public dateRangeValidatorService: DateRangeValidatorService,
+        public glightboxService: GlightboxService,
         public router: Router,
         public route: ActivatedRoute,
         public fb: FormBuilder
@@ -75,6 +81,10 @@ export class MovieListComponent implements OnInit, OnDestroy {
 
     localeConfig = {
         format: "YYYY-MM-DD",
+    };
+
+    lightboxOptions = {
+        zoomable: true
     };
 
     /**
@@ -155,5 +165,13 @@ export class MovieListComponent implements OnInit, OnDestroy {
                 page
             }
         });
+    }
+
+    /**
+     * openLightbox
+     * @param url url
+     */
+    openLightbox(url: string): void {
+        this.glightboxService.open(GlightboxComponent, { url });
     }
 }

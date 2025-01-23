@@ -1,4 +1,4 @@
-export const TmdbApiUrl = {
+export const TmdbUrl = {
     // 取得電影列表資料
     getMovieList: "discover/movie",
     // 取得電影詳細資料

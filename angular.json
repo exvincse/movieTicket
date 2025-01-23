@@ -28,14 +28,11 @@
                         "inlineStyleLanguage": "scss",
                         "assets": [
                             "src/favicon.ico",
-                            "src/assets",
-                            {
-                                "glob": "mockServiceWorker.js",
-                                "input": "./",
-                                "output": "/"
-                            }
+                            "src/assets"
                         ],
                         "styles": [
+                            "node_modules/glightbox/dist/css/glightbox.min.css",
+                            "node_modules/overlayscrollbars/styles/overlayscrollbars.css",
                             "node_modules/flatpickr/dist/flatpickr.min.css",
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "node_modules/swiper/swiper-bundle.min.css",
@@ -51,6 +48,7 @@
                             "src/assets/scss/seat.scss"
                         ],
                         "scripts": [
+                            "node_modules/glightbox/dist/js/glightbox.min.js",
                             "node_modules/jquery/dist/jquery.min.js"
                         ]
                     },
@@ -117,6 +115,7 @@
                             "src/assets"
                         ],
                         "styles": [
+                            "node_modules/overlayscrollbars/styles/overlayscrollbars.css",
                             "node_modules/flatpickr/dist/flatpickr.min.css",
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "node_modules/swiper/swiper-bundle.min.css",
@@ -132,6 +131,7 @@
                             "src/assets/scss/flatpickr.scss"
                         ],
                         "scripts": [
+                            "node_modules/glightbox/dist/js/glightbox.min.js",
                             "node_modules/jquery/dist/jquery.min.js"
                         ]
                     }

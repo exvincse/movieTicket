@@ -12,7 +12,8 @@
         <div class="c-menu__item">
             <a href="#" appStopPropagation class="c-menu__btn" (click)="toggleVisibility(0)">電影類型</a>
             <div class="c-menu__content" *ngIf="genresList.length > 0">
-                <div class="c-menuLink" [@slideInOut]="menuList[0] ? 'slideIn' : 'slideOut'">
+                <div class="c-menuLink" overlay-scrollbars [options]="scrollOptions"
+                    [@slideInOut]="menuList[0] ? 'slideIn' : 'slideOut'">
                     <a [routerLink]="['/movieList']" [queryParams]="{ genres: item.id }" class="c-menuLink__item"
                         *ngFor="let item of genresList" (click)="defaultMenu()">
                         {{ item.name }}
