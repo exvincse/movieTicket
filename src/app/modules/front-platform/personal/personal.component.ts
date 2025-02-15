@@ -4,6 +4,7 @@ import { Router, RouterModule, RouterOutlet } from "@angular/router";
 import { SwiperOptions } from "swiper/types";
 
 import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
+import { UserStoreService } from "../../../store/user/service/user-store.service";
 
 /**
  * PersonalComponent
@@ -20,8 +21,28 @@ export class PersonalComponent {
     /**
      * constructor
      * @param router Router
+     * @param userStoreService UserStoreService
      */
-    constructor(public router: Router) { }
+    constructor(
+        public router: Router,
+        public userStoreService: UserStoreService
+    ) { }
+
+    /**
+     * 去除路由參數
+     * @returns 基本路由
+     */
+    get noParamsRouter(): string {
+        return this.router.url.split("?")[0];
+    }
+
+    /**
+     * userData
+     * @returns userData
+     */
+    get userData() {
+        return this.userStoreService.getUserData();
+    }
 
     path = [
         {

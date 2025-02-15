@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { of } from "rxjs";
 
 import { TmdbRestfulApiService } from "../../restful/tmdb-restful-api.service";
-import { TmdbRepositoryService } from "./tmdb.repository.service";
+import { TmdbRepositoryService } from "./tmdb-repository.service";
 
 describe("TmdbRepositoryService", () => {
     let service: TmdbRepositoryService;

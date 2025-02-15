@@ -14,6 +14,21 @@ export const routes: Routes = [
                 loadComponent: () => import("./modules/front-platform/index-page/index-page.component").then((m) => m.IndexPageComponent),
             },
             {
+                path: "login",
+                // eslint-disable-next-line jsdoc/require-jsdoc
+                loadComponent: () => import("./modules/front-platform/login/login.component").then((m) => m.LoginComponent),
+            },
+            {
+                path: "register",
+                // eslint-disable-next-line jsdoc/require-jsdoc
+                loadComponent: () => import("./modules/front-platform/register/register.component").then((m) => m.RegisterComponent),
+            },
+            // {
+            //     path: "otp-valid",
+            //     // eslint-disable-next-line jsdoc/require-jsdoc
+            //     loadComponent: () => import("./modules/front-platform/otp-valid/otp-valid.component").then((m) => m.OtpValidComponent),
+            // },
+            {
                 path: "ticketing/:id",
                 // eslint-disable-next-line jsdoc/require-jsdoc
                 loadComponent: () => import("./modules/front-platform/issue-ticket/issue-ticket.component").then((m) => m.IssueTicketComponent),

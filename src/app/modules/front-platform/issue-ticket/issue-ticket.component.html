@@ -71,8 +71,10 @@
         <swiper-container appSwiper [swiperConfig]="swiperConfig" init="false"
             class="swiper-container c-dateTab c-dateTab--underline">
             <swiper-slide *ngFor="let item of date; let index = index" class="c-dateTab__item"
-                [ngClass]="{ 'is-active': index === 0 }">
-                <a href="#" appStopPropagation class="c-dateTab__link">{{ item }}</a>
+                [ngClass]="{ 'is-active': ticketSelect.date === item }">
+                <a href="#" appStopPropagation class="c-dateTab__link" (click)="selectTicketDate(item)">
+                    {{ item | date:"MM月dd日"}}
+                </a>
             </swiper-slide>
         </swiper-container>
 
@@ -82,31 +84,17 @@
     <div class="u-gapH-md-t u-gapT-sm-m">
         <table class="c-table c-table--card c-table--underline">
             <tbody>
-                <tr>
-                    <td data-label="語言" class="is-center">2D英語</td>
+                <tr *ngFor="let item of ticketLanguage">
+                    <td data-label="語言" class="is-center">{{ item.categoryName }}</td>
                     <td data-label="時間">
-                        <div class="l-btn">
-                            <div class="l-btn__item">
-                                <a href="#" class="c-btn c-btn--lg c-btn--reverseColor">13:10</a>
-                            </div>
-
-                            <div class="l-btn__item">
-                                <a href="#" class="c-btn c-btn--lg c-btn--reverseColor">16:10</a>
-                            </div>
-
-                            <div class="l-btn__item">
-                                <a href="#" class="c-btn c-btn--lg c-btn--reverseColor">17:10</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td data-label="語言" class="is-center">2D國語</td>
-                    <td data-label="時間">
-                        <div class="l-btn">
-                            <div class="l-btn__item">
-                                <a href="#" class="c-btn c-btn--lg c-btn--reverseColor">20:10</a>
+                        <div class="l-radio">
+                            <div class="l-radio__item" *ngFor="let time of ticketTime">
+                                <label class="o-radiobox o-radiobox--btn o-radiobox--lg">
+                                    <input type="radio" name="category" class="o-radiobox__input"
+                                        [checked]="ticketSelect.ticketLanguageCode === item.categoryCode && ticketSelect.time === time"
+                                        (change)="selectTicketTime(item, time)">
+                                    <div class="o-radiobox__text">{{ time }}</div>
+                                </label>
                             </div>
                         </div>
                     </td>
@@ -116,95 +104,76 @@
     </div>
 </div>
 
-<div class="l-headingBar">
-    <div class="l-headingBar__wrap">
-        <div class="l-headingBar__content">
-            <div class="l-headingBar__title">選取票種</div>
-        </div>
-    </div>
-</div>
-
-<div class="l-card">
-    <div class="u-gapH-md-t">
-        <table class="c-table c-table--card c-table--underline">
-            <colgroup>
-                <col>
-                <col style="width: 121px;">
-                <col style="width: 121px;">
-                <col style="width: 121px;">
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>票種</th>
-                    <th class="is-center">單價</th>
-                    <th class="is-center">數量</th>
-                    <th class="is-center">小計</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="票種">雙人吉拿套票</td>
-                    <td data-label="單價" class="is-center">$830</td>
-                    <td data-label="數量" class="is-center">
-                        <select class="o-selectbox">
-                            <option value="">1</option>
-                            <option value="">2</option>
-                            <option value="">3</option>
-                            <option value="">4</option>
-                            <option value="">5</option>
-                            <option value="">6</option>
-                            <option value="">7</option>
-                            <option value="">8</option>
-                            <option value="">9</option>
-                            <option value="">10</option>
-                        </select>
-                    </td>
-                    <td data-label="小計" class="is-center">$0</td>
-                </tr>
-
-                <tr>
-                    <td data-label="票種">雙人吉拿套票</td>
-                    <td data-label="單價" class="is-center">$830</td>
-                    <td data-label="數量" class="is-center">
-                        <select class="o-selectbox">
-                            <option value="">1</option>
-                            <option value="">2</option>
-                            <option value="">3</option>
-                            <option value="">4</option>
-                            <option value="">5</option>
-                            <option value="">6</option>
-                            <option value="">7</option>
-                            <option value="">8</option>
-                            <option value="">9</option>
-                            <option value="">10</option>
-                        </select>
-                    </td>
-                    <td data-label="小計" class="is-center">$0</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="l-btn l-btn--right">
-            <div class="l-btn__item">
-                <a href="#" class="c-btn c-btn--reverseColor c-btn--animate">
-                    選取座位
-                    <fa-icon [icon]="faGreaterThan" [size]="'2xs'"></fa-icon>
-                </a>
+<ng-container *ngIf="ticketSelect.time !== ''">
+    <div class="l-headingBar">
+        <div class="l-headingBar__wrap">
+            <div class="l-headingBar__content">
+                <div class="l-headingBar__title">選取票種</div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="l-headingBar">
-    <div class="l-headingBar__wrap">
-        <div class="l-headingBar__content">
-            <div class="l-headingBar__title">選取座位</div>
+    <div class="l-card">
+        <div class="u-gapH-md-t">
+            <table class="c-table c-table--card c-table--underline">
+                <colgroup>
+                    <col>
+                    <col style="width: 121px;">
+                    <col style="width: 121px;">
+                    <col style="width: 121px;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>票種</th>
+                        <th class="is-center">單價</th>
+                        <th class="is-center">數量</th>
+                        <th class="is-center">小計</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let category of ticketCategory; let index = index">
+                        <td data-label="票種">{{ category.categoryName }}</td>
+                        <td data-label="單價" class="is-center">${{ category.cost }}</td>
+                        <td data-label="數量" class="is-center">
+                            <select class="o-selectbox" (change)="selectTickCategory(index, $event)">
+                                <option [value]="item" *ngFor="let item of ticketCount">
+                                    {{ item }}
+                                </option>
+                            </select>
+                        </td>
+                        <td data-label="小計" class="is-center">
+                            ${{ category.cost * ticketSelect.ticketCategory[index].count}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="l-btn l-btn--right">
+                <div class="l-btn__item">
+                    <a href="#" appStopPropagation class="c-btn c-btn--reverseColor c-btn--animate"
+                        (click)="selectSeat()">
+                        選取座位
+                        <fa-icon [icon]="faGreaterThan" [size]="'2xs'"></fa-icon>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</ng-container>
 
-<div class="l-card">
-    <div class="u-gapH-md-t">
-        <app-seat-chart></app-seat-chart>
+<ng-container *ngIf="isHiddenSelectSeat === false">
+    <div class="l-headingBar">
+        <div class="l-headingBar__wrap">
+            <div class="l-headingBar__content">
+                <div class="l-headingBar__title">選取座位</div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="l-card">
+        <div class="u-gapH-md-t">
+            <app-seat-chart [ticketSelect]="ticketSelect" [disableSeatSeat]="disableSeatSeat"
+                (submitTicket)="submitTicket($event)"></app-seat-chart>
+        </div>
+    </div>
+</ng-container>

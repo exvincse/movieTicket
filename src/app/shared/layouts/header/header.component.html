@@ -5,24 +5,25 @@
         <h1 class="c-logo__text">Movie Tick</h1>
     </a>
 
-    <a href="#" appStopPropagation class="c-menu__bar" (click)="toggleList()">
-        <fa-icon [icon]="isShowMobileList === false ? faBars : faTimes" [size]="'xl'"></fa-icon>
-    </a>
-    <div class="c-menu" [class.is-open]="isShowMobileList">
-        <div class="c-menu__item">
-            <a href="#" appStopPropagation class="c-menu__btn" (click)="toggleVisibility(0)">電影類型</a>
-            <div class="c-menu__content" *ngIf="genresList.length > 0">
-                <div class="c-menuLink" overlay-scrollbars [options]="scrollOptions"
-                    [@slideInOut]="menuList[0] ? 'slideIn' : 'slideOut'">
-                    <a [routerLink]="['/movieList']" [queryParams]="{ genres: item.id }" class="c-menuLink__item"
-                        *ngFor="let item of genresList" (click)="defaultMenu()">
-                        {{ item.name }}
-                    </a>
+    <ng-container *ngIf="isHiddenMenu === false">
+        <a href="#" appStopPropagation class="c-menu__bar" (click)="toggleList()">
+            <fa-icon [icon]="isShowMobileList === false ? faBars : faTimes" [size]="'xl'"></fa-icon>
+        </a>
+        <div class="c-menu" [class.is-open]="isShowMobileList">
+            <div class="c-menu__item">
+                <a href="#" appStopPropagation class="c-menu__btn" (click)="toggleVisibility(0)">電影類型</a>
+                <div class="c-menu__content" *ngIf="genresList.length > 0">
+                    <div class="c-menuLink" overlay-scrollbars [options]="scrollOptions"
+                        [@slideInOut]="menuList[0] ? 'slideIn' : 'slideOut'">
+                        <a [routerLink]="['/movieList']" [queryParams]="{ genres: item.id }" class="c-menuLink__item"
+                            *ngFor="let item of genresList" (click)="defaultMenu()">
+                            {{ item.name }}
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- <div class="c-menu__item">
+            <!-- <div class="c-menu__item">
             <a href="#" appStopPropagation class="c-menu__btn" (click)="toggleVisibility(1)">影集類型</a>
             <div class="c-menu__content">
                 <div class="c-menuLink" [@slideInOut]="menuList[1] ? 'slideIn' : 'slideOut'">
@@ -36,8 +37,42 @@
             </div>
         </div> -->
 
-        <div class="c-menu__item">
-            <a href="#" appStopPropagation class="c-menu__btn" (click)="openLoginDialog()">登入</a>
+            <div class="c-menu__item">
+                <ng-container *ngIf="(userData | async)?.name as user; else noLogin">
+                    <a href="#" appStopPropagation class="c-menu__btn" (click)="toggleVisibility(1)">
+                        <fa-icon [icon]="faUserCircle" [size]="'xl'"></fa-icon>
+                        {{ user }}
+                    </a>
+                    <div class="c-menu__content" *ngIf="genresList.length > 0">
+                        <div class="c-menuLink" overlay-scrollbars [options]="scrollOptions"
+                            [@slideInOut]="menuList[1] ? 'slideIn' : 'slideOut'">
+
+                            <ng-container *ngFor="let item of userList">
+                                <ng-container *ngIf="item.isOpenDialog === false; else openDialog">
+                                    <a [routerLink]="[item.url]" [queryParams]="{ id: (userData | async)?.userNo }"
+                                        class="c-menuLink__item" (click)="defaultMenu()">
+                                        {{ item.name }}
+                                    </a>
+                                </ng-container>
+
+                                <ng-template #openDialog>
+                                    <a href="#" appStopPropagation class="c-menuLink__item">
+                                        登出
+                                    </a>
+                                </ng-template>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-container>
+
+
+                <ng-template #noLogin>
+                    <a [routerLink]="['/login']" appStopPropagation class="c-menu__btn">
+
+                        登入
+                    </a>
+                </ng-template>
+            </div>
         </div>
-    </div>
+    </ng-container>
 </nav>

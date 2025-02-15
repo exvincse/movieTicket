@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpHandlerFn, HttpInterceptorFn, HttpRequest } from "@angular/common/http";
-import cookies from "js-cookie";
+import { inject } from "@angular/core";
 import { Observable } from "rxjs";
+
+import { CookieService } from "../../services/cookie.service";
 
 /**
  * RequestInterceptor
@@ -10,7 +11,8 @@ import { Observable } from "rxjs";
  * @returns req
  */
 export const RequestInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<any> => {
-    const token = cookies.get("accessToken");
+    const cookiesService = inject(CookieService);
+    const token = cookiesService.get("accessToken");
 
     if (req.urlWithParams.includes("themoviedb")) {
         return next(req);

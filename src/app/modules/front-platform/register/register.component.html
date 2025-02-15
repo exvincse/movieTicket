@@ -1,0 +1,113 @@
+<div class="l-login l-login--register">
+    <div class="l-login__content">
+        <div class="l-login__item">
+            <div [ngSwitch]="currentStep">
+                <!-- 註冊表單 -->
+                <div *ngSwitchCase="'register'">
+                    <div class="l-form">
+                        <div class="l-form__title l-form__title--login">
+                            <div class="u-font-lg u-tac">立即註冊</div>
+                        </div>
+
+                        <div class="l-form__content">
+                            <div class="c-form c-form--login" [formGroup]="registerForm">
+                                <div class="c-form__item c-form__item--column">
+                                    <div class="c-form__text">
+                                        <input type="text" formControlName="email"
+                                            [class.is-error]="!registerForm.controls['email'].valid && registerForm.controls['email'].touched"
+                                            class="o-inputbox o-inputbox--full" placeholder="請輸入信箱">
+                                    </div>
+                                    <ng-container *ngIf="registerForm.controls['email'].touched">
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['email'].hasError('required')">
+                                            請輸入信箱
+                                        </div>
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['email'].hasError('pattern')">
+                                            請輸入正確email格式
+                                        </div>
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['email'].hasError('emailExist')">
+                                            此Email已註冊
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <div class="c-form__item c-form__item--column">
+                                    <div class="c-form__text">
+                                        <div class="c-login__input">
+                                            <input [type]="isHiddenEye ? 'password' : 'text'" formControlName="password"
+                                                class="o-inputbox o-inputbox--full o-inputbox--icon"
+                                                [class.is-error]="!registerForm.controls['password'].valid && registerForm.controls['password'].touched"
+                                                placeholder="請輸入密碼">
+                                            <a href="#" appStopPropagation class="c-login__eye" (click)="toggleEye()">
+                                                <fa-icon [icon]="isHiddenEye ? faEyeSlash : faEye" class="u-font-gy"
+                                                    [size]="'lg'"></fa-icon>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <ng-container *ngIf="registerForm.controls['password'].touched">
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['password'].hasError('required')">
+                                            請輸入密碼
+                                        </div>
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['password'].hasError('minlength')">
+                                            密碼長度需大於8碼
+                                        </div>
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['password'].hasError('passwordNotMatch')">
+                                            確認密碼不一致
+                                        </div>
+                                    </ng-container>
+                                </div>
+
+                                <div class="c-form__item c-form__item--column">
+                                    <div class="c-form__text">
+                                        <div class="c-login__input">
+                                            <input [type]="isHiddenCheckEye ? 'password' : 'text'"
+                                                formControlName="checkPassword"
+                                                [class.is-error]="!registerForm.controls['checkPassword'].valid && registerForm.controls['checkPassword'].touched"
+                                                class="o-inputbox o-inputbox--full o-inputbox--icon" placeholder="確認密碼">
+                                            <a href="#" appStopPropagation class="c-login__eye"
+                                                (click)="toggleCheckEye()">
+                                                <fa-icon [icon]="isHiddenCheckEye ? faEyeSlash : faEye"
+                                                    class="u-font-gy" [size]="'lg'"></fa-icon>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <ng-container *ngIf="registerForm.controls['checkPassword'].touched">
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['checkPassword'].hasError('required')">
+                                            請輸入密碼
+                                        </div>
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['checkPassword'].hasError('minlength')">
+                                            密碼長度需大於8碼
+                                        </div>
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['checkPassword'].hasError('passwordNotMatch')">
+                                            確認密碼不一致
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            <div class="l-btn l-btn--center u-gapB-sm">
+                                <div class="l-btn__item l-btn__item--full">
+                                    <a href="#" appStopPropagation class="c-btn" (click)="registerEmail()">
+                                        註冊
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OTP 驗證 -->
+                <app-otp-valid [otpEmail]="otpEmail" (emitValidOtp)="emitValidOtp()"
+                    *ngSwitchCase="'otp'"></app-otp-valid>
+            </div>
+        </div>
+    </div>
+</div>

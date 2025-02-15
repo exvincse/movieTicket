@@ -9,7 +9,7 @@ import moment from "moment";
 import { lastValueFrom } from "rxjs";
 import { SwiperOptions } from "swiper/types";
 
-import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb.repository.service";
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { GlightboxComponent } from "../../../shared/base/component/glightbox/glightbox.component";
 import { GlightboxService } from "../../../shared/base/component/glightbox/service/glightbox.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";

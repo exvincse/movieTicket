@@ -1,15 +1,15 @@
-<div class="c-form c-form--column u-gapT-sm">
+<div class="c-form c-form--column u-gapT-sm" [formGroup]="personalForm">
     <div class="c-form__item c-form__item--column">
         <div class="c-form__label">姓名</div>
         <div class="c-form__text">
-            <input type="text" class="o-inputbox o-inputbox--full">
+            <input type="text" class="o-inputbox o-inputbox--full" formControlName="name">
         </div>
     </div>
 
     <div class="c-form__item c-form__item--column">
         <div class="c-form__label">電子信箱</div>
         <div class="c-form__text">
-            <input type="text" class="o-inputbox o-inputbox--full">
+            <input type="text" class="o-inputbox o-inputbox--full" formControlName="email">
         </div>
     </div>
 
@@ -18,49 +18,26 @@
         <div class="c-form__text">
             <div class="l-address">
                 <div class="l-address__item">
-                    <select class="o-selectbox o-selectbox--full">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
-                        <option value="">9</option>
-                        <option value="">10</option>
+                    <select class="o-selectbox o-selectbox--full" formControlName="countyCode">
+                        <option value="" disabled>請選擇縣市</option>
+                        <option [value]="item.countyCode" *ngFor="let item of loaction">
+                            {{item.countyName}}
+                        </option>
                     </select>
                 </div>
                 <div class="l-address__item">
-                    <select class="o-selectbox o-selectbox--full">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
-                        <option value="">9</option>
-                        <option value="">10</option>
+                    <select class="o-selectbox o-selectbox--full" formControlName="districtCode">
+                        <option value="">請選擇鄉鎮</option>
+                        <option [value]="item.districtCode" *ngFor="let item of district">
+                            {{item.districtName}}
+                        </option>
                     </select>
                 </div>
                 <div class="l-address__item">
-                    <select class="o-selectbox o-selectbox--full">
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
-                        <option value="">4</option>
-                        <option value="">5</option>
-                        <option value="">6</option>
-                        <option value="">7</option>
-                        <option value="">8</option>
-                        <option value="">9</option>
-                        <option value="">10</option>
-                    </select>
+                    <input type="text" class="o-inputbox o-inputbox--full is-disabled" formControlName="postalCode">
                 </div>
                 <div class="l-address__item is-full">
-                    <input type="text" class="o-inputbox o-inputbox--full">
+                    <input type="text" class="o-inputbox o-inputbox--full" formControlName="address">
                 </div>
             </div>
         </div>
@@ -72,7 +49,8 @@
             <div class="l-radio">
                 <div class="l-radio__item">
                     <label class="o-radiobox">
-                        <input type="radio">
+                        <input type="radio" name="sexCode" class="o-radiobox__input" value="001"
+                            formControlName="sexCode">
                         <span class="o-radiobox__text">
                             男
                         </span>
@@ -80,7 +58,8 @@
                 </div>
                 <div class="l-radio__item">
                     <label class="o-radiobox">
-                        <input type="radio">
+                        <input type="radio" name="sexCode" class="o-radiobox__input" value="002"
+                            formControlName="sexCode">
                         <span class="o-radiobox__text">
                             女
                         </span>
@@ -93,14 +72,19 @@
     <div class="c-form__item c-form__item--column">
         <div class="c-form__label">出生日期</div>
         <div class="c-form__text">
-            <input type="text" class="o-inputbox o-inputbox--full">
+            <app-date-picker formControlName="birthday"
+                [isError]="personalForm.controls['birthday'].hasError('invalidDate') && personalForm.controls['birthday'].touched"
+                [placeholder]="'請輸入出生日期'"></app-date-picker>
+        </div>
+        <div class="c-form__error" *ngIf="personalForm.controls['birthday'].hasError('invalidDate')">
+            請輸入正確日期格式
         </div>
     </div>
 </div>
 
 <div class="l-btn l-btn--center u-gapT-sm">
     <div class="l-btn__item">
-        <a href="#" class="c-btn c-btn--reverseColor">
+        <a href="#" appStopPropagation class="c-btn c-btn--reverseColor" (click)="putUserData()">
             修改個人資料
         </a>
     </div>

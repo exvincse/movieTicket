@@ -1,0 +1,30 @@
+<div class="l-form">
+    <div class="l-form__title">
+        <div class="u-font-lg u-font-primary u-bold u-tac">電子郵件OTP驗證</div>
+    </div>
+
+    <div class="l-form__content" [formGroup]="otpForm">
+        <div class="l-otp">
+            <div class="l-otp__email">
+                已將驗證碼發送到您的E-mail<br>
+                <span class="u-bold u-font-primary">{{ maskEmail }}</span>
+            </div>
+            <div class="l-otp__title">請輸入OTP驗證碼</div>
+            <div class="l-otp__code" formArrayName="otp">
+                <input *ngFor="let control of otpInputArray.controls; let i = index" #otpInput type="tel"
+                    class="o-inputbox o-inputbox--otp" autocomplete="off" maxlength="1" formControlName="{{i}}"
+                    (input)="otpInputFocus($event, i)" (keydown)="otpInputBack($event, i)" />
+            </div>
+            <div class="l-btn l-btn--center u-gapB-sm">
+                <div class="l-btn__item l-btn__item--full">
+                    <a href="#" appStopPropagation class="c-btn" (click)="submitOtp()">
+                        確認
+                    </a>
+                </div>
+            </div>
+            <div class="l-otp__text">
+                <a href="#">xx秒後可重新發送驗證碼</a>
+            </div>
+        </div>
+    </div>
+</div>

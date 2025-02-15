@@ -45,7 +45,9 @@
                             "src/assets/scss/swiper.scss",
                             "src/assets/scss/flatpickr.scss",
                             "src/assets/scss/main.scss",
-                            "src/assets/scss/seat.scss"
+                            "src/assets/scss/seat.scss",
+                            "src/assets/scss/login.scss",
+                            "src/assets/scss/otp.scss"
                         ],
                         "scripts": [
                             "node_modules/glightbox/dist/js/glightbox.min.js",
@@ -128,7 +130,9 @@
                             "src/assets/scss/main.scss",
                             "src/assets/scss/swiper.scss",
                             "src/assets/scss/seat.scss",
-                            "src/assets/scss/flatpickr.scss"
+                            "src/assets/scss/flatpickr.scss",
+                            "src/assets/scss/login.scss",
+                            "src/assets/scss/otp.scss"
                         ],
                         "scripts": [
                             "node_modules/glightbox/dist/js/glightbox.min.js",

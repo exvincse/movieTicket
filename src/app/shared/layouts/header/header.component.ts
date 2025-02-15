@@ -2,18 +2,21 @@ import {
     animate, state, style, transition, trigger
 } from "@angular/animations";
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { faBars, faTimes, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import * as OpenCC from "opencc-js";
 import { OverlayscrollbarsModule } from "overlayscrollbars-ngx";
+import {
+    filter, Subscription
+} from "rxjs";
 
-import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb.repository.service";
-import { LoginComponent } from "../../../modules/front-platform/login/login.component";
-import { StopPropagationDirective } from "../../base/directives/stopPropagation/stop-propagation-directive.directive";
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
+import { CookieService } from "../../../services/cookie.service";
+import { UserStoreService } from "../../../store/user/service/user-store.service";
+import { StopPropagationDirective } from "../../base/directives/stopPropagation/stop-propagation-directive.directive";
 
 /**
  * HeaderComponent
@@ -28,11 +31,11 @@ import { UserRepositoryService } from "../../../core/api/middleware/user/user-re
     animations: [
         trigger("slideInOut", [
             state("slideIn", style({
-                height: "300px",
+                "max-height": "300px",
                 overflow: "auto"
             })),
             state("slideOut", style({
-                height: "0px",
+                "max-height": "0px",
                 overflow: "hidden"
             })),
             transition("slideIn <=> slideOut", [
@@ -41,18 +44,37 @@ import { UserRepositoryService } from "../../../core/api/middleware/user/user-re
         ])
     ]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
     /**
      * constructor
-     * @param modalService modalService
      * @param tmdbRepositoryService tmdbRepositoryService
      * @param userRepositoryService UserRepositoryService
+     * @param userStoreService UserStoreService
+     * @param cookieService CookieService
+     * @param router Router
      */
     constructor(
-        private modalService: NgbModal,
         public tmdbRepositoryService: TmdbRepositoryService,
-        public userRepositoryService: UserRepositoryService
-    ) { }
+        public userRepositoryService: UserRepositoryService,
+        public userStoreService: UserStoreService,
+        public cookieService: CookieService,
+        private router: Router,
+    ) {
+        this.router.events
+            .pipe(filter((event) => event instanceof NavigationEnd))
+            .subscribe((event: NavigationEnd) => {
+                this.isHiddenMenu = ["/register", "/login"].includes(event.url);
+                this.isShowMobileList = false;
+            });
+
+        this.cookieSubject = this.cookieService.sub$.subscribe((res) => {
+            if (res) {
+                this.getUserProfile();
+            }
+        });
+    }
+
+    cookieSubject: Subscription = new Subscription();
 
     scrollOptions = {
         scrollbars: {
@@ -62,10 +84,32 @@ export class HeaderComponent implements OnInit {
 
     faBars = faBars;
     faTimes = faTimes;
+    faUserCircle = faUserCircle;
     isShowMobileList = false;
-    menuList = [false, false, false];
+    menuList = [false, false];
     isVisible = true;
     genresList: any[] = [];
+    userList: any[] = [
+        {
+            url: "/personal/base",
+            name: "個人資料",
+            isOpenDialog: false
+        },
+        {
+            url: "",
+            name: "登出",
+            isOpenDialog: true
+        }
+    ];
+    isHiddenMenu = false;
+
+    /**
+     * userData
+     * @returns userData
+     */
+    get userData() {
+        return this.userStoreService.getUserData();
+    }
 
     /**
      * on init
@@ -73,9 +117,14 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.getAllMovieList();
 
-        this.userRepositoryService.getUserProfile().subscribe((a) => {
-            console.log(a);
-        });
+        this.getUserProfile();
+    }
+
+    /**
+     * ngOnDestroy
+     */
+    ngOnDestroy() {
+        this.cookieSubject.unsubscribe();
     }
 
     /**
@@ -98,7 +147,6 @@ export class HeaderComponent implements OnInit {
      */
     openLoginDialog() {
         this.defaultMenu();
-        this.modalService.open(LoginComponent);
     }
 
     /**
@@ -121,5 +169,14 @@ export class HeaderComponent implements OnInit {
     defaultMenu() {
         this.isShowMobileList = false;
         this.menuList = [false, false, false];
+    }
+
+    /**
+     * getUserProfile
+     */
+    getUserProfile(): void {
+        this.userRepositoryService.getUserProfile().subscribe((res: any) => {
+            this.userStoreService.setUserData(res.result);
+        });
     }
 }

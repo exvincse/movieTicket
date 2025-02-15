@@ -1,10 +1,10 @@
 .l-form {
     &__title {
         padding: 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #c3c9cf;
+
+        &--login {
+            font-size: 20px;
+        }
     }
 
     &__content {
@@ -20,16 +20,29 @@
         flex-direction: column;
     }
 
-    .c-form__item:not(:first-child) {
-        margin-left: 10px;
-    }
-
     &--column {
         flex-direction: column;
+    }
 
-        .c-form__item:not(:first-child) {
-            margin-top: 10px;
-            margin-left: 0;
+    &--column & {
+        &__item {
+            margin-bottom: 10px;
+            &:not(:first-child) {
+                margin-left: 0px;
+            }
+        }
+    }
+
+    &--login {
+        flex-direction: column;
+    }
+
+    &--login & {
+        &__item {
+            margin-bottom: 30px;
+            &:not(:first-child) {
+                margin-left: 0px;
+            }
         }
     }
 
@@ -41,11 +54,11 @@
             flex-direction: column;
             align-items: flex-start;
         }
-    }
 
-    // &__item + &__item {
-    //     margin-top: 10px;
-    // }
+        &:not(:first-child) {
+            margin-left: 10px;
+        }
+    }
 
     &__label {
         width: 80px;
@@ -63,10 +76,11 @@
 
 .l-radio {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
 
-    &__item + &__item {
-        margin-left: 8px;
+    &__item {
+        margin: 8px;
     }
 }
 
@@ -75,7 +89,7 @@
     flex-wrap: wrap;
 
     &__item {
-        flex: 1 1 auto;
+        flex: 1 1 30%;
         margin-left: 16px;
 
         &:first-child {
@@ -89,7 +103,7 @@
         }
     }
 
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         flex-direction: column;
         &__item {
             margin-left: 0;
@@ -97,7 +111,6 @@
         }
     }
 }
-
 
 .o-inputbox {
     box-sizing: border-box;
@@ -109,17 +122,34 @@
     line-height: 1.5;
     color: #111111;
     border: 1px solid #c3c9cf;
+    border-radius: 8px;
     background-color: #fff;
     outline: none;
     appearance: none;
-    transition: border-color ease 0.3s, background-color ease 0.3s;
+    transition:
+        border-color ease 0.3s,
+        background-color ease 0.3s;
 
     &--full {
-        max-width: 100%
+        max-width: 100%;
+    }
+
+    &--otp {
+        width: 44px;
+    }
+
+    &--icon {
+        padding: 10px 30px 10px 16px;
     }
 
     &.is-error {
         border: 1px solid red;
+    }
+
+    &.is-disabled {
+        background-color: #e0e0e0;
+        color: #9e9e9e;
+        border: 1px solid #ccc;
     }
 }
 
@@ -129,13 +159,14 @@
     width: 100%;
     height: 40px;
     max-width: 80px;
-    padding: 10px 20px;
+    padding: 10px 20px 10px 16px;
     border: 1px solid #c3c9cf;
+    border-radius: 8px;
     appearance: none;
     clip: auto;
     clip-path: none;
     text-overflow: ellipsis;
-    background: url('../images/icons/down-lg-bu.svg') #fff no-repeat right 16px center;
+    background: url("../images/icons/down-lg-bu.svg") #fff no-repeat right 16px center;
 
     &:focus {
         outline: none;
@@ -143,5 +174,48 @@
 
     &--full {
         max-width: 100%;
+    }
+}
+
+.o-radiobox {
+    position: relative;
+    vertical-align: text-bottom;
+    cursor: pointer;
+
+    &--btn & {
+        &__input {
+            display: none;
+        }
+
+        &__text {
+            text-align: center;
+            color: #2660a9;
+            background-color: #fff;
+            padding: 5px 10px;
+            border: 1px solid #2660a9;
+
+            &:hover {
+                color: #fff;
+                background-color: #2660a9;
+                border: 1px solid #2660a9;
+                transition: 0.4s;
+            }
+        }
+    }
+
+    &--btn {
+        .o-radiobox__input:checked ~ .o-radiobox__text {
+            color: #fff;
+            background-color: #2660a9;
+            border: 1px solid #2660a9;
+        }
+    }
+
+    &__input:disabled ~ &__text {
+        cursor: default;
+    }
+
+    &--lg {
+        min-width: 100px;
     }
 }

@@ -3,7 +3,7 @@ import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
 import { lastValueFrom, of } from "rxjs";
 
-import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb.repository.service";
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
 import { IssueTicketComponent } from "./issue-ticket.component";

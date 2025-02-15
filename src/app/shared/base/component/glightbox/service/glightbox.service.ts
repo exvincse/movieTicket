@@ -65,7 +65,9 @@ export class GlightboxService {
             this.componentRef.instance.afterClose.subscribe((res: any) => {
                 this.destory();
                 this.afterClose$.next(res);
-                this.afterClose$.complete();
+                if (!this.afterClose$.closed) {
+                    this.afterClose$.complete();
+                }
             });
 
             this.appRef.attachView(this.componentRef.hostView);

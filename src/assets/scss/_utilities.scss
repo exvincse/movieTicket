@@ -2,13 +2,13 @@
 .u-tac {
     text-align: center;
 
-    @include breakpoint-down('tablet') {
+    @include breakpoint-down("tablet") {
         &-t {
             text-align: center;
         }
     }
 
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         &-m {
             text-align: center;
         }
@@ -18,13 +18,13 @@
 .u-tar {
     text-align: right;
 
-    @include breakpoint-down('tablet') {
+    @include breakpoint-down("tablet") {
         &-t {
             text-align: right;
         }
     }
 
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         &-m {
             text-align: right;
         }
@@ -34,13 +34,13 @@
 .u-tal {
     text-align: left;
 
-    @include breakpoint-down('tablet') {
+    @include breakpoint-down("tablet") {
         &-t {
             text-align: left;
         }
     }
 
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         &-m {
             text-align: left;
         }
@@ -72,7 +72,7 @@
 .u-inblock {
     display: inline-block;
 
-    @include breakpoint-only('desktop') {
+    @include breakpoint-only("desktop") {
         &-d {
             display: inline-block;
         }
@@ -103,13 +103,13 @@
 .u-hidden {
     display: none;
 
-    @include breakpoint-down('tablet') {
+    @include breakpoint-down("tablet") {
         &-t {
             display: none;
         }
     }
 
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         &-m {
             display: none;
         }
@@ -119,13 +119,13 @@
 .u-hiddenImp {
     display: none !important;
 
-    @include breakpoint-down('tablet') {
+    @include breakpoint-down("tablet") {
         &-t {
             display: none !important;
         }
     }
 
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         &-m {
             display: none !important;
         }
@@ -133,16 +133,14 @@
 }
 
 .u-show {
-
-    @include breakpoint-up('desktop') {
-
+    @include breakpoint-up("desktop") {
         &-t,
         &-m {
             display: none;
         }
     }
 
-    @include breakpoint-up('tablet') {
+    @include breakpoint-up("tablet") {
         &-m {
             display: none;
         }
@@ -225,7 +223,7 @@
 
 // 主色(藍色)
 .u-font-primary {
-    color: #3791ea;
+    color: #2660a9;
 }
 
 // 黑色
@@ -260,6 +258,10 @@
     background-color: #fff;
 }
 
+.u-font-min {
+    font-size: 12px;
+}
+
 .u-font-sm {
     font-size: 14px;
 }
@@ -270,6 +272,10 @@
 
 .u-bold {
     font-weight: bold;
+}
+
+.u-tac {
+    text-align: center;
 }
 
 .u-normal {
@@ -290,7 +296,7 @@
 }
 
 .u-keep-all {
-    word-break: keep-all
+    word-break: keep-all;
 }
 
 .u-ml-xs {
@@ -310,13 +316,13 @@
 .u-full {
     width: 100%;
 
-    @include breakpoint-down('tablet') {
+    @include breakpoint-down("tablet") {
         &-t {
             width: 100%;
         }
     }
 
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         &-m {
             width: 100%;
         }
@@ -324,7 +330,7 @@
 }
 
 .u-showALL {
-    @include breakpoint-down('mobile') {
+    @include breakpoint-down("mobile") {
         &-m {
             display: block;
             overflow: initial;
@@ -335,6 +341,6 @@
 }
 
 .u-password {
-    font-family: 'MaskWord';
+    font-family: "MaskWord";
     letter-spacing: 1px;
 }

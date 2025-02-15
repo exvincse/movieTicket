@@ -1,6 +1,9 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import {
+    Component, EventEmitter, Input, OnInit, Output
+} from "@angular/core";
 
+import { Seat, TicketSelect } from "../../../core/models/entities/ticket/ticket-select.entity";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 
 /**
@@ -14,9 +17,12 @@ import { StopPropagationDirective } from "../../../shared/base/directives/stopPr
     styleUrl: "./seat-chart.component.scss"
 })
 export class SeatChartComponent implements OnInit {
+    @Input() ticketSelect!: TicketSelect;
+    @Input() disableSeatSeat: Seat[] = [];
+    @Output() submitTicket = new EventEmitter<any>();
+
     seatChartNo: { seat: { no: number | null; disableSeat: boolean, isSelect: boolean }[]; column: number; }[] = [];
     spcialSeat: { seat: number[]; column: number; }[] = [];
-    disableSeatSeat: { seat: number; column: number; }[] = [];
     selectSeat: { seat: { no: number | null; disableSeat: boolean, isSelect: boolean }; column: number; }[] = [];
 
     /**
@@ -24,6 +30,14 @@ export class SeatChartComponent implements OnInit {
      */
     ngOnInit() {
         this.initSeatNo();
+    }
+
+    /**
+     * 計算有幾個位子
+     * @returns 位子
+     */
+    get seatCount() {
+        return this.ticketSelect.ticketCategory.map((item) => item.count).reduce((a, b) => a + b, 0);
     }
 
     /**
@@ -69,21 +83,6 @@ export class SeatChartComponent implements OnInit {
             {
                 column: 9,
                 seat: [4, 5, 15, 16],
-            }
-        ];
-
-        this.disableSeatSeat = [
-            {
-                seat: 6,
-                column: 2
-            },
-            {
-                seat: 4,
-                column: 2
-            },
-            {
-                seat: 8,
-                column: 3
             }
         ];
 
@@ -147,12 +146,21 @@ export class SeatChartComponent implements OnInit {
             if (index !== -1) {
                 this.selectSeat.splice(index, 1);
             }
-        } else if (this.selectSeat.length < 2) {
+        } else if (this.selectSeat.length < this.seatCount) {
             this.seatChartNo[column - 1].seat[seatIndex].isSelect = true;
             this.selectSeat.push({
                 column,
                 seat,
             });
+        }
+    }
+
+    /**
+     * submitSeat
+     */
+    submitSeat() {
+        if (this.selectSeat.length === this.seatCount) {
+            this.submitTicket.emit(this.selectSeat);
         }
     }
 }

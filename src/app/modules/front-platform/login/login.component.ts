@@ -1,9 +1,18 @@
+import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import cookies from "js-cookie";
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators
+} from "@angular/forms";
+import { Router, RouterModule } from "@angular/router";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
+import { CookieService } from "../../../services/cookie.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 
 /**
@@ -12,50 +21,73 @@ import { StopPropagationDirective } from "../../../shared/base/directives/stopPr
 @Component({
     selector: "app-login",
     standalone: true,
-    imports: [FormsModule, StopPropagationDirective],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        FontAwesomeModule,
+        StopPropagationDirective
+    ],
     templateUrl: "./login.component.html",
     styleUrl: "./login.component.scss"
 })
 export class LoginComponent {
     /**
      * constructor
-     * @param activeModal NgbActiveModal
+     * @param fb FormBuilder
+     * @param router Router
      * @param userRepositoryService UserRepositoryService
+     * @param cookieService CookieService
      */
-    constructor(public activeModal: NgbActiveModal, public userRepositoryService: UserRepositoryService) { }
+    constructor(
+        public fb: FormBuilder,
+        public router: Router,
+        public userRepositoryService: UserRepositoryService,
+        public cookieService: CookieService
+    ) {
+        this.loginForm = this.fb.group({
+            email: ["", [
+                Validators.required,
+                Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+            ]],
+            password: ["", [Validators.required, Validators.minLength(8)]],
+        });
+    }
 
-    email = "admin@gmail.com";
-    password = "123456";
+    loginForm!: FormGroup;
+
+    faEye = faEye;
+    faEyeSlash = faEyeSlash;
+
+    isHiddenEye = true;
 
     /**
-     * close
+     * toggleEye
      */
-    login() {
-        const param = {
-            email: this.email,
-            password: this.password
-        };
-
-        this.userRepositoryService.postLogin(param).subscribe((res) => {
-            if (res.result.isAccountError === true) {
-                console.log(res);
-            } else {
-                cookies.set("accessToken", res.result.accessToken, { expires: 7 });
-                this.activeModal.close();
-            }
-        });
-
-        // setTimeout(() => {
-        //     this.apiService.get("User/RefreshToken").subscribe((a) => {
-        //         console.log(a);
-        //     });
-        // }, 2000);
+    toggleEye() {
+        this.isHiddenEye = !this.isHiddenEye;
     }
 
     /**
-     * close
+     * login
      */
-    close() {
-        this.activeModal.close();
+    login() {
+        if (this.loginForm.valid === true) {
+            const value = this.loginForm.getRawValue();
+            const param = {
+                email: value.email,
+                password: value.password
+            };
+
+            this.userRepositoryService.postLogin(param).subscribe((res) => {
+                if (res.result.accessToken) {
+                    this.cookieService.set("accessToken", res.result.accessToken, 5);
+                    this.router.navigate(["/"]);
+                } else {
+                    console.log(res);
+                }
+            });
+        }
     }
 }

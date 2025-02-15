@@ -49,4 +49,65 @@ export class UserRepositoryService {
     getUserProfile(): Observable<any> {
         return this.restfulApiService.get(UserUrl.getUserProfile);
     }
+
+    /**
+     * 註冊帳號
+     * @param params params
+     * @returns any
+     */
+    postRegister(params: any): Observable<any> {
+        return this.restfulApiService.post(UserUrl.postRegister, params);
+    }
+
+    /**
+     * 註冊帳號發送信件
+     * @param params params
+     * @returns any
+     */
+    postSendMail(params: any): Observable<any> {
+        return this.restfulApiService.post(UserUrl.postSendMail, params);
+    }
+
+    /**
+     * 驗證OTP
+     * @param params params
+     * @returns any
+     */
+    postValidOtp(params: any): Observable<any> {
+        return this.restfulApiService.post(UserUrl.postValidOtp, params);
+    }
+
+    /**
+     * 驗證Email
+     * @param params params
+     * @returns any
+     */
+    postValidEmail(params: any): Observable<any> {
+        return this.restfulApiService.post(UserUrl.postValidEmail, params);
+    }
+
+    /**
+     * 取得otp Email
+     * @returns any
+     */
+    getOtpEmail(): Observable<any> {
+        return this.restfulApiService.get(UserUrl.getOtpEmail);
+    }
+
+    /**
+     * 取得縣市
+     * @returns any
+     */
+    getLocation<T>(): Observable<T> {
+        return this.restfulApiService.get(UserUrl.getLocation);
+    }
+
+    /**
+     * 修改個人資料
+     * @param param 使用者資料
+     * @returns any
+     */
+    putUserProfile<T>(param: T): Observable<any> {
+        return this.restfulApiService.put(UserUrl.putUserProfile, param);
+    }
 }

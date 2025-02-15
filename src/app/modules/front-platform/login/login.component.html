@@ -1,31 +1,112 @@
-<div class="l-form">
-    <div class="l-form__title">
-        <span class="u-font-lg">登入</span>
-        <a href="#" appStopPropagation class="o-link u-font-lg close" (click)="close()">x</a>
-    </div>
-
-    <div class="l-form__content">
-        <div class="c-form c-form--column">
-            <div class="c-form__item c-form__item--column">
-                <div class="c-form__label">帳號</div>
-                <div class="c-form__text">
-                    <input type="text" class="o-inputbox o-inputbox--full" [(ngModel)]="email">
+<div class="l-login">
+    <div class="l-login__content">
+        <div></div>
+        <div class="l-login__item">
+            <div class="l-form">
+                <div class="l-form__title l-form__title--login">
+                    <span class="u-font-lg">登入</span>
                 </div>
-            </div>
 
-            <div class="c-form__item c-form__item--column">
-                <div class="c-form__label">密碼</div>
-                <div class="c-form__text">
-                    <input type="text" class="o-inputbox o-inputbox--full" [(ngModel)]="password">
+                <div class="l-form__content">
+                    <div class="c-form c-form--login" [formGroup]="loginForm">
+                        <div class="c-form__item c-form__item--column">
+                            <!-- <div class="c-form__text">
+                                <input type="text" class="o-inputbox o-inputbox--full" [(ngModel)]="email"
+                                    placeholder="Email">
+                            </div> -->
+                            <div class="c-form__text">
+                                <input type="text" formControlName="email"
+                                    [class.is-error]="!loginForm.controls['email'].valid && loginForm.controls['email'].touched"
+                                    class="o-inputbox o-inputbox--full" placeholder="請輸入信箱">
+                            </div>
+                            <ng-container *ngIf="loginForm.controls['email'].touched">
+                                <div class="c-form__error" *ngIf="loginForm.controls['email'].hasError('required')">
+                                    請輸入信箱
+                                </div>
+                                <div class="c-form__error" *ngIf="loginForm.controls['email'].hasError('pattern')">
+                                    請輸入正確email格式
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div class="c-form__item c-form__item--column">
+                            <!-- <div class="c-form__text">
+                                <input type="text" class="o-inputbox o-inputbox--full" [(ngModel)]="password"
+                                    placeholder="密碼">
+                            </div> -->
+                            <div class="c-form__text">
+                                <div class="c-login__input">
+                                    <input [type]="isHiddenEye ? 'password' : 'text'" formControlName="password"
+                                        class="o-inputbox o-inputbox--full o-inputbox--icon"
+                                        [class.is-error]="!loginForm.controls['password'].valid && loginForm.controls['password'].touched"
+                                        placeholder="請輸入密碼">
+                                    <a href="#" appStopPropagation class="c-login__eye" (click)="toggleEye()">
+                                        <fa-icon [icon]="isHiddenEye ? faEyeSlash : faEye" class="u-font-gy"
+                                            [size]="'lg'"></fa-icon>
+                                    </a>
+                                </div>
+                            </div>
+                            <ng-container *ngIf="loginForm.controls['password'].touched">
+                                <div class="c-form__error" *ngIf="loginForm.controls['password'].hasError('required')">
+                                    請輸入密碼
+                                </div>
+                                <div class="c-form__error" *ngIf="loginForm.controls['password'].hasError('minlength')">
+                                    密碼長度需大於8碼
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div class="l-btn l-btn--center u-gapB-sm">
+                        <div class="l-btn__item l-btn__item--full">
+                            <a href="#" appStopPropagation class="c-btn" (click)="login()">
+                                登入
+                            </a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <a href="#" class="o-link u-font-min">
+                            忘記密碼?
+                        </a>
+                    </div>
+
+                    <!-- <div class="l-login__line">
+                        <div class="c-login__line"></div>
+                        <span>或</span>
+                        <div class="c-login__line"></div>
+                    </div>
+
+                    <div class="l-login__third">
+                        <div class="l-btn l-btn--noWrap l-btn--center u-gapB-sm">
+                            <div class="l-btn__item">
+                                <a href="#" appStopPropagation class="c-iconbtn" (click)="login()">
+                                    <i class="o-icon o-icon--facebook c-iconbtn__icon"></i>
+                                    Facebook
+                                </a>
+                            </div>
+
+                            <div class="l-btn__item">
+                                <a href="#" appStopPropagation class="c-iconbtn" (click)="googleLogin()">
+                                    <i class="o-icon o-icon--google c-iconbtn__icon"></i>
+                                    Google
+                                </a>
+                            </div>
+
+                            <div class="l-btn__item">
+                                <div id="google-signin-btn" class="c-iconbtn">
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="l-login__register">
+                        沒有帳號?
+                        <a [routerLink]="['/register']" class="o-link">
+                            註冊
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="l-btn l-btn--center u-gapT-sm">
-            <div class="l-btn__item">
-                <a href="#" appStopPropagation class="c-btn c-btn--reverseColor" (click)="login()">
-                    登入
-                </a>
             </div>
         </div>
     </div>
