@@ -8,32 +8,21 @@
     <thead>
         <tr>
             <th>票種</th>
+            <th>語言</th>
             <th class="is-center">時間</th>
             <th class="is-center">座號</th>
             <th class="is-center">狀態</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td data-label="票種">雙人吉拿套票</td>
+        <tr *ngFor="let item of ticketPersonalList">
+            <td data-label="票種">{{ item.ticketCategoryName }}</td>
+            <td data-label="語言">{{ item.ticketLanguageName }}</td>
             <td data-label="時間" class="is-center">
-                <span>12月5日 12:10</span>
+                <span>{{ item.ticketDate| date:'MM月dd日 HH:mm' }}</span>
             </td>
             <td data-label="座號" class="is-center">
-                <span>13排9號</span>
-            </td>
-            <td data-label="狀態" class="is-center">
-                <span>未付款</span>
-            </td>
-        </tr>
-
-        <tr>
-            <td data-label="票種">雙人吉拿套票</td>
-            <td data-label="時間" class="is-center">
-                <span>12月5日 12:10</span>
-            </td>
-            <td data-label="座號" class="is-center">
-                <span>13排9號</span>
+                <span>{{ item.column }}排{{ item.seat }}號</span>
             </td>
             <td data-label="狀態" class="is-center">
                 <span>未付款</span>

@@ -52,4 +52,13 @@ export class TicketRepositoryService {
     postSealTicket<T>(param: T): Observable<any> {
         return this.restfulApiService.post(TicketUrl.postSealTicket, param);
     }
+
+    /**
+     * 取得已選座位
+     * @param param param
+     * @returns any
+     */
+    getPersonalTicketList<T>(param: T): Observable<any> {
+        return this.restfulApiService.get(TicketUrl.getPersonalTicketList, param);
+    }
 }
