@@ -1,4 +1,6 @@
 export const UserUrl = {
+    // 確認是否有登入
+    getIsCheckLogin: "User/GetIsCheckLogin",
     // 登入
     postLogin: "User/Login",
     // 登出

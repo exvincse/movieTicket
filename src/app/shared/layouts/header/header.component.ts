@@ -9,7 +9,7 @@ import { faBars, faTimes, faUserCircle } from "@fortawesome/free-solid-svg-icons
 import * as OpenCC from "opencc-js";
 import { OverlayscrollbarsModule } from "overlayscrollbars-ngx";
 import {
-    filter, Subscription
+    filter, lastValueFrom, Subscription
 } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
@@ -67,11 +67,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.isShowMobileList = false;
             });
 
-        this.cookieSubject = this.cookieService.sub$.subscribe((res) => {
-            if (res) {
-                this.getUserProfile();
-            }
-        });
+        // this.cookieSubject = this.cookieService.sub$.subscribe((res) => {
+        //     if (res) {
+        //         this.getUserProfile();
+        //     }
+        // });
     }
 
     cookieSubject: Subscription = new Subscription();
@@ -117,7 +117,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.getAllMovieList();
 
-        this.getUserProfile();
+        this.userStoreService.getUserIsLogin().subscribe((res) => {
+            if (res === true) {
+                this.getUserProfile();
+            }
+        });
     }
 
     /**
@@ -175,8 +179,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
      * getUserProfile
      */
     getUserProfile(): void {
-        this.userRepositoryService.getUserProfile().subscribe((res: any) => {
-            this.userStoreService.setUserData(res.result);
-        });
+        this.userRepositoryService.getUserProfile();
+    }
+
+    /**
+     * 登出
+     */
+    async postLogout() {
+        await lastValueFrom(this.userRepositoryService.postLogout({}));
+        this.defaultMenu();
+        this.userStoreService.setClearUserData();
+        this.router.navigate(["/"]);
     }
 }

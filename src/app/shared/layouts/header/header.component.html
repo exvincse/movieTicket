@@ -1,6 +1,6 @@
 <!-- 導航欄 -->
 <nav class="l-header">
-    <a href="#" class="c-logo">
+    <a [routerLink]="['/']" class="c-logo">
         <!-- <img src="/api/placeholder/50/50" alt="Company Logo" class="o-img"> -->
         <h1 class="c-logo__text">Movie Tick</h1>
     </a>
@@ -56,7 +56,7 @@
                                 </ng-container>
 
                                 <ng-template #openDialog>
-                                    <a href="#" appStopPropagation class="c-menuLink__item">
+                                    <a href="#" appStopPropagation class="c-menuLink__item" (click)="postLogout()">
                                         登出
                                     </a>
                                 </ng-template>
@@ -68,7 +68,6 @@
 
                 <ng-template #noLogin>
                     <a [routerLink]="['/login']" appStopPropagation class="c-menu__btn">
-
                         登入
                     </a>
                 </ng-template>

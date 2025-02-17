@@ -117,7 +117,7 @@ export class BaseComponent implements OnInit {
         const params = {
             ...userData
         };
-        console.log(params);
+
         this.userRepositoryService.putUserProfile(params).subscribe((res) => {
             console.log(res);
         });

@@ -1,34 +1,20 @@
-// import { Injectable } from "@angular/core";
-// import {
-//     ActivatedRouteSnapshot, CanActivateChild, RouterStateSnapshot, UrlTree
-// } from "@angular/router";
-// import { UserService } from "@core/services/user.service";
-// import { Observable } from "rxjs";
+import { inject } from "@angular/core";
+import { CanActivateChildFn, Router } from "@angular/router";
+import { lastValueFrom } from "rxjs";
 
-// /**
-//  * AuthGuard
-//  * 僅於 Aplus 開發階段使用
-//  */
-// @Injectable({
-//     providedIn: "root"
-// })
-// export class AuthGuard implements CanActivateChild {
-//     /**
-//      * Creates an instance of auth guard.
-//      * @param user UserService
-//      */
-//     constructor(private user: UserService) { }
+import { UserStoreService } from "../../store/user/service/user-store.service";
 
-//     /**
-//      * Determines whether activate child can
-//      * @param next ActivatedRouteSnapshot
-//      * @param state RouterStateSnapshot
-//      * @returns activate child
-//      */
-//     canActivateChild(
-//         next: ActivatedRouteSnapshot,
-//         state: RouterStateSnapshot
-//     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-//         return this.user.checkLogin();
-//     }
-// }
+/**
+ * Functional Auth Guard
+ * @returns A boolean indicating whether the user is authenticated or a UrlTree to redirect the user.
+ */
+export const authGuard: CanActivateChildFn = async () => {
+    const router = inject(Router);
+    const userStoreService = inject(UserStoreService);
+    const res = await lastValueFrom(userStoreService.getUserIsLogin());
+    if (res === true) {
+        return true;
+    }
+
+    return router.createUrlTree(["/"]);
+};

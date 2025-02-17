@@ -83,6 +83,7 @@ export class LoginComponent {
             this.userRepositoryService.postLogin(param).subscribe((res) => {
                 if (res.result.accessToken) {
                     this.cookieService.set("accessToken", res.result.accessToken, 5);
+                    this.userRepositoryService.getUserProfile();
                     this.router.navigate(["/"]);
                 } else {
                     console.log(res);

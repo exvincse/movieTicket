@@ -1,6 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import {
+    BehaviorSubject, concatMap, filter, Observable, of, tap
+} from "rxjs";
 
+import { UserStoreService } from "../../../../store/user/service/user-store.service";
+import { BaseApiOutputModel } from "../../../models/outputViewModels/base/base-api-output-model";
 import { UserUrl } from "../../api-url/user-url";
 import { RestfulApiService } from "../../restful/restful-api.service";
 
@@ -14,8 +18,23 @@ export class UserRepositoryService {
     /**
      * constructor
      * @param restfulApiService RestfulApiService
+     * @param userStoreService UserStoreService
      */
-    constructor(public restfulApiService: RestfulApiService) { }
+    constructor(
+        public restfulApiService: RestfulApiService,
+        public userStoreService: UserStoreService,
+    ) { }
+
+    private refreshTokenSubject = new BehaviorSubject<string | null>(null);
+    private refreshProgress = false;
+
+    /**
+     * 確認是否有登入
+     * @returns any
+     */
+    getIsCheckLogin(): Observable<BaseApiOutputModel<any>> {
+        return this.restfulApiService.get(UserUrl.getIsCheckLogin);
+    }
 
     /**
      * 登入
@@ -28,10 +47,11 @@ export class UserRepositoryService {
 
     /**
      * 登出
+     * @param params params
      * @returns any
      */
-    postLogout(): Observable<any> {
-        return this.restfulApiService.post(UserUrl.postLogout, {});
+    postLogout(params: any): Observable<any> {
+        return this.restfulApiService.post(UserUrl.postLogout, params);
     }
 
     /**
@@ -39,15 +59,30 @@ export class UserRepositoryService {
      * @returns any
      */
     getReFreshToken(): Observable<any> {
-        return this.restfulApiService.get(UserUrl.getReFreshToken);
+        if (this.refreshProgress === false) {
+            this.refreshProgress = true;
+            return this.restfulApiService.get(UserUrl.getReFreshToken).pipe(
+                tap((res) => {
+                    this.refreshTokenSubject.next(res.result.accessToken);
+                    this.refreshProgress = false;
+                }),
+                concatMap((res) => of(res))
+            );
+        }
+
+        return this.refreshTokenSubject.asObservable().pipe(
+            filter((token) => token !== null),
+            concatMap((token) => of({ result: { accessToken: token as string } }))
+        );
     }
 
     /**
      * 取得個人資料
-     * @returns any
      */
-    getUserProfile(): Observable<any> {
-        return this.restfulApiService.get(UserUrl.getUserProfile);
+    getUserProfile() {
+        this.restfulApiService.get(UserUrl.getUserProfile).subscribe((res) => {
+            this.userStoreService.setUserData(res.result);
+        });
     }
 
     /**

@@ -1,11 +1,14 @@
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
-import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from "@angular/core";
+import {
+    APP_INITIALIZER, ApplicationConfig, Injector, isDevMode, provideZoneChangeDetection
+} from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter } from "@angular/router";
 import { provideEffects } from "@ngrx/effects";
 import { provideStore } from "@ngrx/store";
 import { provideStoreDevtools } from "@ngrx/store-devtools";
 
+import { isLoginFactory } from "./app.initializer";
 import { routes } from "./app.routes";
 import { RequestInterceptor } from "./core/interceptor/request-interceptor";
 import { ResponseInterceptor } from "./core/interceptor/response-interceptor";
@@ -28,6 +31,12 @@ export const appConfig: ApplicationConfig = {
         provideStoreDevtools({
             maxAge: 25,
             logOnly: !isDevMode(),
-        })
+        }),
+        {
+            provide: APP_INITIALIZER,
+            useFactory: isLoginFactory,
+            deps: [Injector],
+            multi: true,
+        },
     ]
 };
