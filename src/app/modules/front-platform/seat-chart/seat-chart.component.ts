@@ -3,7 +3,9 @@ import {
     Component, EventEmitter, Input, OnInit, Output
 } from "@angular/core";
 
-import { Seat, TicketSelect } from "../../../core/models/entities/ticket/ticket-select.entity";
+import {
+    Seat, SeatChart, SpcialSeat, TicketSelect
+} from "../../../core/models/entities/ticket/ticket-select.entity";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 
 /**
@@ -21,9 +23,9 @@ export class SeatChartComponent implements OnInit {
     @Input() disableSeatSeat: Seat[] = [];
     @Output() submitTicket = new EventEmitter<any>();
 
-    seatChartNo: { seat: { no: number | null; disableSeat: boolean, isSelect: boolean }[]; column: number; }[] = [];
-    spcialSeat: Seat[] = [];
-    selectSeat: { seat: { no: number | null; disableSeat: boolean, isSelect: boolean }; column: number; }[] = [];
+    seatChart: SeatChart[] = [];
+    spcialSeat: SpcialSeat[] = [];
+    selectSeat: Seat[] = [];
 
     /**
      * on init
@@ -50,215 +52,164 @@ export class SeatChartComponent implements OnInit {
         this.spcialSeat = [
             {
                 column: 1,
-                seat: 4,
+                seat: 5,
+                insertCount: 2
             },
             {
                 column: 1,
-                seat: 5,
-            },
-            {
-                column: 1,
-                seat: 15,
-            },
-            {
-                column: 1,
-                seat: 16,
-            },
-            {
-                column: 2,
-                seat: 4,
+                seat: 14,
+                insertCount: 2
             },
             {
                 column: 2,
                 seat: 5,
+                insertCount: 2
             },
             {
                 column: 2,
-                seat: 15,
-            },
-            {
-                column: 2,
-                seat: 16,
-            },
-            {
-                column: 3,
-                seat: 4,
+                seat: 14,
+                insertCount: 2
             },
             {
                 column: 3,
                 seat: 5,
+                insertCount: 2
             },
             {
                 column: 3,
-                seat: 15,
-            },
-            {
-                column: 3,
-                seat: 16,
-            },
-            {
-                column: 4,
-                seat: 4,
+                seat: 14,
+                insertCount: 2
             },
             {
                 column: 4,
                 seat: 5,
+                insertCount: 2
             },
             {
                 column: 4,
-                seat: 15,
-            },
-            {
-                column: 4,
-                seat: 16,
-            },
-            {
-                column: 5,
-                seat: 4,
+                seat: 14,
+                insertCount: 2
             },
             {
                 column: 5,
                 seat: 5,
+                insertCount: 2
             },
             {
                 column: 5,
-                seat: 15,
-            },
-            {
-                column: 5,
-                seat: 16,
-            },
-            {
-                column: 6,
-                seat: 4,
+                seat: 14,
+                insertCount: 2
             },
             {
                 column: 6,
                 seat: 5,
+                insertCount: 2
             },
             {
                 column: 6,
-                seat: 15,
-            },
-            {
-                column: 6,
-                seat: 16,
-            },
-            {
-                column: 7,
-                seat: 4,
+                seat: 14,
+                insertCount: 2
             },
             {
                 column: 7,
                 seat: 5,
+                insertCount: 2
             },
             {
                 column: 7,
-                seat: 15,
-            },
-            {
-                column: 7,
-                seat: 16,
-            },
-            {
-                column: 8,
-                seat: 4,
+                seat: 14,
+                insertCount: 2
             },
             {
                 column: 8,
                 seat: 5,
+                insertCount: 2
             },
             {
                 column: 8,
-                seat: 15,
-            },
-            {
-                column: 8,
-                seat: 16,
-            },
-            {
-                column: 9,
-                seat: 4,
+                seat: 14,
+                insertCount: 2
             },
             {
                 column: 9,
                 seat: 5,
+                insertCount: 2
             },
             {
                 column: 9,
-                seat: 15,
-            },
-            {
-                column: 9,
-                seat: 16,
-            },
+                seat: 14,
+                insertCount: 2
+            }
         ];
 
-        for (let i = 0; i < column; i += 1) {
-            this.seatChartNo.push({
-                column: i + 1,
-                seat: []
-            });
-
-            if (i === column - 1) {
+        for (let i = 1; i <= column; i += 1) {
+            if (i === column) {
                 maxRowSeat = 21;
             }
 
             for (let j = 1; j <= maxRowSeat; j += 1) {
-                this.seatChartNo[i].seat.push({
-                    no: j,
-                    disableSeat: false,
-                    isSelect: false
+                // 無法選取座位
+                let isDisable = false;
+                const disableSeatSeatItem = this.disableSeatSeat.find((x) => x.column === i && x.seat === j);
+                if (disableSeatSeatItem !== undefined) {
+                    isDisable = true;
+                }
+
+                // 走道
+                const spcialSeatItem = this.spcialSeat.find((x) => x.column === i && x.seat === j);
+                if (spcialSeatItem !== undefined) {
+                    for (let x = 1; x <= spcialSeatItem.insertCount; x += 1) {
+                        this.seatChart.push({
+                            column: i,
+                            seat: null,
+                            state: {
+                                disableSeat: false,
+                                isSelect: false,
+                                isFirstSeat: j === 1,
+                                isLastSeat: j === maxRowSeat
+                            }
+                        });
+                    }
+                }
+
+                this.seatChart.push({
+                    column: i,
+                    seat: j,
+                    state: {
+                        disableSeat: isDisable,
+                        isSelect: false,
+                        isFirstSeat: j === 1,
+                        isLastSeat: j === maxRowSeat
+                    }
                 });
             }
         }
-
-        this.seatChartNo.forEach((item) => {
-            const spcialSeatItem = this.spcialSeat.filter((x) => x.column === item.column);
-            if (spcialSeatItem.length > 0) {
-                spcialSeatItem.forEach((y) => this.seatChartNo[y.column - 1].seat.splice(y.seat, 0, {
-                    no: null,
-                    disableSeat: false,
-                    isSelect: false
-                }));
-            }
-
-            this.disableSeatSeat.forEach((selectItem) => {
-                const seatItem = this.seatChartNo[selectItem.column - 1].seat.find((x) => x.no === selectItem.seat);
-                if (seatItem !== undefined) {
-                    seatItem.disableSeat = true;
-                }
-            });
-        });
     }
 
     /**
      * changeSeat
-     * @param column column
-     * @param seat seat
-     * @param seat.no seat.no
-     * @param seat.disableSeat seat.disableSeat
-     * @param seat.isSelect seat.isSelect
+     * @param index index
      */
-    changeSeat(column: number, seat: { no: number | null, disableSeat: boolean, isSelect: boolean }) {
-        if (seat.no === null) {
+    changeSeat(index: number) {
+        const seatChartItem = this.seatChart[index];
+        if (seatChartItem.seat === null) {
             return;
         }
 
-        const seatIndex = this.seatChartNo[column - 1].seat.findIndex((item) => item.no === seat.no);
-        if (seat.isSelect === true) {
-            this.seatChartNo[column - 1].seat[seatIndex].isSelect = false;
-            const index = this.selectSeat.findIndex(
-                (item) => item.column === column && item.seat.no === seat.no
+        if (seatChartItem.state.isSelect === true) {
+            this.seatChart[index].state.isSelect = false;
+            const selectSeatIndex = this.selectSeat.findIndex(
+                (item) => item.column === seatChartItem.column && item.seat === seatChartItem.seat
             );
-            if (index !== -1) {
+
+            if (selectSeatIndex !== -1) {
                 this.selectSeat.splice(index, 1);
             }
         } else if (this.selectSeat.length < this.seatCount) {
-            this.seatChartNo[column - 1].seat[seatIndex].isSelect = true;
+            this.seatChart[index].state.isSelect = true;
             this.selectSeat.push({
-                column,
-                seat,
+                column: seatChartItem.column,
+                seat: seatChartItem.seat
             });
         }
     }

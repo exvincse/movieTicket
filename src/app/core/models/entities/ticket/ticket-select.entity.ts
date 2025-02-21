@@ -21,8 +21,21 @@ export interface TicketSeat {
 
 export interface Seat {
     column: number;
-    seat: number;
+    seat: number | null;
 }
+
+export type SpcialSeat = (Seat & {
+    insertCount: number
+});
+
+export type SeatChart = (Seat & {
+    state: {
+        disableSeat: boolean,
+        isSelect: boolean,
+        isFirstSeat: boolean,
+        isLastSeat: boolean
+    }
+});
 
 export type TicketParam = Pick<TicketSelect["ticketCategory"][number], "categoryCode" | "categoryName" | "cost"> & {
     column: number;

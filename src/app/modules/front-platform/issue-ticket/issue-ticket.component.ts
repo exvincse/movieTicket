@@ -18,7 +18,7 @@ import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-re
 import { TicketCategoryEntity } from "../../../core/models/entities/ticket/ticket-category-entity";
 import { TicketLanguageEntity } from "../../../core/models/entities/ticket/ticket-language-entity";
 import {
-    Seat, TicketParam, TicketSeat, TicketSelect
+    Seat, TicketParam, TicketSelect
 } from "../../../core/models/entities/ticket/ticket-select.entity";
 import { TickSeatInputModel } from "../../../core/models/inputViewModels/ticket/ticket-seat-input.model";
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
@@ -229,10 +229,10 @@ export class IssueTicketComponent implements OnInit {
      * 送出票卷
      * @param seat 座位
      */
-    submitTicket(seat: TicketSeat[]) {
+    submitTicket(seat: Seat[]) {
         const ticketSeat = seat.map((x) => ({
             column: x.column,
-            seat: x.seat.no
+            seat: x.seat
         }));
 
         const ticketCategory: TicketParam[] = [];
@@ -242,7 +242,7 @@ export class IssueTicketComponent implements OnInit {
                 ticketCategory.push({
                     ...y,
                     column: ticketSeat[count].column,
-                    seat: ticketSeat[count].seat,
+                    seat: ticketSeat[count].seat ?? 0,
                 });
 
                 count += 1;

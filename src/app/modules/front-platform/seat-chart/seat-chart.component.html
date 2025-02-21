@@ -25,16 +25,16 @@
         </div>
 
         <div class="c-seatChart">
-            <ng-container *ngFor="let item of seatChartNo">
-                <span class="c-seatChart__item c-seatChart__item--column">
+            <ng-container *ngFor="let item of seatChart; let index = index">
+                <span class="c-seatChart__item c-seatChart__item--column" *ngIf="item.state.isFirstSeat === true">
                     {{ item.column }}
                 </span>
-                <a href="#" appStopPropagation class="c-seatChart__item" *ngFor="let seat of item.seat"
-                    [class.is-hidden]="seat.no === null" [class.is-noSelect]="seat.disableSeat === true"
-                    [class.is-select]="seat.isSelect" (click)="changeSeat(item.column, seat)">
-                    {{ seat.no }}
+                <a href="#" appStopPropagation class="c-seatChart__item" [class.is-hidden]="item.seat === null"
+                    [class.is-noSelect]="item.state.disableSeat === true" [class.is-select]="item.state.isSelect"
+                    (click)="changeSeat(index)">
+                    {{ item.seat }}
                 </a>
-                <span class="c-seatChart__item c-seatChart__item--column">
+                <span class="c-seatChart__item c-seatChart__item--column" *ngIf="item.state.isLastSeat === true">
                     {{ item.column }}
                 </span>
             </ng-container>
