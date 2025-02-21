@@ -49,7 +49,7 @@ export class TicketComponent implements OnInit {
      * @param userNo 使用者代號
      */
     getPersonalTicketList(userNo: number) {
-        this.ticketRepositoryService.getPersonalTicketList({ userNo }).subscribe((res: TicketPersonalOutputModelEntity) => {
+        this.ticketRepositoryService.getPersonalTicketList({ userNo }).subscribe((res) => {
             this.ticketPersonalList = res.result;
         });
     }

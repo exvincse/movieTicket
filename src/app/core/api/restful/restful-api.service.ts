@@ -26,7 +26,7 @@ export class RestfulApiService {
      * @param params params
      * @returns req
      */
-    get(url: string, params?: any): Observable<any> {
+    get<T>(url: string, params?: any): Observable<T> {
         if (params) {
             const newParams = new URLSearchParams();
 
@@ -36,10 +36,10 @@ export class RestfulApiService {
                 }
             });
 
-            return this.http.get(`${this.baseApiUrl}/${url}?${newParams.toString()}`);
+            return this.http.get<T>(`${this.baseApiUrl}/${url}?${newParams.toString()}`);
         }
 
-        return this.http.get(`${this.baseApiUrl}/${url}`);
+        return this.http.get<T>(`${this.baseApiUrl}/${url}`);
     }
 
     /**
@@ -48,8 +48,8 @@ export class RestfulApiService {
      * @param data data
      * @returns req
      */
-    post(url: string, data: any): Observable<any> {
-        return this.http.post(`${this.baseApiUrl}/${url}`, data);
+    post<T>(url: string, data: any): Observable<T> {
+        return this.http.post<T>(`${this.baseApiUrl}/${url}`, data);
     }
 
     /**
@@ -58,7 +58,7 @@ export class RestfulApiService {
      * @param data data
      * @returns req
      */
-    put(url: string, data: any): Observable<any> {
-        return this.http.put(`${this.baseApiUrl}/${url}`, data);
+    put<T>(url: string, data: any): Observable<T> {
+        return this.http.put<T>(`${this.baseApiUrl}/${url}`, data);
     }
 }

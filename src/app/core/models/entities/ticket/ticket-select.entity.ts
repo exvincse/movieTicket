@@ -9,7 +9,7 @@ export interface TicketSelect {
     ticketCategory: (TicketCategoryEntity & { count: number })[];
 }
 
-// 選取位置資訊
+// 電影座位
 export interface TicketSeat {
     column: number
     seat: {

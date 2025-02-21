@@ -32,7 +32,7 @@ export class UserRepositoryService {
      * 確認是否有登入
      * @returns any
      */
-    getIsCheckLogin(): Observable<BaseApiOutputModel<any>> {
+    getIsCheckLogin(): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.get(UserUrl.getIsCheckLogin);
     }
 
@@ -41,27 +41,26 @@ export class UserRepositoryService {
      * @param params params
      * @returns any
      */
-    postLogin(params: any): Observable<any> {
+    postLogin<T>(params: T): Observable<BaseApiOutputModel<{ accessToken: string }>> {
         return this.restfulApiService.post(UserUrl.postLogin, params);
     }
 
     /**
      * 登出
-     * @param params params
      * @returns any
      */
-    postLogout(params: any): Observable<any> {
-        return this.restfulApiService.post(UserUrl.postLogout, params);
+    postLogout(): Observable<void> {
+        return this.restfulApiService.post(UserUrl.postLogout, {});
     }
 
     /**
      * 換發token
      * @returns any
      */
-    getReFreshToken(): Observable<any> {
+    getReFreshToken(): Observable<BaseApiOutputModel<{ accessToken: string }>> {
         if (this.refreshProgress === false) {
             this.refreshProgress = true;
-            return this.restfulApiService.get(UserUrl.getReFreshToken).pipe(
+            return this.restfulApiService.get<BaseApiOutputModel<{ accessToken: string }>>(UserUrl.getReFreshToken).pipe(
                 tap((res) => {
                     this.refreshTokenSubject.next(res.result.accessToken);
                     this.refreshProgress = false;
@@ -72,7 +71,13 @@ export class UserRepositoryService {
 
         return this.refreshTokenSubject.asObservable().pipe(
             filter((token) => token !== null),
-            concatMap((token) => of({ result: { accessToken: token as string } }))
+            concatMap((token) => of({
+                statusCode: 200,
+                message: "",
+                result: {
+                    accessToken: token
+                }
+            }))
         );
     }
 
@@ -80,7 +85,7 @@ export class UserRepositoryService {
      * 取得個人資料
      */
     getUserProfile() {
-        this.restfulApiService.get(UserUrl.getUserProfile).subscribe((res) => {
+        this.restfulApiService.get<any>(UserUrl.getUserProfile).subscribe((res) => {
             this.userStoreService.setUserData(res.result);
         });
     }
@@ -142,7 +147,7 @@ export class UserRepositoryService {
      * @param param 使用者資料
      * @returns any
      */
-    putUserProfile<T>(param: T): Observable<any> {
+    putUserProfile<T>(param: T): Observable<BaseApiOutputModel<any>> {
         return this.restfulApiService.put(UserUrl.putUserProfile, param);
     }
 }

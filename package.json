@@ -38,6 +38,7 @@
         "@ngrx/router-store": "^18.1.1",
         "@ngrx/store": "^18.1.1",
         "@ngrx/store-devtools": "^18.1.1",
+        "@sweetalert2/ngx-sweetalert2": "^13.0.0",
         "@typescript-eslint/eslint-plugin": "7.18.0",
         "@typescript-eslint/parser": "7.18.0",
         "bootstrap": "^5.3.3",
@@ -53,6 +54,7 @@
         "overlayscrollbars": "^2.10.1",
         "overlayscrollbars-ngx": "^0.5.2",
         "rxjs": "~7.8.0",
+        "sweetalert2": "^11.17.2",
         "swiper": "^10.3.1",
         "tslib": "^2.3.0",
         "zone.js": "~0.14.10"

@@ -1,7 +1,10 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
 import {
-    FormBuilder, FormGroup, FormsModule, ReactiveFormsModule
+    Component, OnInit, TemplateRef, ViewChild
+} from "@angular/core";
+import {
+    FormBuilder, FormGroup, FormsModule, ReactiveFormsModule,
+    Validators
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import moment from "moment";
@@ -12,6 +15,7 @@ import { AddressEntity, DistrictEntity } from "../../../../core/models/entities/
 import { AddressOutputModelEntity } from "../../../../core/models/outputViewModels/user/user-address-output-model";
 import { FormValidatorService } from "../../../../services/form-validator/form-validator.service";
 import { DatePickerComponent } from "../../../../shared/base/component/date-picker/date-picker.component";
+import { SweetAlertService } from "../../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { UserStoreService } from "../../../../store/user/service/user-store.service";
 
@@ -32,6 +36,8 @@ import { UserStoreService } from "../../../../store/user/service/user-store.serv
     styleUrl: "./base.component.scss"
 })
 export class BaseComponent implements OnInit {
+    @ViewChild("customTemplate") customTemplate!: TemplateRef<any>;
+
     /**
      * constructor
      * @param userRepositoryService UserRepositoryService
@@ -39,23 +45,25 @@ export class BaseComponent implements OnInit {
      * @param formValidatorService FormValidatorService
      * @param route ActivatedRoute
      * @param fb FormBuilder
+     * @param sweetAlertService SweetAlertService
      */
     constructor(
         public userRepositoryService: UserRepositoryService,
         public userStoreService: UserStoreService,
         public formValidatorService: FormValidatorService,
         public route: ActivatedRoute,
-        public fb: FormBuilder
+        public fb: FormBuilder,
+        public sweetAlertService: SweetAlertService
     ) {
         this.personalForm = this.fb.group({
             userNo: [""],
-            name: [""],
-            email: [""],
+            name: ["", [Validators.required, Validators.maxLength(5)]],
+            // email: [""],
             countyCode: [""],
             districtCode: [""],
             postalCode: [""],
             sexCode: ["001"],
-            address: [""],
+            address: ["", [Validators.maxLength(50)]],
             birthday: [moment().format("YYYY-MM-DD"), [this.formValidatorService.dateFormatValidator()]]
         });
 
@@ -88,6 +96,8 @@ export class BaseComponent implements OnInit {
 
     personalForm: FormGroup;
 
+    isModifySuccess = true;
+
     /**
      * ngOnInit
      */
@@ -113,13 +123,23 @@ export class BaseComponent implements OnInit {
      * 送出修改後資料
      */
     putUserData() {
-        const userData = this.personalForm.getRawValue();
-        const params = {
-            ...userData
-        };
+        if (this.personalForm.valid === true) {
+            const userData = this.personalForm.getRawValue();
+            const params = {
+                ...userData
+            };
 
-        this.userRepositoryService.putUserProfile(params).subscribe((res) => {
-            console.log(res);
-        });
+            this.userRepositoryService.putUserProfile(params).subscribe((res) => {
+                this.isModifySuccess = res.result;
+
+                if (this.isModifySuccess === true) {
+                    this.userRepositoryService.getUserProfile();
+                }
+
+                this.sweetAlertService.open(this.customTemplate, {
+                    icon: this.isModifySuccess ? "success" : "error"
+                });
+            });
+        }
     }
 }

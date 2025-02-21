@@ -148,7 +148,7 @@
                 </tbody>
             </table>
 
-            <div class="l-btn l-btn--right">
+            <div class="l-btn l-btn--right" *ngIf="tickCategoryCount > 0">
                 <div class="l-btn__item">
                     <a href="#" appStopPropagation class="c-btn c-btn--reverseColor c-btn--animate"
                         (click)="selectSeat()">
@@ -161,7 +161,7 @@
     </div>
 </ng-container>
 
-<ng-container *ngIf="isHiddenSelectSeat === false">
+<ng-container *ngIf="isHiddenSelectSeat === false && tickCategoryCount > 0">
     <div class="l-headingBar">
         <div class="l-headingBar__wrap">
             <div class="l-headingBar__content">
@@ -177,3 +177,7 @@
         </div>
     </div>
 </ng-container>
+
+<ng-template #customTemplate>
+    {{ isSubmitSuccess ? "送出成功" : "送出失敗" }}
+</ng-template>

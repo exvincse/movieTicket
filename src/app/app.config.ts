@@ -1,12 +1,13 @@
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import {
-    APP_INITIALIZER, ApplicationConfig, Injector, isDevMode, provideZoneChangeDetection
+    APP_INITIALIZER, ApplicationConfig, importProvidersFrom, Injector, isDevMode, provideZoneChangeDetection
 } from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter } from "@angular/router";
 import { provideEffects } from "@ngrx/effects";
 import { provideStore } from "@ngrx/store";
 import { provideStoreDevtools } from "@ngrx/store-devtools";
+import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 
 import { isLoginFactory } from "./app.initializer";
 import { routes } from "./app.routes";
@@ -38,5 +39,6 @@ export const appConfig: ApplicationConfig = {
             deps: [Injector],
             multi: true,
         },
+        importProvidersFrom(SweetAlert2Module.forRoot())
     ]
 };

@@ -2,16 +2,23 @@
     <div class="c-form__item c-form__item--column">
         <div class="c-form__label">姓名</div>
         <div class="c-form__text">
-            <input type="text" class="o-inputbox o-inputbox--full" formControlName="name">
+            <input type="text" class="o-inputbox o-inputbox--full"
+                [class.is-error]="!personalForm.controls['name'].valid" formControlName="name">
+        </div>
+        <div class="c-form__error" *ngIf="personalForm.controls['name'].hasError('required')">
+            請輸入姓名
+        </div>
+        <div class="c-form__error" *ngIf="personalForm.controls['name'].hasError('maxlength')">
+            姓名最多5個字
         </div>
     </div>
 
-    <div class="c-form__item c-form__item--column">
+    <!-- <div class="c-form__item c-form__item--column">
         <div class="c-form__label">電子信箱</div>
         <div class="c-form__text">
             <input type="text" class="o-inputbox o-inputbox--full" formControlName="email">
         </div>
-    </div>
+    </div> -->
 
     <div class="c-form__item c-form__item--column">
         <div class="c-form__label">通訊地址</div>
@@ -37,9 +44,14 @@
                     <input type="text" class="o-inputbox o-inputbox--full is-disabled" formControlName="postalCode">
                 </div>
                 <div class="l-address__item is-full">
-                    <input type="text" class="o-inputbox o-inputbox--full" formControlName="address">
+                    <input type="text" class="o-inputbox o-inputbox--full"
+                        [class.is-error]="personalForm.controls['address'].hasError('maxlength')"
+                        formControlName="address">
                 </div>
             </div>
+        </div>
+        <div class="c-form__error" *ngIf="personalForm.controls['address'].hasError('maxlength')">
+            通訊地址最多50個字
         </div>
     </div>
 
@@ -89,3 +101,7 @@
         </a>
     </div>
 </div>
+
+<ng-template #customTemplate>
+    {{ isModifySuccess ? "修改成功" : "修改失敗" }}
+</ng-template>

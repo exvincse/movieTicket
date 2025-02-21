@@ -4,8 +4,9 @@
 .l-login {
     display: flex;
     align-items: center;
-    background-color: bisque;
     min-height: 100vh;
+    background-position: center;
+    background-size: cover;
 
     &__content {
         display: flex;

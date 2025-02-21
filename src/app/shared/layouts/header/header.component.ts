@@ -2,7 +2,11 @@ import {
     animate, state, style, transition, trigger
 } from "@angular/animations";
 import { CommonModule } from "@angular/common";
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+    Component, OnDestroy, OnInit,
+    TemplateRef,
+    ViewChild
+} from "@angular/core";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faBars, faTimes, faUserCircle } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +20,7 @@ import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-re
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
 import { CookieService } from "../../../services/cookie.service";
 import { UserStoreService } from "../../../store/user/service/user-store.service";
+import { SweetAlertService } from "../../base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../base/directives/stopPropagation/stop-propagation-directive.directive";
 
 /**
@@ -45,6 +50,7 @@ import { StopPropagationDirective } from "../../base/directives/stopPropagation/
     ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+    @ViewChild("customTemplate") customTemplate!: TemplateRef<any>;
     /**
      * constructor
      * @param tmdbRepositoryService tmdbRepositoryService
@@ -52,6 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
      * @param userStoreService UserStoreService
      * @param cookieService CookieService
      * @param router Router
+     * @param sweetAlertService SweetAlertService
      */
     constructor(
         public tmdbRepositoryService: TmdbRepositoryService,
@@ -59,6 +66,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         public userStoreService: UserStoreService,
         public cookieService: CookieService,
         private router: Router,
+        public sweetAlertService: SweetAlertService
     ) {
         this.router.events
             .pipe(filter((event) => event instanceof NavigationEnd))
@@ -102,6 +110,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
     ];
     isHiddenMenu = false;
+    elapsedSeconds = 0;
+    intervalId: any;
 
     /**
      * userData
@@ -186,9 +196,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
      * 登出
      */
     async postLogout() {
-        await lastValueFrom(this.userRepositoryService.postLogout({}));
-        this.defaultMenu();
-        this.userStoreService.setClearUserData();
-        this.router.navigate(["/"]);
+        const ref = this.sweetAlertService.open(this.customTemplate);
+        await lastValueFrom(this.userRepositoryService.postLogout());
+        ref.instance.afterClose.subscribe((res) => {
+            if (res === true) {
+                this.defaultMenu();
+                this.userStoreService.setClearUserData();
+                this.router.navigate(["/"]);
+            }
+        });
     }
 }

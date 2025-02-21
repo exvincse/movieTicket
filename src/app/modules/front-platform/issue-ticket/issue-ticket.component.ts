@@ -1,6 +1,8 @@
 import { CommonModule } from "@angular/common";
 import {
-    Component, CUSTOM_ELEMENTS_SCHEMA, OnInit
+    Component, CUSTOM_ELEMENTS_SCHEMA, OnInit,
+    TemplateRef,
+    ViewChild
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
@@ -19,10 +21,10 @@ import {
     Seat, TicketParam, TicketSeat, TicketSelect
 } from "../../../core/models/entities/ticket/ticket-select.entity";
 import { TickSeatInputModel } from "../../../core/models/inputViewModels/ticket/ticket-seat-input.model";
+import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
 import { SeatChartComponent } from "../seat-chart/seat-chart.component";
-import { TicketSeatOutputModelEntity } from "../../../core/models/outputViewModels/ticket/ticket-seat-output.model";
 
 /**
  * IssueTicketComponent
@@ -36,16 +38,20 @@ import { TicketSeatOutputModelEntity } from "../../../core/models/outputViewMode
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IssueTicketComponent implements OnInit {
+    @ViewChild("customTemplate") customTemplate!: TemplateRef<any>;
+
     /**
      * constructor
      * @param route ActivatedRoute
      * @param tmdbRepositoryService tmdbRepositoryService
      * @param ticketRepositoryService ticketRepositoryService
+     * @param sweetAlertService SweetAlertService
      */
     constructor(
         public route: ActivatedRoute,
         public tmdbRepositoryService: TmdbRepositoryService,
-        public ticketRepositoryService: TicketRepositoryService
+        public ticketRepositoryService: TicketRepositoryService,
+        public sweetAlertService: SweetAlertService
     ) { }
 
     movieDetail: any = {};
@@ -87,6 +93,8 @@ export class IssueTicketComponent implements OnInit {
             prevEl: ".c-dateTab__prev"
         }
     };
+
+    isSubmitSuccess = false;
 
     /**
      * on init
@@ -199,6 +207,16 @@ export class IssueTicketComponent implements OnInit {
     }
 
     /**
+     * 取得總票卷數
+     * @returns tickCategoryCount
+     */
+    get tickCategoryCount() {
+        const count = this.ticketSelect.ticketCategory.map((x) => x.count).reduce((a, b) => a + b, 0);
+        if (count === 0) this.isHiddenSelectSeat = true;
+        return count;
+    }
+
+    /**
      * 選擇票種
      * @param index index
      * @param event Event
@@ -240,7 +258,11 @@ export class IssueTicketComponent implements OnInit {
         };
 
         this.ticketRepositoryService.postSealTicket(param).subscribe((res) => {
-            console.log(res);
+            this.isSubmitSuccess = res.result;
+
+            this.sweetAlertService.open(this.customTemplate, {
+                icon: this.isSubmitSuccess ? "success" : "error"
+            });
         });
     }
 
@@ -261,7 +283,7 @@ export class IssueTicketComponent implements OnInit {
      * @param param param
      */
     postSelectSeat(param: TickSeatInputModel) {
-        this.ticketRepositoryService.postSelectSeat(param).subscribe((res: TicketSeatOutputModelEntity) => {
+        this.ticketRepositoryService.postSelectSeat(param).subscribe((res) => {
             this.disableSeatSeat = res.result;
             this.isHiddenSelectSeat = false;
         });

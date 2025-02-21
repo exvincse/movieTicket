@@ -22,7 +22,7 @@ export class SeatChartComponent implements OnInit {
     @Output() submitTicket = new EventEmitter<any>();
 
     seatChartNo: { seat: { no: number | null; disableSeat: boolean, isSelect: boolean }[]; column: number; }[] = [];
-    spcialSeat: { seat: number[]; column: number; }[] = [];
+    spcialSeat: Seat[] = [];
     selectSeat: { seat: { no: number | null; disableSeat: boolean, isSelect: boolean }; column: number; }[] = [];
 
     /**
@@ -50,40 +50,148 @@ export class SeatChartComponent implements OnInit {
         this.spcialSeat = [
             {
                 column: 1,
-                seat: [4, 5, 15, 16],
+                seat: 4,
+            },
+            {
+                column: 1,
+                seat: 5,
+            },
+            {
+                column: 1,
+                seat: 15,
+            },
+            {
+                column: 1,
+                seat: 16,
             },
             {
                 column: 2,
-                seat: [4, 5, 15, 16],
+                seat: 4,
+            },
+            {
+                column: 2,
+                seat: 5,
+            },
+            {
+                column: 2,
+                seat: 15,
+            },
+            {
+                column: 2,
+                seat: 16,
             },
             {
                 column: 3,
-                seat: [4, 5, 15, 16],
+                seat: 4,
+            },
+            {
+                column: 3,
+                seat: 5,
+            },
+            {
+                column: 3,
+                seat: 15,
+            },
+            {
+                column: 3,
+                seat: 16,
             },
             {
                 column: 4,
-                seat: [4, 5, 15, 16],
+                seat: 4,
+            },
+            {
+                column: 4,
+                seat: 5,
+            },
+            {
+                column: 4,
+                seat: 15,
+            },
+            {
+                column: 4,
+                seat: 16,
             },
             {
                 column: 5,
-                seat: [4, 5, 15, 16],
+                seat: 4,
+            },
+            {
+                column: 5,
+                seat: 5,
+            },
+            {
+                column: 5,
+                seat: 15,
+            },
+            {
+                column: 5,
+                seat: 16,
             },
             {
                 column: 6,
-                seat: [4, 5, 15, 16],
+                seat: 4,
+            },
+            {
+                column: 6,
+                seat: 5,
+            },
+            {
+                column: 6,
+                seat: 15,
+            },
+            {
+                column: 6,
+                seat: 16,
             },
             {
                 column: 7,
-                seat: [4, 5, 15, 16],
+                seat: 4,
+            },
+            {
+                column: 7,
+                seat: 5,
+            },
+            {
+                column: 7,
+                seat: 15,
+            },
+            {
+                column: 7,
+                seat: 16,
             },
             {
                 column: 8,
-                seat: [4, 5, 15, 16],
+                seat: 4,
+            },
+            {
+                column: 8,
+                seat: 5,
+            },
+            {
+                column: 8,
+                seat: 15,
+            },
+            {
+                column: 8,
+                seat: 16,
             },
             {
                 column: 9,
-                seat: [4, 5, 15, 16],
-            }
+                seat: 4,
+            },
+            {
+                column: 9,
+                seat: 5,
+            },
+            {
+                column: 9,
+                seat: 15,
+            },
+            {
+                column: 9,
+                seat: 16,
+            },
         ];
 
         for (let i = 0; i < column; i += 1) {
@@ -106,9 +214,9 @@ export class SeatChartComponent implements OnInit {
         }
 
         this.seatChartNo.forEach((item) => {
-            const spcialSeatItem = this.spcialSeat.find((x) => x.column === item.column);
-            if (spcialSeatItem !== undefined) {
-                spcialSeatItem.seat.forEach((y) => this.seatChartNo[spcialSeatItem.column - 1].seat.splice(y, 0, {
+            const spcialSeatItem = this.spcialSeat.filter((x) => x.column === item.column);
+            if (spcialSeatItem.length > 0) {
+                spcialSeatItem.forEach((y) => this.seatChartNo[y.column - 1].seat.splice(y.seat, 0, {
                     no: null,
                     disableSeat: false,
                     isSelect: false

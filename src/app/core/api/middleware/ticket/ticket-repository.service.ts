@@ -1,8 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
+import { TicketPersonalListLnputModel } from "../../../models/inputViewModels/ticket/ticket-personal-list-input.model";
+import { BaseApiOutputModel } from "../../../models/outputViewModels/base/base-api-output-model";
 import { TicketCategoryOutputModelEntity } from "../../../models/outputViewModels/ticket/ticket-category-output-model";
 import { TicketLanguageOutputModelEntity } from "../../../models/outputViewModels/ticket/ticket-language-output-model";
+import { TicketPersonalOutputModelEntity } from "../../../models/outputViewModels/ticket/ticket-presonal-list-output.model";
+import { TicketSeatOutputModelEntity } from "../../../models/outputViewModels/ticket/ticket-seat-output.model";
 import { TicketUrl } from "../../api-url/ticket-url";
 import { RestfulApiService } from "../../restful/restful-api.service";
 
@@ -40,25 +44,25 @@ export class TicketRepositoryService {
      * @param param param
      * @returns any
      */
-    postSelectSeat<T>(param: T): Observable<any> {
+    postSelectSeat<T>(param: T): Observable<TicketSeatOutputModelEntity> {
         return this.restfulApiService.post(TicketUrl.postSelectSeat, param);
     }
 
     /**
-     * 取得已選座位
+     * 送出已選座位
      * @param param param
      * @returns any
      */
-    postSealTicket<T>(param: T): Observable<any> {
+    postSealTicket<T>(param: T): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.post(TicketUrl.postSealTicket, param);
     }
 
     /**
-     * 取得已選座位
+     * 取得個人電影票列表
      * @param param param
      * @returns any
      */
-    getPersonalTicketList<T>(param: T): Observable<any> {
+    getPersonalTicketList(param: TicketPersonalListLnputModel): Observable<TicketPersonalOutputModelEntity> {
         return this.restfulApiService.get(TicketUrl.getPersonalTicketList, param);
     }
 }
