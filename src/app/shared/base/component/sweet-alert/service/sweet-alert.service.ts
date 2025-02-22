@@ -1,18 +1,14 @@
 import {
     ApplicationRef, ComponentRef, createComponent, Injectable,
-    InjectionToken,
     Injector,
     Type
 } from "@angular/core";
 import {
     Observable, Subject
 } from "rxjs";
-import { SweetAlertOptions } from "sweetalert2";
 
 import { SweetAlertComponent } from "../sweet-alert.component";
 import { SweetAlertConfig } from "../sweet-alert-config";
-
-export const OPTION = new InjectionToken<SweetAlertOptions>("OPTION");
 
 /**
  * SweetAlertService
@@ -29,8 +25,12 @@ export class SweetAlertService {
     /**
      * constructor
      * @param appRef appRef
+     * @param injector injector
      */
-    constructor(private appRef: ApplicationRef) { }
+    constructor(
+        private appRef: ApplicationRef,
+        private injector: Injector,
+    ) { }
 
     /**
      * open
@@ -38,7 +38,7 @@ export class SweetAlertService {
      * @param option option
      * @returns componentRef
      */
-    open(component: any, option?: SweetAlertOptions) {
+    open(component: any, option?: any) {
         return this.create(component, {
             ...SweetAlertConfig,
             ...option
@@ -60,16 +60,26 @@ export class SweetAlertService {
      */
     create<T>(component: Type<T>, option?: any): ComponentRef<SweetAlertComponent> {
         if (!this.componentRef) {
+            // 建立SweetAlertComponent基底元件
             this.componentRef = createComponent(SweetAlertComponent, {
                 environmentInjector: this.appRef.injector,
                 elementInjector: Injector.create({
                     providers: [
-                        { provide: OPTION, useValue: option }
+                        { provide: SweetAlertConfig, useValue: option }
                     ],
                 }),
             });
 
-            this.componentRef.instance.childTemplate = component;
+            // 把自定義元件或viewChild template掛進SweetAlertComponent基底元件
+            this.componentRef.instance.slotTemplate = component;
+            this.componentRef.instance.slotInjector = Injector.create({
+                parent: this.injector,
+                providers: [
+                    { provide: SweetAlertConfig, useValue: option }
+                ],
+            });
+
+            // 在SweetAlertComponent訂閱事件，關閉SweetAlertComponent觸發next事件，確保關閉時訂閱都已解除
             this.componentRef.instance.afterClose.subscribe((res: any) => {
                 this.destory();
                 this.afterClose$.next(res);
@@ -82,7 +92,6 @@ export class SweetAlertService {
 
             const domElem = (this.componentRef.hostView as any).rootNodes[0] as HTMLElement;
             document.body.appendChild(domElem);
-
             return this.componentRef;
         }
 

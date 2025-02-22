@@ -58,6 +58,7 @@ export class UserRepositoryService {
      * @returns any
      */
     getReFreshToken(): Observable<BaseApiOutputModel<{ accessToken: string }>> {
+        // 如果有多支api報401且都是換發token狀態，利用flag只發出去1次換發。其他api訂閱被通知後拿到換發後新token
         if (this.refreshProgress === false) {
             this.refreshProgress = true;
             return this.restfulApiService.get<BaseApiOutputModel<{ accessToken: string }>>(UserUrl.getReFreshToken).pipe(

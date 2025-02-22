@@ -1,8 +1,6 @@
 import { CommonModule } from "@angular/common";
 import {
-    Component, CUSTOM_ELEMENTS_SCHEMA, OnInit,
-    TemplateRef,
-    ViewChild
+    Component, CUSTOM_ELEMENTS_SCHEMA, OnInit
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
@@ -21,6 +19,7 @@ import {
     Seat, TicketParam, TicketSelect
 } from "../../../core/models/entities/ticket/ticket-select.entity";
 import { TickSeatInputModel } from "../../../core/models/inputViewModels/ticket/ticket-seat-input.model";
+import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
@@ -38,8 +37,6 @@ import { SeatChartComponent } from "../seat-chart/seat-chart.component";
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IssueTicketComponent implements OnInit {
-    @ViewChild("customTemplate") customTemplate!: TemplateRef<any>;
-
     /**
      * constructor
      * @param route ActivatedRoute
@@ -260,8 +257,11 @@ export class IssueTicketComponent implements OnInit {
         this.ticketRepositoryService.postSealTicket(param).subscribe((res) => {
             this.isSubmitSuccess = res.result;
 
-            this.sweetAlertService.open(this.customTemplate, {
-                icon: this.isSubmitSuccess ? "success" : "error"
+            this.sweetAlertService.open(TextAlertComponent, {
+                icon: this.isSubmitSuccess ? "success" : "error",
+                data: {
+                    text: this.isSubmitSuccess ? "送出成功" : "送出失敗"
+                }
             });
         });
     }

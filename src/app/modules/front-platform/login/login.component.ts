@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import {
-    Component, OnInit, TemplateRef, ViewChild
+    Component, OnInit
 } from "@angular/core";
 import {
     FormBuilder,
@@ -18,6 +18,7 @@ import { lastValueFrom } from "rxjs";
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
 import { CookieService } from "../../../services/cookie.service";
+import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 
@@ -39,8 +40,6 @@ import { StopPropagationDirective } from "../../../shared/base/directives/stopPr
     styleUrl: "./login.component.scss"
 })
 export class LoginComponent implements OnInit {
-    @ViewChild("customTemplate") customTemplate!: TemplateRef<any>;
-
     /**
      * constructor
      * @param fb FormBuilder
@@ -130,8 +129,11 @@ export class LoginComponent implements OnInit {
                     this.userRepositoryService.getUserProfile();
                     this.router.navigate(["/"]);
                 } else {
-                    this.sweetAlertService.open(this.customTemplate, {
-                        icon: "error"
+                    this.sweetAlertService.open(TextAlertComponent, {
+                        icon: "error",
+                        data: {
+                            text: "登入失敗"
+                        }
                     });
                 }
             });

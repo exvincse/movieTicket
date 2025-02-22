@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import {
-    Component, OnInit, TemplateRef, ViewChild
+    Component, OnInit
 } from "@angular/core";
 import {
     FormBuilder, FormGroup, FormsModule, ReactiveFormsModule,
@@ -15,6 +15,7 @@ import { AddressEntity, DistrictEntity } from "../../../../core/models/entities/
 import { AddressOutputModelEntity } from "../../../../core/models/outputViewModels/user/user-address-output-model";
 import { FormValidatorService } from "../../../../services/form-validator/form-validator.service";
 import { DatePickerComponent } from "../../../../shared/base/component/date-picker/date-picker.component";
+import { TextAlertComponent } from "../../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { UserStoreService } from "../../../../store/user/service/user-store.service";
@@ -36,8 +37,6 @@ import { UserStoreService } from "../../../../store/user/service/user-store.serv
     styleUrl: "./base.component.scss"
 })
 export class BaseComponent implements OnInit {
-    @ViewChild("customTemplate") customTemplate!: TemplateRef<any>;
-
     /**
      * constructor
      * @param userRepositoryService UserRepositoryService
@@ -136,8 +135,11 @@ export class BaseComponent implements OnInit {
                     this.userRepositoryService.getUserProfile();
                 }
 
-                this.sweetAlertService.open(this.customTemplate, {
-                    icon: this.isModifySuccess ? "success" : "error"
+                this.sweetAlertService.open(TextAlertComponent, {
+                    icon: this.isModifySuccess ? "success" : "error",
+                    data: {
+                        text: this.isModifySuccess ? "修改成功" : "修改失敗"
+                    }
                 });
             });
         }

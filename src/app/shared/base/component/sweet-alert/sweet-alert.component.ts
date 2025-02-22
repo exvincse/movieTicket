@@ -2,8 +2,7 @@ import { CommonModule } from "@angular/common";
 import {
     AfterViewInit, Component,
     ComponentRef,
-    EnvironmentInjector,
-    Inject,
+    Injector,
     OnDestroy,
     TemplateRef,
     Type,
@@ -11,10 +10,9 @@ import {
 } from "@angular/core";
 import { SwalComponent, SwalPortalTargets, SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { Subject } from "rxjs";
-import { SweetAlertOptions } from "sweetalert2";
 
 import { InsertionDirective } from "../../directives/insertion.directive";
-import { OPTION } from "./service/sweet-alert.service";
+import { SweetAlertConfig } from "./sweet-alert-config";
 
 /**
  * SweetAlert Component
@@ -32,20 +30,22 @@ export class SweetAlertComponent implements AfterViewInit, OnDestroy {
 
     afterClose = new Subject();
 
-    childTemplate!: Type<any> | TemplateRef<any>;
+    // 掛載component或template
+    slotTemplate!: Type<any> | TemplateRef<any>;
 
     componentRef!: ComponentRef<any>;
 
-    childInjector!: EnvironmentInjector;
+    // 注入掛載component或template設定值
+    slotInjector!: Injector;
 
     /**
      * constructor
      * @param swalTargets SwalPortalTargets
-     * @param option option
+     * @param option SweetAlertConfig
      */
     constructor(
         public swalTargets: SwalPortalTargets,
-        @Inject(OPTION) public option: SweetAlertOptions
+        public option: SweetAlertConfig
     ) { }
 
     /**
@@ -56,7 +56,7 @@ export class SweetAlertComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * on destroy
+     * ngOnDestroy
      */
     ngOnDestroy() {
         if (this.componentRef) {
@@ -65,18 +65,21 @@ export class SweetAlertComponent implements AfterViewInit, OnDestroy {
     }
 
     /**
-     * swalDidOpen
+     * 套件開啟事件
      */
     swalDidOpen() {
+        // 套件開啟會有時間差，延遲後掛載元件
         setTimeout(() => {
-            if (this.childTemplate instanceof TemplateRef) {
-                this.loadChildTemplate(this.childTemplate);
+            if (this.slotTemplate instanceof TemplateRef) {
+                this.loadSlotTemplate(this.slotTemplate);
+            } else {
+                this.loadSlotComponent(this.slotTemplate);
             }
         });
     }
 
     /**
-     * swalDidClose
+     * 套件關閉事件
      */
     swalDidClose() {
         this.afterClose.next(true);
@@ -86,23 +89,22 @@ export class SweetAlertComponent implements AfterViewInit, OnDestroy {
      * 動態載入component,
      * @param component Component
      */
-    loadChildComponent(component: Type<any>) {
+    loadSlotComponent(component: Type<any>) {
         const { viewContainerRef } = this.insertionPoint;
         viewContainerRef.clear();
 
         this.componentRef = viewContainerRef.createComponent(component, {
-            environmentInjector: this.childInjector,
+            injector: this.slotInjector
         });
     }
 
     /**
      * 動態載入template
      * @param template TemplateRef
-     * @param context context
      */
-    loadChildTemplate(template: TemplateRef<any>, context?: any) {
+    loadSlotTemplate(template: TemplateRef<any>) {
         const { viewContainerRef } = this.insertionPoint;
         viewContainerRef.clear();
-        viewContainerRef.createEmbeddedView(template, context);
+        viewContainerRef.createEmbeddedView(template, this.option.data);
     }
 }

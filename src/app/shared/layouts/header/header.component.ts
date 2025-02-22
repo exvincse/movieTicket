@@ -3,9 +3,7 @@ import {
 } from "@angular/animations";
 import { CommonModule } from "@angular/common";
 import {
-    Component, OnDestroy, OnInit,
-    TemplateRef,
-    ViewChild
+    Component, OnDestroy, OnInit
 } from "@angular/core";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -20,6 +18,7 @@ import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-re
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
 import { CookieService } from "../../../services/cookie.service";
 import { UserStoreService } from "../../../store/user/service/user-store.service";
+import { TextAlertComponent } from "../../base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../base/directives/stopPropagation/stop-propagation-directive.directive";
 
@@ -50,7 +49,6 @@ import { StopPropagationDirective } from "../../base/directives/stopPropagation/
     ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-    @ViewChild("customTemplate") customTemplate!: TemplateRef<any>;
     /**
      * constructor
      * @param tmdbRepositoryService tmdbRepositoryService
@@ -74,12 +72,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.isHiddenMenu = ["/register", "/login"].includes(event.url);
                 this.isShowMobileList = false;
             });
-
-        // this.cookieSubject = this.cookieService.sub$.subscribe((res) => {
-        //     if (res) {
-        //         this.getUserProfile();
-        //     }
-        // });
     }
 
     cookieSubject: Subscription = new Subscription();
@@ -196,7 +188,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
      * 登出
      */
     async postLogout() {
-        const ref = this.sweetAlertService.open(this.customTemplate);
+        const ref = this.sweetAlertService.open(TextAlertComponent, {
+            data: {
+                text: "已登出"
+            }
+        });
         await lastValueFrom(this.userRepositoryService.postLogout());
         ref.instance.afterClose.subscribe((res) => {
             if (res === true) {
