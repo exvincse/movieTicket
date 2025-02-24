@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
+import { PaypalPaymentInputModel } from "../../../models/inputViewModels/paypal/paypal-payment-input.model";
 import { TicketPersonalListLnputModel } from "../../../models/inputViewModels/ticket/ticket-personal-list-input.model";
 import { BaseApiOutputModel } from "../../../models/outputViewModels/base/base-api-output-model";
 import { TicketCategoryOutputModelEntity } from "../../../models/outputViewModels/ticket/ticket-category-output-model";
@@ -64,5 +65,14 @@ export class TicketRepositoryService {
      */
     getPersonalTicketList(param: TicketPersonalListLnputModel): Observable<TicketPersonalOutputModelEntity> {
         return this.restfulApiService.get(TicketUrl.getPersonalTicketList, param);
+    }
+
+    /**
+     * 取得paypal付款url
+     * @param param param
+     * @returns any
+     */
+    postPostCreatePayment(param: PaypalPaymentInputModel): Observable<BaseApiOutputModel<{ approvalUrl: string }>> {
+        return this.restfulApiService.post(TicketUrl.postCreatePayment, param);
     }
 }
