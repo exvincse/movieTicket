@@ -42,7 +42,8 @@
 
         <div class="l-btn l-btn--center">
             <div class="l-btn__item">
-                <a href="#" appStopPropagation class="c-btn c-btn--reverseColor" (click)="submitSeat()">
+                <a href="#" appStopPropagation class="c-btn c-btn--reverseColor"
+                    [class.is-disabled]="selectSeat.length < seatCount" (click)="submitSeat()">
                     送出
                 </a>
             </div>

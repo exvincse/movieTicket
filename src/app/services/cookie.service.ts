@@ -10,7 +10,6 @@ import { BehaviorSubject } from "rxjs";
 })
 export class CookieService {
     private sub: BehaviorSubject<string> = new BehaviorSubject<string>("");
-    sub$ = this.sub.asObservable();
 
     /**
      * 設定 Cookie

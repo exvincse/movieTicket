@@ -3,8 +3,7 @@ import { Component, OnInit } from "@angular/core";
 
 import { TicketRepositoryService } from "../../../../core/api/middleware/ticket/ticket-repository.service";
 import {
-    TicketPersonalOutputModel,
-    TicketPersonalOutputModelEntity
+    TicketPersonalOutputModel
 } from "../../../../core/models/outputViewModels/ticket/ticket-presonal-list-output.model";
 import { UserStoreService } from "../../../../store/user/service/user-store.service";
 

@@ -69,8 +69,10 @@
     }
 
     &.is-disabled {
+        border: none;
         pointer-events: none;
-        background-color: gray;
+        color: #fff;
+        background-color: #ccc;
     }
 }
 

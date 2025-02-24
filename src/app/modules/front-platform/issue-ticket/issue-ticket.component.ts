@@ -23,6 +23,7 @@ import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/b
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
+import { UserStoreService } from "../../../store/user/service/user-store.service";
 import { SeatChartComponent } from "../seat-chart/seat-chart.component";
 
 /**
@@ -43,12 +44,14 @@ export class IssueTicketComponent implements OnInit {
      * @param tmdbRepositoryService tmdbRepositoryService
      * @param ticketRepositoryService ticketRepositoryService
      * @param sweetAlertService SweetAlertService
+     * @param userStoreService UserStoreService
      */
     constructor(
         public route: ActivatedRoute,
         public tmdbRepositoryService: TmdbRepositoryService,
         public ticketRepositoryService: TicketRepositoryService,
-        public sweetAlertService: SweetAlertService
+        public sweetAlertService: SweetAlertService,
+        public userStoreService: UserStoreService,
     ) { }
 
     movieDetail: any = {};
@@ -227,42 +230,54 @@ export class IssueTicketComponent implements OnInit {
      * @param seat 座位
      */
     submitTicket(seat: Seat[]) {
-        const ticketSeat = seat.map((x) => ({
-            column: x.column,
-            seat: x.seat
-        }));
+        this.userStoreService.getUserData().subscribe((user) => {
+            if (user !== null && user.userNo !== 0) {
+                const ticketSeat = seat.map((x) => ({
+                    column: x.column,
+                    seat: x.seat
+                }));
 
-        const ticketCategory: TicketParam[] = [];
-        let count = 0;
-        this.ticketSelect.ticketCategory.filter((x) => x.count > 0).forEach((y) => {
-            for (let i = 0; i < y.count; i += 1) {
-                ticketCategory.push({
-                    ...y,
-                    column: ticketSeat[count].column,
-                    seat: ticketSeat[count].seat ?? 0,
+                const ticketCategory: TicketParam[] = [];
+                let count = 0;
+                this.ticketSelect.ticketCategory.filter((x) => x.count > 0).forEach((y) => {
+                    for (let i = 0; i < y.count; i += 1) {
+                        ticketCategory.push({
+                            ...y,
+                            column: ticketSeat[count].column,
+                            seat: ticketSeat[count].seat ?? 0,
+                        });
+
+                        count += 1;
+                    }
                 });
 
-                count += 1;
+                const param = {
+                    movieId: this.movieDetail.id,
+                    ticketDateTime: moment(`${this.ticketSelect.date} ${this.ticketSelect.time}`, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm:ss"),
+                    ticketLanguageCode: this.ticketSelect.ticketLanguageCode,
+                    ticketLanguageName: this.ticketSelect.ticketLanguageName,
+                    ticketCategory
+                };
+
+                this.ticketRepositoryService.postSealTicket(param).subscribe((res) => {
+                    this.isSubmitSuccess = res.result;
+                    if (res.result === true) {
+                        const { cost } = param.ticketCategory.reduce((acc, cur) => ({ cost: acc.cost + cur.cost }), { cost: 0 });
+                        this.ticketRepositoryService.postPostCreatePayment({ total: cost }).subscribe((payPalres) => {
+                            if (payPalres.result.approvalUrl) {
+                                window.location.href = payPalres.result.approvalUrl;
+                            }
+                        });
+                    }
+                });
+            } else {
+                this.sweetAlertService.open(TextAlertComponent, {
+                    icon: "error",
+                    data: {
+                        text: "請先登入"
+                    }
+                });
             }
-        });
-
-        const param = {
-            movieId: this.movieDetail.id,
-            ticketDateTime: moment(`${this.ticketSelect.date} ${this.ticketSelect.time}`, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm:ss"),
-            ticketLanguageCode: this.ticketSelect.ticketLanguageCode,
-            ticketLanguageName: this.ticketSelect.ticketLanguageName,
-            ticketCategory
-        };
-
-        this.ticketRepositoryService.postSealTicket(param).subscribe((res) => {
-            this.isSubmitSuccess = res.result;
-
-            this.sweetAlertService.open(TextAlertComponent, {
-                icon: this.isSubmitSuccess ? "success" : "error",
-                data: {
-                    text: this.isSubmitSuccess ? "送出成功" : "送出失敗"
-                }
-            });
         });
     }
 

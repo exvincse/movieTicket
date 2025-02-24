@@ -203,7 +203,7 @@ export class SeatChartComponent implements OnInit {
             );
 
             if (selectSeatIndex !== -1) {
-                this.selectSeat.splice(index, 1);
+                this.selectSeat.splice(selectSeatIndex, 1);
             }
         } else if (this.selectSeat.length < this.seatCount) {
             this.seatChart[index].state.isSelect = true;

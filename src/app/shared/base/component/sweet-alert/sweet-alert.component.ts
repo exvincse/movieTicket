@@ -62,6 +62,10 @@ export class SweetAlertComponent implements AfterViewInit, OnDestroy {
         if (this.componentRef) {
             this.componentRef.destroy();
         }
+
+        // if (!this.afterClose.closed) {
+        //     this.afterClose.complete();
+        // }
     }
 
     /**

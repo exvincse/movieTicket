@@ -3,7 +3,7 @@ import {
 } from "@angular/animations";
 import { CommonModule } from "@angular/common";
 import {
-    Component, OnDestroy, OnInit
+    Component, OnInit
 } from "@angular/core";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -11,7 +11,7 @@ import { faBars, faTimes, faUserCircle } from "@fortawesome/free-solid-svg-icons
 import * as OpenCC from "opencc-js";
 import { OverlayscrollbarsModule } from "overlayscrollbars-ngx";
 import {
-    filter, lastValueFrom, Subscription
+    filter, lastValueFrom
 } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
@@ -48,7 +48,7 @@ import { StopPropagationDirective } from "../../base/directives/stopPropagation/
         ])
     ]
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
     /**
      * constructor
      * @param tmdbRepositoryService tmdbRepositoryService
@@ -73,8 +73,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.isShowMobileList = false;
             });
     }
-
-    cookieSubject: Subscription = new Subscription();
 
     scrollOptions = {
         scrollbars: {
@@ -124,13 +122,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this.getUserProfile();
             }
         });
-    }
-
-    /**
-     * ngOnDestroy
-     */
-    ngOnDestroy() {
-        this.cookieSubject.unsubscribe();
     }
 
     /**
@@ -189,6 +180,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
      */
     async postLogout() {
         const ref = this.sweetAlertService.open(TextAlertComponent, {
+            icon: "success",
             data: {
                 text: "已登出"
             }
