@@ -23,11 +23,11 @@ export const routes: Routes = [
                 // eslint-disable-next-line jsdoc/require-jsdoc
                 loadComponent: () => import("./modules/front-platform/register/register.component").then((m) => m.RegisterComponent),
             },
-            // {
-            //     path: "otp-valid",
-            //     // eslint-disable-next-line jsdoc/require-jsdoc
-            //     loadComponent: () => import("./modules/front-platform/otp-valid/otp-valid.component").then((m) => m.OtpValidComponent),
-            // },
+            {
+                path: "forgetPassword",
+                // eslint-disable-next-line jsdoc/require-jsdoc
+                loadComponent: () => import("./modules/front-platform/forget-password/forget-password.component").then((m) => m.ForgetPasswordComponent),
+            },
             {
                 path: "ticketing/:id",
                 // eslint-disable-next-line jsdoc/require-jsdoc

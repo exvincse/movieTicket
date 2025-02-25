@@ -23,4 +23,6 @@ export const UserUrl = {
     getLocation: "User/GetLocation",
     // 修改個人資料
     putUserProfile: "User/PutUserProfile",
+    // 修改密碼
+    putResetPassword: "User/PutResetPassword",
 };

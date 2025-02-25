@@ -7,6 +7,8 @@ import {
 } from "@angular/forms";
 
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
+import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
+import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 
 /**
@@ -28,16 +30,18 @@ export class OtpValidComponent {
 
     otpForm: FormGroup;
 
-    second = 5;
+    second = 60;
 
     /**
      * constructor
      * @param userRepositoryService UserRepositoryService
      * @param fb FormBuilder
+     * @param sweetAlertService SweetAlertService
      */
     constructor(
         public userRepositoryService: UserRepositoryService,
-        public fb: FormBuilder
+        public fb: FormBuilder,
+        public sweetAlertService: SweetAlertService
     ) {
         this.otpForm = this.fb.group({
             otp: this.fb.array(new Array(6).fill("").map(() => [""]))
@@ -104,6 +108,13 @@ export class OtpValidComponent {
                 this.emitValidOtp.emit(res.result);
                 this.otpForm.reset();
                 this.otpInput.first?.nativeElement.focus();
+            } else {
+                this.sweetAlertService.open(TextAlertComponent, {
+                    icon: "error",
+                    data: {
+                        text: res.message
+                    }
+                });
             }
         });
     }

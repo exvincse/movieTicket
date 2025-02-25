@@ -151,4 +151,13 @@ export class UserRepositoryService {
     putUserProfile<T>(param: T): Observable<BaseApiOutputModel<any>> {
         return this.restfulApiService.put(UserUrl.putUserProfile, param);
     }
+
+    /**
+     * 修改密碼
+     * @param param 使用者資料
+     * @returns any
+     */
+    putResetPassword<T>(param: T): Observable<BaseApiOutputModel<any>> {
+        return this.restfulApiService.put(UserUrl.putResetPassword, param);
+    }
 }

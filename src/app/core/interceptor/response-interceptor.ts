@@ -10,6 +10,8 @@ import {
 } from "rxjs";
 
 import { CookieService } from "../../services/cookie.service";
+import { SweetAlertService } from "../../shared/base/component/sweet-alert/service/sweet-alert.service";
+import { SweetAlertComponent } from "../../shared/base/component/sweet-alert/sweet-alert.component";
 import { UserStoreService } from "../../store/user/service/user-store.service";
 import { UserRepositoryService } from "../api/middleware/user/user-repository.service";
 import { BaseApiOutputModel } from "../models/outputViewModels/base/base-api-output-model";
@@ -24,6 +26,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
     const userRepositoryService = inject(UserRepositoryService);
     const cookiesService = inject(CookieService);
     const userStoreService = inject(UserStoreService);
+    const sweetAlertService = inject(SweetAlertService);
     const router = inject(Router);
 
     if (req.urlWithParams.includes("themoviedb")) {
@@ -62,7 +65,16 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
 
             if (error.error?.result?.isRepeatLogin === true) {
                 userStoreService.setClearUserData();
-                router.navigate(["/"]);
+                const ref = sweetAlertService.open(SweetAlertComponent, {
+                    icon: "error",
+                    data: {
+                        text: "登入已逾時，請重新登入"
+                    }
+                });
+
+                ref.instance.afterClose.subscribe(() => {
+                    router.navigate(["/"]);
+                });
             }
 
             return throwError(() => error);
