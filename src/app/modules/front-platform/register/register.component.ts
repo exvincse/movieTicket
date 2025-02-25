@@ -11,6 +11,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
 import { CookieService } from "../../../services/cookie.service";
 import { FormValidatorService } from "../../../services/form-validator/form-validator.service";
+import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
+import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { OtpValidComponent } from "../otp-valid/otp-valid.component";
 
@@ -46,13 +48,15 @@ export class RegisterComponent {
      * @param router Router
      * @param userRepositoryService UserRepositoryService
      * @param cookieService CookieService
+     * @param sweetAlertService SweetAlertService
      */
     constructor(
         public fb: FormBuilder,
         public formValidatorService: FormValidatorService,
         public router: Router,
         public userRepositoryService: UserRepositoryService,
-        public cookieService: CookieService
+        public cookieService: CookieService,
+        public sweetAlertService: SweetAlertService
     ) {
         this.registerForm = this.fb.group({
             // email: ["", [
@@ -116,7 +120,6 @@ export class RegisterComponent {
      * otpValid
      */
     emitValidOtp() {
-        this.currentStep = "register";
         const param = {
             email: this.registerForm.get("email")?.value,
             password: this.registerForm.get("password")?.value
@@ -124,10 +127,24 @@ export class RegisterComponent {
 
         this.userRepositoryService.postRegister(param).subscribe((res) => {
             if (res.result.accessToken) {
-                this.cookieService.set("accessToken", res.result.accessToken, 5);
-                this.router.navigate(["/"]);
+                const ref = this.sweetAlertService.open(TextAlertComponent, {
+                    icon: "success",
+                    data: {
+                        text: "註冊成功"
+                    }
+                });
+                ref.instance.afterClose.subscribe(() => {
+                    this.cookieService.set("accessToken", res.result.accessToken, 5);
+                    this.userRepositoryService.getUserProfile();
+                    this.router.navigate(["/"]);
+                });
             } else {
-                // 註冊失敗
+                this.sweetAlertService.open(TextAlertComponent, {
+                    icon: "error",
+                    data: {
+                        text: "註冊失敗"
+                    }
+                });
             }
         });
     }

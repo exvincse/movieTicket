@@ -56,7 +56,7 @@ export class BaseComponent implements OnInit {
     ) {
         this.personalForm = this.fb.group({
             userNo: [""],
-            name: ["", [Validators.required, Validators.maxLength(5)]],
+            name: ["", [Validators.required, Validators.maxLength(30)]],
             // email: [""],
             countyCode: [""],
             districtCode: [""],

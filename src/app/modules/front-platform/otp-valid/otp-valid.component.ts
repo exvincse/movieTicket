@@ -28,6 +28,8 @@ export class OtpValidComponent {
 
     otpForm: FormGroup;
 
+    second = 5;
+
     /**
      * constructor
      * @param userRepositoryService UserRepositoryService
@@ -40,6 +42,8 @@ export class OtpValidComponent {
         this.otpForm = this.fb.group({
             otp: this.fb.array(new Array(6).fill("").map(() => [""]))
         });
+
+        this.sendMailCountDown();
     }
 
     /**
@@ -96,9 +100,36 @@ export class OtpValidComponent {
         };
 
         this.userRepositoryService.postValidOtp(params).subscribe((res) => {
-            this.emitValidOtp.emit(res.result);
-            this.otpForm.reset();
-            this.otpInput.first?.nativeElement.focus();
+            if (res.result === true) {
+                this.emitValidOtp.emit(res.result);
+                this.otpForm.reset();
+                this.otpInput.first?.nativeElement.focus();
+            }
         });
+    }
+
+    /**
+     * resendOtp
+     */
+    resendOtp() {
+        this.userRepositoryService.postSendMail({ email: this.otpEmail }).subscribe((res) => {
+            if (res.result === true) {
+                this.second = 60;
+                this.sendMailCountDown();
+            }
+        });
+    }
+
+    /**
+     * 發信倒數
+     */
+    sendMailCountDown() {
+        const intervalId = setInterval(() => {
+            if (this.second > 0) {
+                this.second -= 1;
+            } else {
+                clearInterval(intervalId);
+            }
+        }, 1000);
     }
 }

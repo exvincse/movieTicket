@@ -23,7 +23,13 @@
                 </div>
             </div>
             <div class="l-otp__text">
-                <a href="#">xx秒後可重新發送驗證碼</a>
+                <ng-container *ngIf="second > 0; else sendOtp">
+                    {{ second }}秒後可重新發送驗證碼
+                </ng-container>
+
+                <ng-template #sendOtp>
+                    <a href="#" appStopPropagation (click)="resendOtp()">重新發送驗證碼</a>
+                </ng-template>
             </div>
         </div>
     </div>
