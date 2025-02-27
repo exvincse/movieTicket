@@ -5,11 +5,13 @@ import {
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
 import {
-    catchError, concatMap, map, Observable,
+    catchError, concatMap, finalize, Observable,
+    tap,
     throwError
 } from "rxjs";
 
 import { CookieService } from "../../services/cookie.service";
+import { LoaderService } from "../../services/loader/loader.service";
 import { SweetAlertService } from "../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { SweetAlertComponent } from "../../shared/base/component/sweet-alert/sweet-alert.component";
 import { UserStoreService } from "../../store/user/service/user-store.service";
@@ -27,21 +29,24 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
     const cookiesService = inject(CookieService);
     const userStoreService = inject(UserStoreService);
     const sweetAlertService = inject(SweetAlertService);
+    const loaderService = inject(LoaderService);
     const router = inject(Router);
 
     if (req.urlWithParams.includes("themoviedb")) {
-        return next(req);
+        return next(req).pipe(
+            finalize(() => {
+                // api loading動畫，只要有回來請求動畫累積次數就會減1
+                loaderService.stopLoadingCount();
+            })
+        );
     }
 
     return next(req).pipe(
-        map((response) => {
-            if (response instanceof HttpResponse) {
-                if (response.url?.includes("GetIsCheckLogin") === true) {
-                    const responseBody = response.body as BaseApiOutputModel<boolean>;
-                    if (responseBody.result === false) {
-                        userStoreService.setClearUserData();
-                        router.navigate(["/"]);
-                    }
+        tap((response) => {
+            if (response instanceof HttpResponse && response.url?.includes("GetIsCheckLogin") === true) {
+                const responseBody = response.body as BaseApiOutputModel<boolean>;
+                if (responseBody.result === false) {
+                    userStoreService.setClearUserData();
                 }
             }
             return response;
@@ -59,7 +64,21 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
                         });
                         return next(modifiedReq);
                     }),
-                    catchError(() => throwError(() => new Error("refresh token error")))
+                    catchError(() => {
+                        userStoreService.setClearUserData();
+                        const ref = sweetAlertService.open(SweetAlertComponent, {
+                            icon: "error",
+                            data: {
+                                text: "登入已逾時，請重新登入"
+                            }
+                        });
+
+                        ref.instance.afterClose.subscribe(() => {
+                            router.navigate(["/"]);
+                        });
+
+                        return throwError(() => error);
+                    })
                 );
             }
 
@@ -78,6 +97,10 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
             }
 
             return throwError(() => error);
+        }),
+        finalize(() => {
+            // api loading動畫，只要有回來請求動畫累積次數就會減1
+            loaderService.stopLoadingCount();
         })
     );
 };

@@ -3,6 +3,7 @@ import { inject } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { CookieService } from "../../services/cookie.service";
+import { LoaderService } from "../../services/loader/loader.service";
 
 /**
  * RequestInterceptor
@@ -12,7 +13,10 @@ import { CookieService } from "../../services/cookie.service";
  */
 export const RequestInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<any> => {
     const cookiesService = inject(CookieService);
+    const loaderService = inject(LoaderService);
     const token = cookiesService.get("accessToken");
+    // api loading動畫，只要有發送請求動畫累積次數就會加1
+    loaderService.startLoadingCount();
 
     if (req.urlWithParams.includes("themoviedb")) {
         return next(req);

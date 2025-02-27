@@ -65,8 +65,6 @@ export class ResetPasswordComponent {
 
     registerForm!: FormGroup;
 
-    currentStep: "register" | "otp" = "register";
-
     /**
      * toggleEye
      */
