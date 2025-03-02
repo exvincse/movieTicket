@@ -74,6 +74,12 @@
         color: #fff;
         background-color: #ccc;
     }
+
+    @include breakpoint-down("mobile") {
+        &--fullMb {
+            width: 100%;
+        }
+    }
 }
 
 .l-btn {

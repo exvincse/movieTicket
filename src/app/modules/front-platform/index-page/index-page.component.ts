@@ -66,9 +66,12 @@ export class IndexPageComponent implements OnInit {
 
         breakpoints: {
             768: {
-                slidesPerView: 2
+                slidesPerView: 3
             },
             1024: {
+                slidesPerView: 4
+            },
+            1200: {
                 slidesPerView: 5
             }
         }

@@ -1,4 +1,5 @@
 .l-form {
+    padding: 0 16px;
     &__title {
         padding: 16px;
 
@@ -16,7 +17,6 @@
     display: flex;
 
     &__require {
-        display: flex;
         flex-direction: column;
     }
 
@@ -26,38 +26,25 @@
 
     &--column & {
         &__item {
-            margin-bottom: 10px;
-            &:not(:first-child) {
-                margin-left: 0px;
-            }
-        }
-    }
-
-    &--login {
-        flex-direction: column;
-    }
-
-    &--login & {
-        &__item {
-            margin-bottom: 30px;
-            &:not(:first-child) {
-                margin-left: 0px;
-            }
+            margin-bottom: 16px;
         }
     }
 
     &__item {
         display: flex;
         align-items: center;
+        margin-right: 10px;
 
         &--column {
             flex-direction: column;
             align-items: flex-start;
         }
+    }
 
-        &:not(:first-child) {
-            margin-left: 10px;
-        }
+    &__action {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     &__label {
@@ -72,6 +59,19 @@
         font-size: 12px;
         color: red;
     }
+
+    @include breakpoint-down("mobile") {
+        flex-direction: column;
+
+        &__require {
+            flex: 1 1 auto;
+        }
+
+        &__item {
+            margin-right: 0;
+            margin-bottom: 16px;
+        }
+    }
 }
 
 .l-radio {
@@ -80,7 +80,7 @@
     align-items: center;
 
     &__item {
-        margin: 8px;
+        margin: 4px;
     }
 }
 
@@ -99,15 +99,24 @@
         &.is-full {
             flex: 1 1 100%;
             margin-left: 0;
-            margin-top: 16px;
+            margin-top: 12px;
         }
     }
 
     @include breakpoint-down("mobile") {
         flex-direction: column;
+
         &__item {
             margin-left: 0;
-            margin-top: 8px;
+            margin-bottom: 12px;
+
+            &.is-full {
+                margin-top: 0;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
 }
@@ -159,7 +168,7 @@
     width: 100%;
     height: 40px;
     max-width: 80px;
-    padding: 10px 20px 10px 16px;
+    padding: 10px 40px 10px 16px;
     border: 1px solid #c3c9cf;
     border-radius: 8px;
     appearance: none;
@@ -178,6 +187,7 @@
 }
 
 .o-radiobox {
+    display: inline-block;
     position: relative;
     vertical-align: text-bottom;
     cursor: pointer;

@@ -10,120 +10,98 @@
     </swiper-container>
 </div>
 <div class="o-line"></div>
-<div class="l-movie">
-    <div class="l-movie__item">
-        <div class="l-movie__header">
-            <div class="l-headingBar">
-                <div class="l-headingBar__wrap">
-                    <div class="l-headingBar__content">
-                        <div class="l-headingBar__title">現正熱映</div>
-                        <div class="l-headingBar__link">
-                            <a [routerLink]="['/movieList']" class="o-link">
-                                瀏覽所有電影
-                                <fa-icon [icon]="faGreaterThan" [size]="'2xs'"></fa-icon>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="l-movie__content">
-            <div class="l-movieCard">
-                <div class="l-movieCard__wrap l-movieCard__wrap--full">
-                    <div class="l-swiper">
-                        <swiper-container appSwiper [swiperConfig]="movieListConfig" init="false"
-                            class="swiper-container">
-                            <swiper-slide *ngFor="let item of hotMovieList">
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" appStopPropagation class="o-link"
-                                            (click)="openLightbox('https://image.tmdb.org/t/p/original'+ item.poster_path)">
-                                            <div class="c-movieCard__img"
-                                                [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ item.poster_path + ')'}">
-                                            </div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div class="c-movieCard__title">
-                                                {{ item.title }}
-                                            </div>
-                                            <div class="c-movieCard__subTitle">
-                                                {{ item.overview }}
-                                            </div>
-                                            <div class="c-movieCard__date">上映日期：{{ item.release_date }}</div>
-                                            <!-- <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset=""> -->
-                                        </div>
-                                        <a [routerLink]="['/ticketing', item.id]" class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                        </swiper-container>
-                        <!-- 導航按鈕 -->
-                        <div class="swiper-button-prev swiper-button-prev1">
-                        </div>
-                        <div class="swiper-button-next swiper-button-next1">
-                        </div>
-                    </div>
-                </div>
+
+<div class="l-headingBar">
+    <div class="l-headingBar__wrap">
+        <div class="l-headingBar__content">
+            <div class="l-headingBar__title">現正熱映</div>
+            <div class="l-headingBar__link">
+                <a [routerLink]="['/movieList']" class="o-link">
+                    瀏覽所有電影
+                    <fa-icon [icon]="faGreaterThan" [size]="'2xs'"></fa-icon>
+                </a>
             </div>
         </div>
     </div>
+</div>
+<div class="l-swiper">
+    <swiper-container appSwiper [swiperConfig]="movieListConfig" init="false" class="swiper-container">
+        <swiper-slide *ngFor="let item of hotMovieList">
+            <div class="l-swiper__item">
+                <div class="c-movieCard c-movieCard--zoom">
+                    <a href="#" appStopPropagation class="o-link"
+                        (click)="openLightbox('https://image.tmdb.org/t/p/original'+ item.poster_path)">
+                        <div class="c-movieCard__img"
+                            [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ item.poster_path + ')'}">
+                        </div>
+                    </a>
+                    <div class="c-movieCard__content c-movieCard__content--gary">
+                        <div class="c-movieCard__title">
+                            {{ item.title }}
+                        </div>
+                        <div class="c-movieCard__subTitle">
+                            {{ item.overview }}
+                        </div>
+                        <div class="c-movieCard__date">上映日期：{{ item.release_date }}</div>
+                        <!-- <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
+                                width="40" height="40" alt="" srcset=""> -->
+                    </div>
+                    <a [routerLink]="['/ticketing', item.id]" class="c-btn c-btn--gap">線上訂票</a>
+                </div>
+            </div>
+        </swiper-slide>
+    </swiper-container>
+    <!-- 導航按鈕 -->
+    <div class="swiper-button-prev swiper-button-prev1">
+    </div>
+    <div class="swiper-button-next swiper-button-next1">
+    </div>
+</div>
 
-    <div class="l-movie__item">
-        <div class="l-movie__header">
-            <div class="l-headingBar">
-                <div class="l-headingBar__wrap">
-                    <div class="l-headingBar__content">
-                        <div class="l-headingBar__title">即將熱映</div>
-                        <div class="l-headingBar__link">
-                            <a href="#" class="o-link">
-                                瀏覽所有電影
-                                <fa-icon [icon]="faGreaterThan" [size]="'2xs'"></fa-icon>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
+<div class="l-headingBar">
+    <div class="l-headingBar__wrap">
+        <div class="l-headingBar__content">
+            <div class="l-headingBar__title">即將熱映</div>
+            <div class="l-headingBar__link">
+                <a href="#" class="o-link">
+                    瀏覽所有電影
+                    <fa-icon [icon]="faGreaterThan" [size]="'2xs'"></fa-icon>
+                </a>
             </div>
         </div>
-        <div class="l-movie__content">
-            <div class="l-movieCard">
-                <div class="l-movieCard__wrap l-movieCard__wrap--full">
-                    <div class="l-swiper">
-                        <swiper-container appSwiper [swiperConfig]="comingMovieListConfig" init="false"
-                            class="swiper-container">
-                            <swiper-slide *ngFor="let item of comingMovieList">
-                                <div class="l-movieCard__itme">
-                                    <div class="c-movieCard c-movieCard--zoom">
-                                        <a href="#" appStopPropagation class="o-link"
-                                            (click)="openLightbox('https://image.tmdb.org/t/p/original'+ item.poster_path)">
-                                            <div class="c-movieCard__img"
-                                                [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ item.poster_path + ')'}">
-                                            </div>
-                                        </a>
-                                        <div class="c-movieCard__content c-movieCard__content--gary">
-                                            <div class="c-movieCard__title">
-                                                {{ item.title }}
-                                            </div>
-                                            <div class="c-movieCard__subTitle">
-                                                {{ item.overview }}
-                                            </div>
-                                            <div class="c-movieCard__date">上映日期：{{ item.release_date }}</div>
-                                            <!-- <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
-                                                width="40" height="40" alt="" srcset=""> -->
-                                        </div>
-                                        <a [routerLink]="['/ticketing', item.id]" class="c-btn c-btn--gap">線上訂票</a>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                        </swiper-container>
-                        <!-- 導航按鈕 -->
-                        <div class="swiper-button-prev swiper-button-prev2">
+    </div>
+</div>
+<div class="l-swiper">
+    <swiper-container appSwiper [swiperConfig]="comingMovieListConfig" init="false" class="swiper-container">
+        <swiper-slide *ngFor="let item of comingMovieList">
+            <div class="l-swiper__item">
+                <div class="c-movieCard c-movieCard--zoom">
+                    <a href="#" appStopPropagation class="o-link"
+                        (click)="openLightbox('https://image.tmdb.org/t/p/original'+ item.poster_path)">
+                        <div class="c-movieCard__img"
+                            [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ item.poster_path + ')'}">
                         </div>
-                        <div class="swiper-button-next swiper-button-next2">
+                    </a>
+                    <div class="c-movieCard__content c-movieCard__content--gary">
+                        <div class="c-movieCard__title">
+                            {{ item.title }}
                         </div>
+                        <div class="c-movieCard__subTitle">
+                            {{ item.overview }}
+                        </div>
+                        <div class="c-movieCard__date">上映日期：{{ item.release_date }}</div>
+                        <!-- <img src="https://www.showtimes.com.tw/images/rating/ic_rating_g.png"
+                            width="40" height="40" alt="" srcset=""> -->
                     </div>
+                    <a [routerLink]="['/ticketing', item.id]" class="c-btn c-btn--gap">線上訂票</a>
                 </div>
             </div>
-        </div>
+        </swiper-slide>
+    </swiper-container>
+    <!-- 導航按鈕 -->
+    <div class="swiper-button-prev swiper-button-prev2">
+    </div>
+    <div class="swiper-button-next swiper-button-next2">
     </div>
 </div>

@@ -19,6 +19,18 @@
 
 .l-swiper {
     position: relative;
+
+    &__item {
+        max-width: 220px;
+        margin: 10px auto;
+    }
+
+    @include breakpoint-down("mobile") {
+        &__item {
+            padding: 0px 16px;
+            max-width: 400px;
+        }
+    }
 }
 
 .swiper-container {

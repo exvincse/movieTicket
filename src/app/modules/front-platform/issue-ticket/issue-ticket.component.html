@@ -135,7 +135,8 @@
                         <td data-label="票種">{{ category.categoryName }}</td>
                         <td data-label="單價" class="is-center">${{ category.cost }}</td>
                         <td data-label="數量" class="is-center">
-                            <select class="o-selectbox" (change)="selectTickCategory(index, $event)">
+                            <select class="o-selectbox" [(ngModel)]="ticketSelect.ticketCategory[index].count"
+                                (ngModelChange)="selectTickCategory($event, index)">
                                 <option [value]="item" *ngFor="let item of ticketCount">
                                     {{ item }}
                                 </option>

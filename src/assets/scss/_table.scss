@@ -3,7 +3,7 @@
     border-collapse: collapse;
     tr {
         th {
-            padding: 20px;
+            padding: 16px;
             text-align: left;
             &.is-center {
                 text-align: center;
@@ -11,7 +11,7 @@
         }
 
         td {
-            padding: 20px;
+            padding: 16px;
             &.is-center {
                 text-align: center;
             }
@@ -37,11 +37,11 @@
 
             tr {
                 display: block;
-                margin-bottom: 15px;
-                padding: 10px;
+                margin-bottom: 16px;
+                padding: 12px;
                 border: 1px solid #ddd;
                 background-color: white;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                 border-radius: 8px;
                 overflow: hidden;
 
@@ -58,7 +58,7 @@
                         width: 6em;
                         flex: 0 0 auto;
                         font-weight: bold;
-                        margin-right: 15px;
+                        margin-right: 16px;
                         color: #333;
                     }
                 }

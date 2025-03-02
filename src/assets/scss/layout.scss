@@ -5,18 +5,12 @@
     max-height: 1000000px;
 }
 
-html,
-body {
-}
-
 .l-container {
     height: 100%;
 }
 
 .l-main {
-    @include breakpoint-down("mobile") {
-        margin-top: 58px;
-    }
+    margin-top: 68px;
 }
 
 .l-footer {

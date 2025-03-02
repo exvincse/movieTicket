@@ -5,7 +5,6 @@ h4,
 h5,
 h6,
 p {
-
     &.t1,
     &.t2,
     &.t3,
@@ -51,15 +50,22 @@ p {
         align-items: center;
         max-width: 1216px;
         margin: 0 auto;
+        padding: 0 16px;
     }
-    
+
     &__title {
         font-size: 24px;
         letter-spacing: 0.5em;
         padding: 10px;
         border-left: 1px solid rgb(230, 230, 230);
         border-right: 1px solid rgb(230, 230, 230);
-        background: repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.067), rgba(0, 0, 0, 0.067) 2px, rgba(0, 0, 0, 0) 2px, rgba(0, 0, 0, 0) 4px);
+        background: repeating-linear-gradient(
+            -45deg,
+            rgba(0, 0, 0, 0.067),
+            rgba(0, 0, 0, 0.067) 2px,
+            rgba(0, 0, 0, 0) 2px,
+            rgba(0, 0, 0, 0) 4px
+        );
     }
 
     &__link {
@@ -72,7 +78,7 @@ p {
     margin: 0;
     font-size: 20px;
     font-weight: bold;
-    color: #3791EA;
+    color: #3791ea;
 
     &--sub {
         font-size: 18px;
@@ -100,7 +106,7 @@ p {
         display: block;
         width: 5px;
         height: 100%;
-        background-color: #3791EA;
+        background-color: #3791ea;
     }
 
     &--love {
@@ -115,7 +121,6 @@ p {
             background-color: #ffae9e;
         }
     }
-
 
     &--umbrella {
         &::before {
@@ -135,7 +140,8 @@ p {
     display: flex;
     margin-bottom: 16px;
 
-    &__main {}
+    &__main {
+    }
 
     &__sub {
         display: flex;

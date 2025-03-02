@@ -34,7 +34,6 @@
                             "node_modules/glightbox/dist/css/glightbox.min.css",
                             "node_modules/overlayscrollbars/styles/overlayscrollbars.css",
                             "node_modules/flatpickr/dist/flatpickr.min.css",
-                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "node_modules/swiper/swiper-bundle.min.css",
                             {
                                 "input": "src/assets/scss/normalize.scss",
@@ -119,7 +118,6 @@
                         "styles": [
                             "node_modules/overlayscrollbars/styles/overlayscrollbars.css",
                             "node_modules/flatpickr/dist/flatpickr.min.css",
-                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "node_modules/swiper/swiper-bundle.min.css",
                             {
                                 "input": "src/assets/scss/normalize.scss",

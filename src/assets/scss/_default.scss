@@ -2,8 +2,6 @@
    Base styles: opinionated defaults
    ========================================================================== */
 
-@import '_googleFont';
-
 html,
 body {
     @include font-family;
@@ -86,7 +84,6 @@ fieldset {
 textarea {
     resize: vertical;
 }
-
 
 /* ==========================================================================
    Browser Upgrade Prompt

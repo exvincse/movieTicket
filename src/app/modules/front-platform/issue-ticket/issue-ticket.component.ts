@@ -218,11 +218,11 @@ export class IssueTicketComponent implements OnInit {
 
     /**
      * 選擇票種
-     * @param index index
      * @param event Event
+     * @param index index
      */
-    selectTickCategory(index: number, event: Event) {
-        this.ticketSelect.ticketCategory[index].count = parseInt((event.target as HTMLInputElement).value, 10);
+    selectTickCategory(event: any, index: number) {
+        this.ticketSelect.ticketCategory[index].count = parseInt(event, 10);
     }
 
     /**

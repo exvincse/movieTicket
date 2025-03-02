@@ -1,16 +1,14 @@
 .l-header {
+    position: fixed;
     display: flex;
+    width: 100%;
+    top: 0;
     justify-content: space-between;
     align-items: center;
     background-color: #2660a9;
     padding: 10px 20px;
-
-    @include breakpoint-down("mobile") {
-        position: fixed;
-        width: 100%;
-        z-index: 1000;
-        top: 0;
-    }
+    box-sizing: border-box;
+    z-index: 1000;
 }
 
 .c-logo {

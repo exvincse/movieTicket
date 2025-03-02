@@ -1,15 +1,14 @@
+<div class="l-headingBar">
+    <div class="l-headingBar__wrap">
+        <div class="l-headingBar__content">
+            <div class="l-headingBar__title">現正熱映</div>
+        </div>
+    </div>
+</div>
 <div class="l-movie">
     <div class="l-movie__item">
         <div class="l-movie__header">
-            <div class="l-headingBar">
-                <div class="l-headingBar__wrap">
-                    <div class="l-headingBar__content">
-                        <div class="l-headingBar__title">現正熱映</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="l-card">
+            <div class="l-form">
                 <div class="c-form u-gapT-sm" [formGroup]="searchForm">
                     <div class="c-form__item">
                         <div class="c-form__require">
@@ -53,9 +52,9 @@
                         </div>
                     </div>
 
-                    <div class="c-form__item">
-                        <a href="#" appStopPropagation class="c-btn" [class.is-disabled]="searchForm.invalid"
-                            (click)="submitForm()">送出</a>
+                    <div class="c-form__action">
+                        <a href="#" appStopPropagation class="c-btn c-btn--fullMb"
+                            [class.is-disabled]="searchForm.invalid" (click)="submitForm()">送出</a>
                     </div>
                 </div>
             </div>
