@@ -3,7 +3,7 @@ import {
     APP_INITIALIZER, ApplicationConfig, importProvidersFrom, Injector, isDevMode, provideZoneChangeDetection
 } from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
-import { provideRouter } from "@angular/router";
+import { provideRouter, withHashLocation } from "@angular/router";
 import { provideEffects } from "@ngrx/effects";
 import { provideStore } from "@ngrx/store";
 import { provideStoreDevtools } from "@ngrx/store-devtools";
@@ -18,7 +18,7 @@ import { appReducer } from "./store/app.reducer";
 export const appConfig: ApplicationConfig = {
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),
-        provideRouter(routes),
+        provideRouter(routes, withHashLocation()),
         provideAnimations(),
         provideHttpClient(
             withInterceptors([

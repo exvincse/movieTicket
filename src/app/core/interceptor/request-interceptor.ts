@@ -25,13 +25,17 @@ export const RequestInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, nex
     if (!req.urlWithParams.includes("Login") && token !== undefined) {
         return next(req.clone({
             setHeaders: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                "Ocp-Apim-Subscription-Key": "94da4ce3069a4d1ab952d5cb142d2640"
             },
             withCredentials: true
         }));
     }
 
     return next(req.clone({
+        setHeaders: {
+            "Ocp-Apim-Subscription-Key": "94da4ce3069a4d1ab952d5cb142d2640"
+        },
         withCredentials: true
     }));
 };

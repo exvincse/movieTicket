@@ -12,8 +12,8 @@ import {
 
 import { CookieService } from "../../services/cookie.service";
 import { LoaderService } from "../../services/loader/loader.service";
+import { TextAlertComponent } from "../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../shared/base/component/sweet-alert/service/sweet-alert.service";
-import { SweetAlertComponent } from "../../shared/base/component/sweet-alert/sweet-alert.component";
 import { UserStoreService } from "../../store/user/service/user-store.service";
 import { UserRepositoryService } from "../api/middleware/user/user-repository.service";
 import { BaseApiOutputModel } from "../models/outputViewModels/base/base-api-output-model";
@@ -66,7 +66,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
                     }),
                     catchError(() => {
                         userStoreService.setClearUserData();
-                        const ref = sweetAlertService.open(SweetAlertComponent, {
+                        const ref = sweetAlertService.open(TextAlertComponent, {
                             icon: "error",
                             data: {
                                 text: "登入已逾時，請重新登入"
@@ -84,7 +84,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
 
             if (error.error?.result?.isRepeatLogin === true) {
                 userStoreService.setClearUserData();
-                const ref = sweetAlertService.open(SweetAlertComponent, {
+                const ref = sweetAlertService.open(TextAlertComponent, {
                     icon: "error",
                     data: {
                         text: "登入已逾時，請重新登入"
