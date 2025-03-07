@@ -30,3 +30,7 @@
         </tr>
     </tbody>
 </table>
+
+<ng-container *ngIf="total > 0">
+    <app-pager [total]="total" [nowPage]="nowPage" (changePageEmitter)="changePageEmitter($event)"></app-pager>
+</ng-container>

@@ -39,7 +39,7 @@ export class PagerComponent {
             return;
         }
 
-        this._total = 15;
+        this._total = v;
     }
 
     _total = 1;

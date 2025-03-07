@@ -11,6 +11,9 @@
 
 .l-main {
     margin-top: 68px;
+    &__content {
+        min-height: calc(100vh - 168px);
+    }
 }
 
 .l-footer {
