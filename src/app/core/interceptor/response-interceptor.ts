@@ -47,6 +47,17 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
                 const responseBody = response.body as BaseApiOutputModel<boolean>;
                 if (responseBody.result === false) {
                     userStoreService.setClearUserData();
+
+                    const ref = sweetAlertService.open(TextAlertComponent, {
+                        icon: "error",
+                        data: {
+                            text: "登入已逾時，請重新登入"
+                        }
+                    });
+
+                    ref.instance.afterClose.subscribe(() => {
+                        router.navigate(["/"]);
+                    });
                 }
             }
             return response;
