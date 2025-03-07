@@ -4,7 +4,8 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build --base-href / --deploy-url / --configuration production",
+        "start.prod": "ng serve --configuration production",
+        "build": "ng build --configuration production --output-path \"C:/Users/exvin/Desktop/movieTickApi/movieTickApi/wwwroot\"",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "lint": "ng lint"
