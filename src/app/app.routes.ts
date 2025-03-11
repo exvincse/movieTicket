@@ -43,6 +43,21 @@ export const routes: Routes = [
                 // eslint-disable-next-line jsdoc/require-jsdoc
                 loadComponent: () => import("./modules/front-platform/personal/personal.component").then((m) => m.PersonalComponent),
                 children: [...personalRoutes]
+            },
+            {
+                path: "paypal-check",
+                // eslint-disable-next-line jsdoc/require-jsdoc
+                loadComponent: () => import("./modules/front-platform/pay-pal/pay-pal-check/pay-pal-check.component").then((m) => m.PayPalCheckComponent),
+            },
+            {
+                path: "paypal-success",
+                // eslint-disable-next-line jsdoc/require-jsdoc
+                loadComponent: () => import("./modules/front-platform/pay-pal/pay-pal-success/pay-pal-success.component").then((m) => m.PayPalSuccessComponent),
+            },
+            {
+                path: "paypal-error",
+                // eslint-disable-next-line jsdoc/require-jsdoc
+                loadComponent: () => import("./modules/front-platform/pay-pal/pay-pal-error/pay-pal-error.component").then((m) => m.PayPalErrorComponent),
             }
         ]
     },

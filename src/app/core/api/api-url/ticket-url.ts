@@ -10,5 +10,5 @@ export const TicketUrl = {
     // 取得個人票券
     getPersonalTicketList: "Ticket/GetPersonalTicketList",
     // 建立paypal付款訂單
-    postCreatePayment: "Paypal/PostCreatePayment",
+    postSuccessOrder: "Paypal/PostSuccessOrder",
 };

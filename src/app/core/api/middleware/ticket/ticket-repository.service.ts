@@ -54,7 +54,7 @@ export class TicketRepositoryService {
      * @param param param
      * @returns any
      */
-    postSealTicket<T>(param: T): Observable<BaseApiOutputModel<boolean>> {
+    postSealTicket<T>(param: T): Observable<BaseApiOutputModel<boolean & string>> {
         return this.restfulApiService.post(TicketUrl.postSealTicket, param);
     }
 
@@ -68,11 +68,11 @@ export class TicketRepositoryService {
     }
 
     /**
-     * 取得paypal付款url
+     * 取得paypal訂單是否付款成功
      * @param param param
      * @returns any
      */
-    postPostCreatePayment(param: PaypalPaymentInputModel): Observable<BaseApiOutputModel<{ approvalUrl: string }>> {
-        return this.restfulApiService.post(TicketUrl.postCreatePayment, param);
+    postSuccessOrder<T>(param: T): Observable<BaseApiOutputModel<boolean>> {
+        return this.restfulApiService.post(TicketUrl.postSuccessOrder, param);
     }
 }
