@@ -94,8 +94,6 @@ export class IssueTicketComponent implements OnInit {
         }
     };
 
-    isSubmitSuccess = false;
-
     /**
      * on init
      */
@@ -232,40 +230,44 @@ export class IssueTicketComponent implements OnInit {
     submitTicket(seat: Seat[]) {
         this.userStoreService.getUserData().subscribe((user) => {
             if (user !== null && user.userNo !== 0) {
-                const ticketSeat = seat.map((x) => ({
-                    column: x.column,
-                    seat: x.seat
-                }));
-
                 const ticketCategory: TicketParam[] = [];
+
                 let count = 0;
+                // 把票卷語言分類、票種、座位資料合併
                 this.ticketSelect.ticketCategory.filter((x) => x.count > 0).forEach((y) => {
                     for (let i = 0; i < y.count; i += 1) {
                         ticketCategory.push({
                             ...y,
-                            column: ticketSeat[count].column,
-                            seat: ticketSeat[count].seat ?? 0,
+                            column: seat[count].column,
+                            seat: seat[count].seat ?? 0,
                         });
 
                         count += 1;
                     }
                 });
 
+                // 總金額
+                const { cost } = ticketCategory.reduce((acc, cur) => ({ cost: acc.cost + cur.cost }), { cost: 0 });
+
                 const param = {
                     movieId: this.movieDetail.id,
+                    movieName: this.movieDetail.title,
                     ticketDateTime: moment(`${this.ticketSelect.date} ${this.ticketSelect.time}`, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm:ss"),
                     ticketLanguageCode: this.ticketSelect.ticketLanguageCode,
                     ticketLanguageName: this.ticketSelect.ticketLanguageName,
-                    ticketCategory
+                    ticketCategory,
+                    totalCost: cost
                 };
 
                 this.ticketRepositoryService.postSealTicket(param).subscribe((res) => {
-                    this.isSubmitSuccess = res.result;
-                    if (res.result === true) {
-                        const { cost } = param.ticketCategory.reduce((acc, cur) => ({ cost: acc.cost + cur.cost }), { cost: 0 });
-                        this.ticketRepositoryService.postPostCreatePayment({ total: cost }).subscribe((payPalres) => {
-                            if (payPalres.result.approvalUrl) {
-                                window.location.href = payPalres.result.approvalUrl;
+                    if (res.result !== false) {
+                        // 後端回傳paypal付款連結
+                        window.location.href = res.result;
+                    } else {
+                        this.sweetAlertService.open(TextAlertComponent, {
+                            icon: "error",
+                            data: {
+                                text: res.message
                             }
                         });
                     }
@@ -287,7 +289,8 @@ export class IssueTicketComponent implements OnInit {
     selectSeat() {
         const param = {
             movieId: this.movieDetail.id,
-            movieTicketDateTime: moment(`${this.ticketSelect.date} ${this.ticketSelect.time}`, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm:ss")
+            movieTicketDateTime: moment(`${this.ticketSelect.date} ${this.ticketSelect.time}`, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm:ss"),
+            ticketLanguageCode: this.ticketSelect.ticketLanguageCode
         };
 
         this.postSelectSeat(param);

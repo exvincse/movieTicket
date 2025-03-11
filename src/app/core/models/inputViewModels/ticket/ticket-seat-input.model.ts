@@ -2,4 +2,5 @@
 export interface TickSeatInputModel {
     movieId: number;
     movieTicketDateTime: string;
+    ticketLanguageCode: string;
 }

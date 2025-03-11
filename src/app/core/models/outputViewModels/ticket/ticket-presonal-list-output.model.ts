@@ -9,11 +9,16 @@ export interface TicketPersonalOutputModel {
 }
 
 export interface TicketPersonalItem {
+    movieName: string;
     ticketDate: string;
-    ticketCategoryName: string;
     ticketLanguageName: string;
-    column: number;
-    seat: number;
+    ticketPersonalItem: {
+        ticketCategoryName: string;
+        ticketColumn: number;
+        ticketSeat: number;
+        ticketMoney: number;
+    }[],
+    ticketStatusName: string;
 }
 
 // 個人票卷(含基本回傳格式)

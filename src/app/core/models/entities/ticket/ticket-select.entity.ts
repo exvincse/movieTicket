@@ -9,16 +9,6 @@ export interface TicketSelect {
     ticketCategory: (TicketCategoryEntity & { count: number })[];
 }
 
-// 電影座位
-export interface TicketSeat {
-    column: number
-    seat: {
-        disableSeat: boolean;
-        isSelect: boolean;
-        no: number
-    }
-}
-
 export interface Seat {
     column: number;
     seat: number | null;
