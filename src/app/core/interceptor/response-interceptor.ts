@@ -4,6 +4,8 @@ import {
 } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { Router } from "@angular/router";
+import { TextAlertComponent } from "@shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
+import { SweetAlertService } from "@shared/base/component/sweet-alert/service/sweet-alert.service";
 import {
     catchError, concatMap, finalize, Observable,
     tap,
@@ -12,8 +14,6 @@ import {
 
 import { CookieService } from "../../services/cookie.service";
 import { LoaderService } from "../../services/loader/loader.service";
-import { TextAlertComponent } from "../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
-import { SweetAlertService } from "../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { UserStoreService } from "../../store/user/service/user-store.service";
 import { UserRepositoryService } from "../api/middleware/user/user-repository.service";
 import { BaseApiOutputModel } from "../models/outputViewModels/base/base-api-output-model";
@@ -66,7 +66,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
             if (error.status === 401 && error.error?.result?.isReNewToken === true) {
                 return userRepositoryService.getReFreshToken().pipe(
                     concatMap((res) => {
-                        cookiesService.set("accessToken", res.result.accessToken, 5);
+                        cookiesService.set("accessToken", res.result.accessToken, 60);
 
                         const modifiedReq = req.clone({
                             setHeaders: {
