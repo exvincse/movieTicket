@@ -1,6 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { Subscription } from "rxjs";
 
 import { TicketRepositoryService } from "../../../../core/api/middleware/ticket/ticket-repository.service";
@@ -9,6 +11,7 @@ import {
     TicketPersonalItem
 } from "../../../../core/models/outputViewModels/ticket/ticket-presonal-list-output.model";
 import { PagerComponent } from "../../../../shared/base/component/pager/pager.component";
+import { StopPropagationDirective } from "../../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
 import { UserStoreService } from "../../../../store/user/service/user-store.service";
 
 /**
@@ -19,7 +22,9 @@ import { UserStoreService } from "../../../../store/user/service/user-store.serv
     standalone: true,
     imports: [
         CommonModule,
-        PagerComponent
+        FontAwesomeModule,
+        PagerComponent,
+        StopPropagationDirective
     ],
     templateUrl: "./ticket.component.html",
     styleUrl: "./ticket.component.scss"
@@ -50,6 +55,9 @@ export class TicketComponent implements OnInit {
         });
     }
 
+    faChevronDown = faChevronDown;
+    faChevronUp = faChevronUp;
+
     userNo = 0;
 
     total = 0;
@@ -61,6 +69,8 @@ export class TicketComponent implements OnInit {
     sub: Subscription;
 
     ticketPersonalList: TicketPersonalItem[] = [];
+
+    menuList: boolean[] = [];
 
     /**
      * ngOnInit
@@ -86,11 +96,20 @@ export class TicketComponent implements OnInit {
      */
     getPersonalTicketList(param: TicketPersonalListLnputModel) {
         this.ticketRepositoryService.getPersonalTicketList(param).subscribe((res) => {
+            this.menuList = res.result.result.map((item) => !item);
             this.ticketPersonalList = res.result.result;
             this.total = res.result.totalPage;
             this.nowPage = res.result.pageIndex;
             this.pageSize = res.result.pageSize;
         });
+    }
+
+    /**
+     * toggleVisibility
+     * @param lv lv
+     */
+    toggleVisibility(lv: number) {
+        this.menuList = this.menuList.map((value, index) => (index === lv ? !value : false));
     }
 
     /**

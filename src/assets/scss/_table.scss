@@ -1,20 +1,18 @@
 .c-table {
     width: 100%;
     border-collapse: collapse;
-    tr {
-        th {
-            padding: 16px;
-            text-align: left;
-            &.is-center {
-                text-align: center;
-            }
+    th {
+        padding: 16px;
+        text-align: left;
+        &.is-center {
+            text-align: center;
         }
+    }
 
-        td {
-            padding: 16px;
-            &.is-center {
-                text-align: center;
-            }
+    td {
+        padding: 16px;
+        &.is-center {
+            text-align: center;
         }
     }
 
@@ -24,8 +22,62 @@
         }
     }
 
-    /* 手機版卡片佈局 */
-    @include breakpoint-down("mobile") {
+    &--collapse {
+        border: 1px solid rgb(204, 204, 204);
+
+        th,
+        td {
+            border-top: 1px solid rgb(204, 204, 204);
+            border-bottom: 1px solid rgb(204, 204, 204);
+        }
+    }
+
+    &__accordionWrap {
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+    }
+
+    &__accordion {
+        background: rgb(204, 204, 204);
+        // table {
+        //     width: 100%;
+        //     table-layout: fixed;
+        //     border-collapse: collapse;
+
+        //     thead {
+        //         display: table-header-group;
+        //         width: 100%;
+        //         table-layout: fixed;
+        //     }
+
+        //     tbody {
+        //         display: block;
+        //         max-height: 200px;
+        //         overflow-y: auto;
+
+        //         tr {
+        //             display: table;
+        //             width: 100%;
+        //             table-layout: fixed;
+        //         }
+        //     }
+        // }
+        th {
+            border-top: none;
+        }
+
+        td {
+            border-bottom: none;
+        }
+
+        &:first-child {
+            padding: 0;
+        }
+    }
+
+    @include breakpoint-down("tablet") {
         &--card {
             colgroup {
                 display: none;
@@ -48,6 +100,7 @@
                 td {
                     display: flex;
                     align-items: center;
+                    border: none;
 
                     &.is-center {
                         text-align: left;
@@ -62,6 +115,83 @@
                         color: #333;
                     }
                 }
+            }
+        }
+
+        &--card#{&}--collapse {
+            display: flex;
+            flex-wrap: wrap;
+            width: auto !important;
+            margin-left: -8px;
+            margin-right: -8px;
+            text-align: left;
+            border: none;
+
+            & > tbody {
+                flex: 0 0 auto;
+                box-sizing: border-box;
+                display: block;
+                width: calc(50% - 16px);
+                margin: 8px 8px 0;
+                padding: 8px 0;
+                border-radius: 6px;
+                //box-shadow: 0 3px 6px 0 rgba(70, 91, 144, 0.1);
+                background-color: #fff;
+
+                &:nth-of-type(1),
+                &:nth-of-type(2) {
+                    margin-top: 0;
+                }
+
+                tr {
+                    width: 100%;
+                    margin: 0;
+                    padding: 0;
+                    border-radius: 0;
+                    box-shadow: none;
+                    background-color: transparent;
+
+                    td {
+                        border-top: none;
+                    }
+                }
+
+                &.is-padFull {
+                    width: calc(100% - 16px);
+
+                    &:nth-of-type(2) {
+                        margin-top: 16px;
+                    }
+                }
+            }
+        }
+
+        &--card#{&}--collapse & {
+            &__collapse {
+                display: none;
+            }
+
+            &__accordionWrap {
+                display: block;
+
+                &.is-open {
+                    display: block;
+                }
+            }
+
+            &__top {
+                padding-left: 16px;
+            }
+        }
+    }
+
+    /* 手機版卡片佈局 */
+    @include breakpoint-down("mobile") {
+        &--card#{&}--collapse {
+            margin: 0;
+            & > tbody {
+                width: 100%;
+                margin: 0;
             }
         }
     }
