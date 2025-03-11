@@ -12,7 +12,6 @@ import {
 import { Router, RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import moment from "moment";
 import { lastValueFrom } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
@@ -73,35 +72,26 @@ export class LoginComponent implements OnInit {
 
     isHiddenEye = true;
 
-    loginBg = "";
+    bgPic = "";
 
     /**
      * ngOninit
      */
     async ngOnInit() {
-        const hotStartDate = moment().startOf("month");
-        const hotEndDate = moment().endOf("month");
-        const hotRes = await this.getAllMovieList(1, hotStartDate.format("YYYY-MM-DD"), hotEndDate.format("YYYY-MM-DD"));
-        this.loginBg = hotRes.results[0].backdrop_path;
+        const res = await this.getMovieDetail();
+        this.bgPic = res.backdrop_path;
     }
 
     /**
-     * getAllMovieList
-     * @param page page
-     * @param startDate startDate
-     * @param endDate endDate
+     * getMovieDetail
      * @returns res res
      */
-    async getAllMovieList(page = 1, startDate?: string, endDate?: string) {
+    async getMovieDetail() {
         const params = {
             language: "zh-TW",
-            sort_by: "popularity.desc",
-            "primary_release_date.gte": startDate || "",
-            "primary_release_date.lte": endDate || "",
-            page
         };
 
-        const res = await lastValueFrom(this.tmdbRepositoryService.getMovieList(params));
+        const res = await lastValueFrom(this.tmdbRepositoryService.getMovieDetail("1104845", params));
         return res;
     }
 
@@ -125,7 +115,7 @@ export class LoginComponent implements OnInit {
 
             this.userRepositoryService.postLogin(param).subscribe((res) => {
                 if (res.result.accessToken) {
-                    this.cookieService.set("accessToken", res.result.accessToken, 5);
+                    this.cookieService.set("accessToken", res.result.accessToken, 60);
                     this.userRepositoryService.getUserProfile();
                     this.router.navigate(["/"]);
                 } else {

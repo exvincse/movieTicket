@@ -1,10 +1,12 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
     FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators
 } from "@angular/forms";
 import { Router } from "@angular/router";
+import { lastValueFrom } from "rxjs";
 
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
 import { FormValidatorService } from "../../../services/form-validator/form-validator.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
@@ -21,19 +23,21 @@ import { ResetPasswordComponent } from "../reset-password/reset-password.compone
     templateUrl: "./forget-password.component.html",
     styleUrl: "./forget-password.component.scss"
 })
-export class ForgetPasswordComponent {
+export class ForgetPasswordComponent implements OnInit {
     /**
      * constructor
      * @param fb FormBuilder
      * @param formValidatorService FormValidatorService
      * @param router Router
      * @param userRepositoryService UserRepositoryService
+     * @param tmdbRepositoryService TmdbRepositoryService
      */
     constructor(
         public fb: FormBuilder,
         public formValidatorService: FormValidatorService,
         public router: Router,
-        public userRepositoryService: UserRepositoryService
+        public userRepositoryService: UserRepositoryService,
+        public tmdbRepositoryService: TmdbRepositoryService
     ) {
         this.forgetForm = this.fb.group({
             email: ["", {
@@ -49,12 +53,22 @@ export class ForgetPasswordComponent {
 
     currentStep: "email" | "otp" | "resetPassword" = "email";
 
+    bgPic = "";
+
     /**
      * Gets the email form control.
      * @returns {AbstractControl | null} The email form control.
      */
     get otpEmail() {
         return this.forgetForm.get("email")?.value;
+    }
+
+    /**
+     * ngOninit
+     */
+    async ngOnInit() {
+        const res = await this.getMovieDetail();
+        this.bgPic = res.backdrop_path;
     }
 
     /**
@@ -79,5 +93,18 @@ export class ForgetPasswordComponent {
         if (isValid === true) {
             this.currentStep = "resetPassword";
         }
+    }
+
+    /**
+     * getMovieDetail
+     * @returns res res
+     */
+    async getMovieDetail() {
+        const params = {
+            language: "zh-TW",
+        };
+
+        const res = await lastValueFrom(this.tmdbRepositoryService.getMovieDetail("1104845", params));
+        return res;
     }
 }

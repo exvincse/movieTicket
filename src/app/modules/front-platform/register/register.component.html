@@ -1,4 +1,6 @@
-<div class="l-login l-login--register">
+<div class="l-login l-login--register" [ngStyle]="{
+    'background-image': 'url('+ 'https://image.tmdb.org/t/p/original' + bgPic + ')',
+  }">
     <div class="l-login__content">
         <div class="l-login__item">
             <div [ngSwitch]="currentStep">
@@ -25,6 +27,10 @@
                                         <div class="c-form__error"
                                             *ngIf="registerForm.controls['email'].hasError('pattern')">
                                             請輸入正確email格式
+                                        </div>
+                                        <div class="c-form__error"
+                                            *ngIf="registerForm.controls['email'].hasError('emailExistGmail')">
+                                            email不符合gmail格式
                                         </div>
                                         <div class="c-form__error"
                                             *ngIf="registerForm.controls['email'].hasError('emailExist')">

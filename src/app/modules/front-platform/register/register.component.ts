@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import {
     FormBuilder, FormGroup, FormsModule, ReactiveFormsModule,
     Validators
@@ -7,7 +7,9 @@ import {
 import { Router, RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { lastValueFrom } from "rxjs";
 
+import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
 import { CookieService } from "../../../services/cookie.service";
 import { FormValidatorService } from "../../../services/form-validator/form-validator.service";
@@ -34,19 +36,14 @@ import { OtpValidComponent } from "../otp-valid/otp-valid.component";
     templateUrl: "./register.component.html",
     styleUrl: "./register.component.scss"
 })
-export class RegisterComponent {
-    faEye = faEye;
-    faEyeSlash = faEyeSlash;
-
-    isHiddenEye = true;
-    isHiddenCheckEye = true;
-
+export class RegisterComponent implements OnInit {
     /**
      * constructor
      * @param fb FormBuilder
      * @param formValidatorService FormValidatorService
      * @param router Router
      * @param userRepositoryService UserRepositoryService
+     * @param tmdbRepositoryService TmdbRepositoryService
      * @param cookieService CookieService
      * @param sweetAlertService SweetAlertService
      */
@@ -55,14 +52,11 @@ export class RegisterComponent {
         public formValidatorService: FormValidatorService,
         public router: Router,
         public userRepositoryService: UserRepositoryService,
+        public tmdbRepositoryService: TmdbRepositoryService,
         public cookieService: CookieService,
         public sweetAlertService: SweetAlertService
     ) {
         this.registerForm = this.fb.group({
-            // email: ["", [
-            //     Validators.required,
-            //     Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-            // ], this.formValidatorService.emailValidator()],
             email: ["", {
                 validators: [
                     Validators.required,
@@ -79,6 +73,22 @@ export class RegisterComponent {
     registerForm!: FormGroup;
 
     currentStep: "register" | "otp" = "register";
+
+    faEye = faEye;
+    faEyeSlash = faEyeSlash;
+
+    isHiddenEye = true;
+    isHiddenCheckEye = true;
+
+    bgPic = "";
+
+    /**
+     * ngOninit
+     */
+    async ngOnInit() {
+        const res = await this.getMovieDetail();
+        this.bgPic = res.backdrop_path;
+    }
 
     /**
      * Gets the email form control.
@@ -134,7 +144,7 @@ export class RegisterComponent {
                     }
                 });
                 ref.instance.afterClose.subscribe(() => {
-                    this.cookieService.set("accessToken", res.result.accessToken, 5);
+                    this.cookieService.set("accessToken", res.result.accessToken, 60);
                     this.userRepositoryService.getUserProfile();
                     this.router.navigate(["/"]);
                 });
@@ -147,5 +157,18 @@ export class RegisterComponent {
                 });
             }
         });
+    }
+
+    /**
+     * getMovieDetail
+     * @returns res res
+     */
+    async getMovieDetail() {
+        const params = {
+            language: "zh-TW",
+        };
+
+        const res = await lastValueFrom(this.tmdbRepositoryService.getMovieDetail("1104845", params));
+        return res;
     }
 }
