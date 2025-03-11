@@ -1,0 +1,51 @@
+<div class="l-card l-card--popup" *ngIf="movieDetail.title">
+    <div class="c-movieCard c-movieCard--popup">
+        <div class="c-movieCard__img c-movieCard__img--detail"
+            [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ movieDetail.poster_path + ')'}">
+        </div>
+        <div class="c-movieCard__content">
+            <div class="l-movieDetail">
+                <div class="l-movieDetail__head">
+                    <div class="l-movieDetail__title">{{ movieDetail.title }}</div>
+                    <div class="l-movieDetail__subTitle">{{ movieDetail.original_title }}</div>
+                </div>
+                <div class="l-movieDetail__content">
+                    <div class="c-form c-form--pupup c-form--column">
+                        <div class="c-form__item">
+                            <div class="c-form__label">級別</div>
+                            <div class="c-form__text">
+                                <img [src]="'assets/images/icons/rating/' + movieDetail.rateImg + '.png'" width="28"
+                                    height="28" alt="" srcset="">
+                            </div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">片長</div>
+                            <div class="c-form__text">{{ movieDetail.runtime }}分</div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">上映日</div>
+                            <div class="c-form__text">{{ movieDetail.release_date }}</div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">類型</div>
+                            <div class="c-form__text">{{ movieDetail.genres }}</div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">演員</div>
+                            <div class="c-form__text">{{ movieDetail.cast }}</div>
+                        </div>
+
+                        <div class="c-form__item">
+                            <div class="c-form__label">導演</div>
+                            <div class="c-form__text">{{ movieDetail.director.name }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

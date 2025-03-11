@@ -5,15 +5,15 @@ import {
 import { RouterModule } from "@angular/router";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faChevronLeft, faChevronRight, faGreaterThan } from "@fortawesome/free-solid-svg-icons";
+import { SweetAlertService } from "@shared/base/component/sweet-alert/service/sweet-alert.service";
+import { StopPropagationDirective } from "@shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { SwiperDirective } from "@shared/base/directives/swiper.directive";
 import moment from "moment";
 import { lastValueFrom } from "rxjs";
 import { SwiperOptions } from "swiper/types";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
-import { GlightboxComponent } from "../../../shared/base/component/glightbox/glightbox.component";
-import { GlightboxService } from "../../../shared/base/component/glightbox/service/glightbox.service";
-import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
-import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
+import { MovieDetailComponent } from "../movie-detail/movie-detail.component";
 
 /**
  * IndexPageComponent
@@ -30,11 +30,11 @@ export class IndexPageComponent implements OnInit {
     /**
      * constructor
      * @param tmdbRepositoryService tmdbRepositoryService
-     * @param glightboxService glightboxService
+     * @param sweetAlertService SweetAlertService
      */
     constructor(
         public tmdbRepositoryService: TmdbRepositoryService,
-        public glightboxService: GlightboxService
+        public sweetAlertService: SweetAlertService
     ) { }
 
     faGreaterThan = faGreaterThan;
@@ -128,13 +128,13 @@ export class IndexPageComponent implements OnInit {
 
     /**
      * openLightbox
-     * @param url url
+     * @param id id
      */
-    openLightbox(url: string): void {
-        this.glightboxService.open(GlightboxComponent, { url });
-        // const ref = this.glightboxService.open(GlightboxComponent, { url });
-        // ref.instance.afterClose.subscribe((res: any) => {
-        //     console.log(res);
-        // });
+    openLightbox(id: any) {
+        this.sweetAlertService.open(MovieDetailComponent, {
+            data: {
+                id
+            }
+        });
     }
 }

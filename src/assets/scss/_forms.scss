@@ -30,6 +30,17 @@
         }
     }
 
+    &--pupup & {
+        &__item {
+            margin-right: 0;
+        }
+
+        &__label,
+        &__text {
+            text-align: left;
+        }
+    }
+
     &__item {
         display: flex;
         align-items: center;
@@ -49,6 +60,7 @@
 
     &__label {
         width: 80px;
+        margin-right: 8px;
     }
 
     &__text {

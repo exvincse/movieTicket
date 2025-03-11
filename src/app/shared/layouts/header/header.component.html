@@ -23,20 +23,6 @@
                 </div>
             </div>
 
-            <!-- <div class="c-menu__item">
-            <a href="#" appStopPropagation class="c-menu__btn" (click)="toggleVisibility(1)">影集類型</a>
-            <div class="c-menu__content">
-                <div class="c-menuLink" [@slideInOut]="menuList[1] ? 'slideIn' : 'slideOut'">
-                    <a href="#" class="c-menuLink__item">動作冒險</a>
-                    <a href="#" class="c-menuLink__item">喜劇</a>
-                    <a href="#" class="c-menuLink__item">劇情</a>
-                    <a href="#" class="c-menuLink__item">科幻奇幻</a>
-                    <a href="#" class="c-menuLink__item">恐怖驚悚</a>
-                    <a href="#" class="c-menuLink__item">動畫</a>
-                </div>
-            </div>
-        </div> -->
-
             <div class="c-menu__item">
                 <ng-container *ngIf="(userData | async)?.name as user; else noLogin">
                     <a href="#" appStopPropagation class="c-menu__btn" (click)="toggleVisibility(1)">

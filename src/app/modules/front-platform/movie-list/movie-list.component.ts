@@ -12,10 +12,10 @@ import { Subscription } from "rxjs";
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { FormValidatorService } from "../../../services/form-validator/form-validator.service";
 import { DatePickerComponent } from "../../../shared/base/component/date-picker/date-picker.component";
-import { GlightboxComponent } from "../../../shared/base/component/glightbox/glightbox.component";
-import { GlightboxService } from "../../../shared/base/component/glightbox/service/glightbox.service";
 import { PagerComponent } from "../../../shared/base/component/pager/pager.component";
+import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { MovieDetailComponent } from "../movie-detail/movie-detail.component";
 
 /**
  * MovieListComponent
@@ -40,7 +40,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
      * constructor
      * @param tmdbRepositoryService TmdbRepositoryService
      * @param formValidatorService FormValidatorService
-     * @param glightboxService glightboxService
+     * @param sweetAlertService SweetAlertService
      * @param router router
      * @param route activatedRoute
      * @param fb FormBuilder
@@ -48,7 +48,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
     constructor(
         public tmdbRepositoryService: TmdbRepositoryService,
         public formValidatorService: FormValidatorService,
-        public glightboxService: GlightboxService,
+        public sweetAlertService: SweetAlertService,
         public router: Router,
         public route: ActivatedRoute,
         public fb: FormBuilder
@@ -169,9 +169,13 @@ export class MovieListComponent implements OnInit, OnDestroy {
 
     /**
      * openLightbox
-     * @param url url
+     * @param id id
      */
-    openLightbox(url: string): void {
-        this.glightboxService.open(GlightboxComponent, { url });
+    openLightbox(id: any) {
+        this.sweetAlertService.open(MovieDetailComponent, {
+            data: {
+                id
+            }
+        });
     }
 }

@@ -7,7 +7,7 @@
 </div>
 
 <div class="l-card" *ngIf="movieDetail.title">
-    <div class="c-movieCard c-movieCard--row">
+    <div class="c-movieCard c-movieCard--wrap">
         <div class="c-movieCard__img c-movieCard__img--detail"
             [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ movieDetail.poster_path + ')'}">
         </div>
@@ -81,7 +81,7 @@
         <a href="#" appStopPropagation class="c-dateTab__prev"></a>
         <a href="#" appStopPropagation class="c-dateTab__next"></a>
     </div>
-    <div class="u-gapH-md-t u-gapT-sm-m">
+    <div class="u-gapT-sm">
         <table class="c-table c-table--card c-table--underline">
             <tbody>
                 <tr *ngFor="let item of ticketLanguage">
