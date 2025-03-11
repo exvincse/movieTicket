@@ -128,6 +128,10 @@ export class FormValidatorService {
                 return of(null);
             }
 
+            if (control.value.includes("@gmail") === false) {
+                return of({ emailExistGmail: true, message: "email不符合gmail格式" });
+            }
+
             return this.userRepositoryService.postValidEmail({ email: control.value }).pipe(
                 map((res) => (res.result ? { emailExist: true, message: res.message } : null)),
                 catchError(() => of(null))
