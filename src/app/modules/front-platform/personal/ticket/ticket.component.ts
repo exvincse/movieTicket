@@ -1,6 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { TextAlertComponent } from "@app/shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
+import { SweetAlertService } from "@app/shared/base/component/sweet-alert/service/sweet-alert.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { Subscription } from "rxjs";
@@ -34,12 +36,14 @@ export class TicketComponent implements OnInit {
      * constructor
      * @param ticketRepositoryService TicketRepositoryService
      * @param userStoreService UserStoreService
+     * @param sweetAlertService SweetAlertService
      * @param router router
      * @param route activatedRoute
      */
     constructor(
         public ticketRepositoryService: TicketRepositoryService,
         public userStoreService: UserStoreService,
+        public sweetAlertService: SweetAlertService,
         public router: Router,
         public route: ActivatedRoute,
     ) {
@@ -110,6 +114,25 @@ export class TicketComponent implements OnInit {
      */
     toggleVisibility(lv: number) {
         this.menuList = this.menuList.map((value, index) => (index === lv ? !value : false));
+    }
+
+    /**
+     * getPayPalLink
+     * @param orderId orderId
+     */
+    getPayPalLink(orderId: string) {
+        this.ticketRepositoryService.getOrderDetail({ orderId }).subscribe((res) => {
+            if (res.result !== "") {
+                window.location.href = res.result;
+            } else {
+                this.sweetAlertService.open(TextAlertComponent, {
+                    icon: "error",
+                    data: {
+                        text: res.message
+                    }
+                });
+            }
+        });
     }
 
     /**

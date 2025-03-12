@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import { TickSeatInputModel } from "@app/core/models/inputViewModels/ticket/ticket-seat-input.model";
 import { Observable } from "rxjs";
 
-import { PaypalPaymentInputModel } from "../../../models/inputViewModels/paypal/paypal-payment-input.model";
 import { TicketPersonalListLnputModel } from "../../../models/inputViewModels/ticket/ticket-personal-list-input.model";
 import { BaseApiOutputModel } from "../../../models/outputViewModels/base/base-api-output-model";
 import { TicketCategoryOutputModelEntity } from "../../../models/outputViewModels/ticket/ticket-category-output-model";
@@ -45,8 +45,8 @@ export class TicketRepositoryService {
      * @param param param
      * @returns any
      */
-    postSelectSeat<T>(param: T): Observable<TicketSeatOutputModelEntity> {
-        return this.restfulApiService.post(TicketUrl.postSelectSeat, param);
+    postSelectSeat(param: TickSeatInputModel): Observable<TicketSeatOutputModelEntity> {
+        return this.restfulApiService.post<TicketSeatOutputModelEntity>(TicketUrl.postSelectSeat, param);
     }
 
     /**
@@ -74,5 +74,14 @@ export class TicketRepositoryService {
      */
     postSuccessOrder<T>(param: T): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.post(TicketUrl.postSuccessOrder, param);
+    }
+
+    /**
+     * 取得paypal訂單資料
+     * @param param param
+     * @returns any
+     */
+    getOrderDetail<T>(param: T): Observable<BaseApiOutputModel<string>> {
+        return this.restfulApiService.get(TicketUrl.getOrderDetail, param);
     }
 }

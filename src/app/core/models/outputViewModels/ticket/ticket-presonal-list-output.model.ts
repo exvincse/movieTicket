@@ -19,6 +19,8 @@ export interface TicketPersonalItem {
         ticketMoney: number;
     }[],
     ticketStatusName: string;
+    ticketStatusId: number;
+    createOrderId: string;
 }
 
 // 個人票卷(含基本回傳格式)
