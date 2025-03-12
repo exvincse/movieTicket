@@ -45,7 +45,8 @@
                             "src/assets/scss/main.scss",
                             "src/assets/scss/seat.scss",
                             "src/assets/scss/login.scss",
-                            "src/assets/scss/otp.scss"
+                            "src/assets/scss/otp.scss",
+                            "src/assets/scss/swal.scss"
                         ],
                         "scripts": [
                             "node_modules/jquery/dist/jquery.min.js"
@@ -128,7 +129,8 @@
                             "src/assets/scss/seat.scss",
                             "src/assets/scss/flatpickr.scss",
                             "src/assets/scss/login.scss",
-                            "src/assets/scss/otp.scss"
+                            "src/assets/scss/otp.scss",
+                            "src/assets/scss/swal.scss"
                         ],
                         "scripts": [
                             "node_modules/jquery/dist/jquery.min.js"
