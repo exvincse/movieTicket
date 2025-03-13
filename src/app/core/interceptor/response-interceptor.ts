@@ -56,7 +56,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
             if (error.status === 401 && error.error?.result?.isReNewToken === true) {
                 return userRepositoryService.getReFreshToken().pipe(
                     concatMap((res) => {
-                        cookiesService.set("accessToken", res.result.accessToken, 5);
+                        cookiesService.set("accessToken", res.result.accessToken, 60);
                         userStoreService.setUserIsLogin(true);
 
                         const modifiedReq = req.clone({

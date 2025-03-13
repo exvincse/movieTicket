@@ -128,7 +128,7 @@ export class ResetPasswordComponent {
                     }
                 });
                 ref.instance.afterClose.subscribe(() => {
-                    this.cookieService.set("accessToken", res.result.accessToken, 5);
+                    this.cookieService.set("accessToken", res.result.accessToken, 60);
                     this.userStoreService.setUserIsLogin(true);
                     this.userRepositoryService.getUserProfile();
                     this.router.navigate(["/"]);
