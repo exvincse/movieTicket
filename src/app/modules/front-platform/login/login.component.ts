@@ -10,6 +10,7 @@ import {
     Validators
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
+import { UserStoreService } from "@app/store/user/service/user-store.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { lastValueFrom } from "rxjs";
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
      * @param router Router
      * @param userRepositoryService UserRepositoryService
      * @param tmdbRepositoryService TmdbRepositoryService
+     * @param userStoreService UserStoreService
      * @param cookieService CookieService
      * @param sweetAlertService SweetAlertService
      */
@@ -53,6 +55,7 @@ export class LoginComponent implements OnInit {
         public router: Router,
         public userRepositoryService: UserRepositoryService,
         public tmdbRepositoryService: TmdbRepositoryService,
+        public userStoreService: UserStoreService,
         public cookieService: CookieService,
         public sweetAlertService: SweetAlertService
     ) {
@@ -115,7 +118,8 @@ export class LoginComponent implements OnInit {
 
             this.userRepositoryService.postLogin(param).subscribe((res) => {
                 if (res.result.accessToken) {
-                    this.cookieService.set("accessToken", res.result.accessToken, 60);
+                    this.cookieService.set("accessToken", res.result.accessToken, 5);
+                    this.userStoreService.setUserIsLogin(true);
                     this.userRepositoryService.getUserProfile();
                     this.router.navigate(["/"]);
                 } else {

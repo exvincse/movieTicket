@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import {
-    BehaviorSubject, concatMap, filter, Observable, of, tap
+    BehaviorSubject, catchError, concatMap, filter, Observable, of, tap,
+    throwError
 } from "rxjs";
 
 import { UserStoreService } from "../../../../store/user/service/user-store.service";
@@ -66,10 +67,17 @@ export class UserRepositoryService {
                     this.refreshTokenSubject.next(res.result.accessToken);
                     this.refreshProgress = false;
                 }),
+                // refresh token如果報錯，通知所有等待中API
+                catchError((error) => {
+                    this.refreshProgress = false;
+                    this.refreshTokenSubject.error(error);
+                    return throwError(() => error);
+                }),
                 concatMap((res) => of(res))
             );
         }
 
+        // 如果有api進行換發token，其他api等候訂閱通知
         return this.refreshTokenSubject.asObservable().pipe(
             filter((token) => token !== null),
             concatMap((token) => of({

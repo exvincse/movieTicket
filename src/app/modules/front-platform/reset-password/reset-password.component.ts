@@ -4,6 +4,7 @@ import {
     FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
+import { UserStoreService } from "@app/store/user/service/user-store.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -46,6 +47,7 @@ export class ResetPasswordComponent {
      * @param formValidatorService FormValidatorService
      * @param router Router
      * @param userRepositoryService UserRepositoryService
+     * @param userStoreService UserStoreService
      * @param cookieService CookieService
      * @param sweetAlertService SweetAlertService
      */
@@ -54,6 +56,7 @@ export class ResetPasswordComponent {
         public formValidatorService: FormValidatorService,
         public router: Router,
         public userRepositoryService: UserRepositoryService,
+        public userStoreService: UserStoreService,
         public cookieService: CookieService,
         public sweetAlertService: SweetAlertService
     ) {
@@ -125,7 +128,8 @@ export class ResetPasswordComponent {
                     }
                 });
                 ref.instance.afterClose.subscribe(() => {
-                    this.cookieService.set("accessToken", res.result.accessToken, 60);
+                    this.cookieService.set("accessToken", res.result.accessToken, 5);
+                    this.userStoreService.setUserIsLogin(true);
                     this.userRepositoryService.getUserProfile();
                     this.router.navigate(["/"]);
                 });

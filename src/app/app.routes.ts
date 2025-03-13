@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 
+import { CheckLoginAuthGuard } from "./core/guard/check-login.auth.guard";
 import { personalRoutes } from "./modules/front-platform/personal/personal.routes";
 
 export const routes: Routes = [
@@ -40,6 +41,8 @@ export const routes: Routes = [
             },
             {
                 path: "personal",
+                canActivate: [CheckLoginAuthGuard],
+                canActivateChild: [CheckLoginAuthGuard],
                 // eslint-disable-next-line jsdoc/require-jsdoc
                 loadComponent: () => import("./modules/front-platform/personal/personal.component").then((m) => m.PersonalComponent),
                 children: [...personalRoutes]
@@ -58,7 +61,7 @@ export const routes: Routes = [
                 path: "paypal-error",
                 // eslint-disable-next-line jsdoc/require-jsdoc
                 loadComponent: () => import("./modules/front-platform/pay-pal/pay-pal-error/pay-pal-error.component").then((m) => m.PayPalErrorComponent),
-            }
+            },
         ]
     },
 ];

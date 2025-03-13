@@ -47,17 +47,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
                 const responseBody = response.body as BaseApiOutputModel<boolean>;
                 if (responseBody.result === false) {
                     userStoreService.setClearUserData();
-
-                    const ref = sweetAlertService.open(TextAlertComponent, {
-                        icon: "error",
-                        data: {
-                            text: "登入已逾時，請重新登入"
-                        }
-                    });
-
-                    ref.instance.afterClose.subscribe(() => {
-                        router.navigate(["/"]);
-                    });
+                    userStoreService.setUserIsLogin(false);
                 }
             }
             return response;
@@ -66,7 +56,8 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
             if (error.status === 401 && error.error?.result?.isReNewToken === true) {
                 return userRepositoryService.getReFreshToken().pipe(
                     concatMap((res) => {
-                        cookiesService.set("accessToken", res.result.accessToken, 60);
+                        cookiesService.set("accessToken", res.result.accessToken, 5);
+                        userStoreService.setUserIsLogin(true);
 
                         const modifiedReq = req.clone({
                             setHeaders: {
@@ -77,6 +68,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
                     }),
                     catchError(() => {
                         userStoreService.setClearUserData();
+                        userStoreService.setUserIsLogin(false);
                         const ref = sweetAlertService.open(TextAlertComponent, {
                             icon: "error",
                             data: {
@@ -95,6 +87,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
 
             if (error.error?.result?.isRepeatLogin === true) {
                 userStoreService.setClearUserData();
+                userStoreService.setUserIsLogin(false);
                 const ref = sweetAlertService.open(TextAlertComponent, {
                     icon: "error",
                     data: {
