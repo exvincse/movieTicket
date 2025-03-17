@@ -121,8 +121,8 @@ export class TicketComponent implements OnInit {
      * @param orderId orderId
      */
     getPayPalLink(orderId: string) {
-        this.ticketRepositoryService.getOrderDetail({ orderId }).subscribe((res) => {
-            if (res.result !== "") {
+        this.ticketRepositoryService.getOrderLink({ orderId }).subscribe((res) => {
+            if (res.result !== null) {
                 window.location.href = res.result;
             } else {
                 this.sweetAlertService.open(TextAlertComponent, {
