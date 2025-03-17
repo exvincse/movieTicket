@@ -1,1 +1,38 @@
-<p>pay-pal-success works!</p>
+<div class="l-statusBox">
+    <div class="o-statusBox">
+        <fa-icon [icon]="faCircleCheck" [size]="'10x'" class="o-statusBox__img u-light-green"></fa-icon>
+        <p class="o-statusBox__msg">
+            <span class="u-font-lg">付款成功</span><br>
+            <span class="u-font-xl">${{ orderDetail.amount }}</span>
+        </p>
+    </div>
+
+    <div class="l-form u-gapT-sm">
+        <div class="c-form c-form--column">
+            <div class="c-form__item">
+                <div class="c-form__label">訂單編號:</div>
+                <div class="c-form__text u-tar">{{ orderDetail.orderId }}</div>
+            </div>
+            <div class="c-form__item">
+                <div class="c-form__label">付款時間:</div>
+                <div class="c-form__text u-tar">{{ orderDetail.createTime | date:'YYYY-MM-dd HH:mm' }}</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="l-btn l-btn--center u-gapV-sm">
+        <div class="l-btn__item l-btn__item--full">
+            <a href="#" appStopPropagation class="c-btn c-btn--rounded" (click)="navigateNoBack('/personal/ticket')">
+                查看訂單
+            </a>
+        </div>
+
+        <div class="l-btn__item l-btn__item--full">
+            <a href="#" appStopPropagation class="c-btn c-btn--rounded c-btn--reverseColor"
+                (click)="navigateNoBack('/')">
+                返回首頁
+            </a>
+        </div>
+    </div>
+</div>

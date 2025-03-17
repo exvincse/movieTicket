@@ -9,8 +9,8 @@ export const TicketUrl = {
     postSealTicket: "Ticket/PostSealTicket",
     // 取得個人票券
     getPersonalTicketList: "Ticket/GetPersonalTicketList",
-    // 建立paypal付款訂單
-    postSuccessOrder: "Paypal/PostSuccessOrder",
+    // 取得paypal訂單連結
+    getOrderLink: "Paypal/GetOrderLink",
     // 取得paypal訂單資料
     getOrderDetail: "Paypal/GetOrderDetail"
 };
