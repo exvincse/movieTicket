@@ -1,5 +1,4 @@
 .l-form {
-    padding: 0 16px;
     &__title {
         padding: 16px;
 
@@ -16,8 +15,10 @@
 .c-form {
     display: flex;
 
-    &__require {
-        flex-direction: column;
+    &--row & {
+        &__item {
+            margin-right: 10px;
+        }
     }
 
     &--column {
@@ -30,7 +31,7 @@
         }
     }
 
-    &--pupup & {
+    &--popup & {
         &__item {
             margin-right: 0;
         }
@@ -44,7 +45,6 @@
     &__item {
         display: flex;
         align-items: center;
-        margin-right: 10px;
 
         &--column {
             flex-direction: column;
@@ -59,7 +59,7 @@
     }
 
     &__label {
-        width: 80px;
+        width: 6em;
         margin-right: 8px;
     }
 
@@ -82,6 +82,12 @@
         &__item {
             margin-right: 0;
             margin-bottom: 16px;
+        }
+
+        &--row & {
+            &__item {
+                margin-right: 0;
+            }
         }
     }
 }
@@ -235,6 +241,9 @@
 
     &__input:disabled ~ &__text {
         cursor: default;
+        background-color: #e0e0e0;
+        color: #9e9e9e;
+        border: 1px solid #ccc;
     }
 
     &--lg {

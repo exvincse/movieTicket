@@ -10,7 +10,7 @@
                     <div class="l-movieDetail__subTitle">{{ movieDetail.original_title }}</div>
                 </div>
                 <div class="l-movieDetail__content">
-                    <div class="c-form c-form--pupup c-form--column">
+                    <div class="c-form c-form--popup c-form--column">
                         <div class="c-form__item">
                             <div class="c-form__label">級別</div>
                             <div class="c-form__text">
@@ -30,18 +30,8 @@
                         </div>
 
                         <div class="c-form__item">
-                            <div class="c-form__label">類型</div>
-                            <div class="c-form__text">{{ movieDetail.genres }}</div>
-                        </div>
-
-                        <div class="c-form__item">
-                            <div class="c-form__label">演員</div>
-                            <div class="c-form__text">{{ movieDetail.cast }}</div>
-                        </div>
-
-                        <div class="c-form__item">
-                            <div class="c-form__label">導演</div>
-                            <div class="c-form__text">{{ movieDetail.director.name }}</div>
+                            <div class="c-form__label">簡介</div>
+                            <div class="c-form__text">{{ movieDetail.overview || "無" }}</div>
                         </div>
                     </div>
                 </div>

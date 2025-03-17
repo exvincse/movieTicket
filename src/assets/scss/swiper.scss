@@ -21,8 +21,8 @@
     position: relative;
 
     &__item {
-        max-width: 220px;
-        margin: 10px auto;
+        max-width: 235px;
+        margin: 12px auto;
     }
 
     @include breakpoint-down("mobile") {
@@ -36,6 +36,7 @@
 .swiper-container {
     position: relative;
     max-width: 1216px;
+    padding: 0 16px;
 }
 
 .swiper-button-prev,
@@ -43,8 +44,8 @@
     width: 10%;
     font-size: 24px;
     position: absolute;
-    height: calc(100% - 16px);
-    top: calc(50% + 20px);
+    height: calc(100% - 24px);
+    top: calc(50% + 22px);
     transform: translateY(-50%);
     z-index: 10;
 

@@ -44,15 +44,13 @@ export class MovieDetailComponent implements AfterViewInit {
     async getMovieDetail() {
         const converter = OpenCC.Converter({ from: "cn", to: "tw" });
 
-        const params = {
-            language: "zh-TW",
-        };
+        const api = [
+            this.getMovieList(),
+            this.getMovieDetailCredits(),
+            this.getMovieDetailRate()
+        ];
 
-        const list = await lastValueFrom(this.tmdbRepositoryService.getMovieDetail(`${this.option.data.id}`, params));
-
-        const credits = await lastValueFrom(this.tmdbRepositoryService.getMovieDetailCredits(`${this.option.data.id}`, params));
-
-        const rate = await lastValueFrom(this.tmdbRepositoryService.getMovieDetailRate(`${this.option.data.id}`, params));
+        const [list, credits, rate] = await Promise.all(api);
 
         const movieDetailRate = rate.results.find((item: any) => item.iso_3166_1 === "US");
 
@@ -78,5 +76,35 @@ export class MovieDetailComponent implements AfterViewInit {
                 this.movieDetail.rateImg = "rating";
                 break;
         }
+    }
+
+    /**
+     * getMovieList
+     * @returns movieList
+     */
+    async getMovieList() {
+        return lastValueFrom(this.tmdbRepositoryService.getMovieDetail(`${this.option.data.id}`, {
+            language: "zh-TW"
+        }));
+    }
+
+    /**
+     * getMovieDetailCredits
+     * @returns movieList
+     */
+    async getMovieDetailCredits() {
+        return lastValueFrom(this.tmdbRepositoryService.getMovieDetailCredits(`${this.option.data.id}`, {
+            language: "zh-TW"
+        }));
+    }
+
+    /**
+    * getMovieDetailRate
+    * @returns movieList
+    */
+    async getMovieDetailRate() {
+        return lastValueFrom(this.tmdbRepositoryService.getMovieDetailRate(`${this.option.data.id}`, {
+            language: "zh-TW"
+        }));
     }
 }

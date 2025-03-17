@@ -1,5 +1,6 @@
 .l-movie {
     max-width: 1216px;
+    padding: 0 16px;
     margin: 0 auto;
 
     &__item + &__item {
@@ -10,6 +11,7 @@
 .c-dateTab {
     position: relative;
     display: flex;
+    padding: 0;
 
     &--underline {
         border-bottom: 1px solid rgb(204, 204, 204);

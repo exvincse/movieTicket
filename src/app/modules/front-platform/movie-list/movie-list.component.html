@@ -9,52 +9,56 @@
     <div class="l-movie__item">
         <div class="l-movie__header">
             <div class="l-form">
-                <div class="c-form u-gapT-sm" [formGroup]="searchForm">
-                    <div class="c-form__item">
-                        <div class="c-form__require">
-                            <div class="c-form__text">
-                                <app-date-picker formControlName="startDate"
-                                    [isError]="!searchForm.controls['startDate'].valid && searchForm.controls['startDate'].touched"
-                                    [placeholder]="'請輸入起始日'" (input)="formTouch()"></app-date-picker>
-                            </div>
-                            <div class="c-form__error"
-                                *ngIf="searchForm.controls['startDate'].hasError('required') && searchForm.controls['startDate'].touched">
-                                請輸入起始日
-                            </div>
-                            <div class="c-form__error" *ngIf="searchForm.controls['startDate'].hasError('invalidDate')">
-                                請輸入正確日期格式
-                            </div>
-                            <div class="c-form__error"
-                                *ngIf="searchForm.controls['startDate'].hasError('startDateAfterEndDate')">
-                                起始日需小於结束日
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="c-form__item">
-                        <div class="c-form__require">
-                            <div class="c-form__text">
-                                <app-date-picker formControlName="endDate"
-                                    [isError]="!searchForm.controls['endDate'].valid && searchForm.controls['endDate'].touched"
-                                    [placeholder]="'請輸入結束日'" (input)="formTouch()"></app-date-picker>
-                            </div>
-                            <div class="c-form__error"
-                                *ngIf="searchForm.controls['endDate'].hasError('required') && searchForm.controls['endDate'].touched">
-                                請輸入結束日
-                            </div>
-                            <div class="c-form__error" *ngIf="searchForm.controls['endDate'].hasError('invalidDate')">
-                                請輸入正確日期格式
-                            </div>
-                            <div class="c-form__error"
-                                *ngIf="searchForm.controls['endDate'].hasError('startDateAfterEndDate')">
-                                结束日需大於起始日
+                <div class="c-form c-form--row">
+                    <div class="c-form u-gapT-sm" [formGroup]="searchForm">
+                        <div class="c-form__item">
+                            <div class="c-form__require">
+                                <div class="c-form__text">
+                                    <app-date-picker formControlName="startDate"
+                                        [isError]="!searchForm.controls['startDate'].valid && searchForm.controls['startDate'].touched"
+                                        [placeholder]="'請輸入起始日'" (input)="formTouch()"></app-date-picker>
+                                </div>
+                                <div class="c-form__error"
+                                    *ngIf="searchForm.controls['startDate'].hasError('required') && searchForm.controls['startDate'].touched">
+                                    請輸入起始日
+                                </div>
+                                <div class="c-form__error"
+                                    *ngIf="searchForm.controls['startDate'].hasError('invalidDate')">
+                                    請輸入正確日期格式
+                                </div>
+                                <div class="c-form__error"
+                                    *ngIf="searchForm.controls['startDate'].hasError('startDateAfterEndDate')">
+                                    起始日需小於结束日
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="c-form__action">
-                        <a href="#" appStopPropagation class="c-btn c-btn--fullMb"
-                            [class.is-disabled]="searchForm.invalid" (click)="submitForm()">送出</a>
+                        <div class="c-form__item">
+                            <div class="c-form__require">
+                                <div class="c-form__text">
+                                    <app-date-picker formControlName="endDate"
+                                        [isError]="!searchForm.controls['endDate'].valid && searchForm.controls['endDate'].touched"
+                                        [placeholder]="'請輸入結束日'" (input)="formTouch()"></app-date-picker>
+                                </div>
+                                <div class="c-form__error"
+                                    *ngIf="searchForm.controls['endDate'].hasError('required') && searchForm.controls['endDate'].touched">
+                                    請輸入結束日
+                                </div>
+                                <div class="c-form__error"
+                                    *ngIf="searchForm.controls['endDate'].hasError('invalidDate')">
+                                    請輸入正確日期格式
+                                </div>
+                                <div class="c-form__error"
+                                    *ngIf="searchForm.controls['endDate'].hasError('startDateAfterEndDate')">
+                                    结束日需大於起始日
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="c-form__action">
+                            <a href="#" appStopPropagation class="c-btn c-btn--fullMb"
+                                [class.is-disabled]="searchForm.invalid" (click)="submitForm()">送出</a>
+                        </div>
                     </div>
                 </div>
             </div>

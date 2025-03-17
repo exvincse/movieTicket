@@ -12,8 +12,7 @@
             class="swiper-container c-dateTab c-dateTab--underline">
             <swiper-slide *ngFor="let item of path; let index = index" class="c-dateTab__item"
                 [ngClass]="{ 'is-active': item.link === noParamsRouter}">
-                <a [routerLink]="[item.link]" [queryParams]="{ id: (userData | async)?.userNo }" appStopPropagation
-                    class="c-dateTab__link">{{ item.name }}</a>
+                <a [routerLink]="[item.link]" appStopPropagation class="c-dateTab__link">{{ item.name }}</a>
             </swiper-slide>
         </swiper-container>
 

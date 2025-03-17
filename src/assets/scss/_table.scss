@@ -41,29 +41,7 @@
 
     &__accordion {
         background: rgb(204, 204, 204);
-        // table {
-        //     width: 100%;
-        //     table-layout: fixed;
-        //     border-collapse: collapse;
 
-        //     thead {
-        //         display: table-header-group;
-        //         width: 100%;
-        //         table-layout: fixed;
-        //     }
-
-        //     tbody {
-        //         display: block;
-        //         max-height: 200px;
-        //         overflow-y: auto;
-
-        //         tr {
-        //             display: table;
-        //             width: 100%;
-        //             table-layout: fixed;
-        //         }
-        //     }
-        // }
         th {
             border-top: none;
         }
@@ -74,6 +52,10 @@
 
         &:first-child {
             padding: 0;
+        }
+
+        &::before {
+            content: none !important;
         }
     }
 

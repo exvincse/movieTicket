@@ -35,8 +35,7 @@
 
                             <ng-container *ngFor="let item of userList">
                                 <ng-container *ngIf="item.isOpenDialog === false; else openDialog">
-                                    <a [routerLink]="[item.url]" [queryParams]="{ id: (userData | async)?.userNo }"
-                                        class="c-menuLink__item" (click)="defaultMenu()">
+                                    <a [routerLink]="[item.url]" class="c-menuLink__item" (click)="defaultMenu()">
                                         {{ item.name }}
                                     </a>
                                 </ng-container>
