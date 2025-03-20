@@ -45,6 +45,7 @@ export class DatePickerComponent implements AfterViewInit {
             this.bindEl = flatpickr.default(this.datepicker.nativeElement, {
                 locale: Chinese.zh_tw,
                 dateFormat: "Y-m-d",
+                disableMobile: true,
                 /**
                  * onChange
                  * @param selectedDates selectedDates
