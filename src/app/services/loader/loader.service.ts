@@ -33,6 +33,8 @@ export class LoaderService {
             this.loadingCount = 0;
         }
         // 通知loading元件，只要大於0就會一直顯示loading動畫
-        this.loadingSubject.next(this.loadingCount > 0);
+        setTimeout(() => {
+            this.loadingSubject.next(this.loadingCount > 0);
+        }, 200);
     }
 }
