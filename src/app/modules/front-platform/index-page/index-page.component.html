@@ -1,6 +1,6 @@
 <div class="l-swiper">
     <swiper-container appSwiper [swiperConfig]="bannerSwiperConfig" init="false" class="swiper-container">
-        <swiper-slide *ngFor="let item of hotMovieList">
+        <swiper-slide *ngFor="let item of bannerImg">
             <div class="c-banner">
                 <div class="c-banner__img" [ngStyle]="{
                     'background-image': 'url('+ 'https://image.tmdb.org/t/p/original' + item.backdrop_path + ')',

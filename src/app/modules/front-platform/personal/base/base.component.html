@@ -44,7 +44,7 @@
                     <input type="text" class="o-inputbox o-inputbox--full is-disabled" formControlName="postalCode">
                 </div>
                 <div class="l-address__item is-full">
-                    <input type="text" class="o-inputbox o-inputbox--full"
+                    <input type="text" class="o-inputbox o-inputbox--full" [placeholder]="'請輸入地址'"
                         [class.is-error]="personalForm.controls['address'].hasError('maxlength')"
                         formControlName="address">
                 </div>

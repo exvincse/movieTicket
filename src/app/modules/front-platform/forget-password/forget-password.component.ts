@@ -56,10 +56,10 @@ export class ForgetPasswordComponent implements OnInit {
     bgPic = "";
 
     /**
-     * Gets the email form control.
-     * @returns {AbstractControl | null} The email form control.
+     * 取得otpemail.
+     * @returns otpemail value.
      */
-    get otpEmail() {
+    get otpEmail(): string {
         return this.forgetForm.get("email")?.value;
     }
 

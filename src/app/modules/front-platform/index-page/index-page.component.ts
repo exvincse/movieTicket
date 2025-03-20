@@ -63,7 +63,6 @@ export class IndexPageComponent implements OnInit {
         },
         loop: false,
         autoplay: false,
-
         breakpoints: {
             768: {
                 slidesPerView: 3
@@ -87,9 +86,9 @@ export class IndexPageComponent implements OnInit {
 
     hotMovieList: any[] = [];
 
-    comingMovieList: any[] = [];
+    bannerImg: any[] = [];
 
-    total = 0;
+    comingMovieList: any[] = [];
 
     /**
      * on init
@@ -99,6 +98,7 @@ export class IndexPageComponent implements OnInit {
         const hotEndDate = moment().endOf("month");
         const hotRes = await this.getAllMovieList(1, hotStartDate.format("YYYY-MM-DD"), hotEndDate.format("YYYY-MM-DD"));
         this.hotMovieList = hotRes.results;
+        this.bannerImg = this.hotMovieList.filter((item) => item.backdrop_path !== null);
 
         const comingStartDate = moment().startOf("month").add(1, "month");
         const comingEndDate = moment().endOf("month").add(1, "month");
