@@ -4,6 +4,7 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+import { TicketDateTimeEntity } from "@app/core/models/entities/ticket/ticket-date-time-entity";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
@@ -74,10 +75,27 @@ export class IssueTicketComponent implements OnInit {
 
     ticketLanguage: TicketLanguageEntity[] = [];
 
-    ticketTime: string[] = [
-        "13:10",
-        "16:10",
-        "20:10"
+    ticketTime: TicketDateTimeEntity[] = [
+        {
+            code: "001",
+            name: "13:10",
+            isDisable: false
+        },
+        {
+            code: "002",
+            name: "16:10",
+            isDisable: false
+        },
+        {
+            code: "003",
+            name: "20:10",
+            isDisable: false
+        },
+        {
+            code: "003",
+            name: "22:10",
+            isDisable: false
+        }
     ];
 
     isHiddenSelectSeat = true;
@@ -102,6 +120,12 @@ export class IssueTicketComponent implements OnInit {
         this.getTickCategory();
         this.getTickLanguage();
         this.getTickTime();
+
+        this.ticketTime.forEach((item) => {
+            const nowTime = moment();
+            const tickTime = moment(`${this.ticketSelect.date} ${item.name}`, "YYYY-MM-DD HH:mm").subtract(1, "hours");
+            Object.assign(item, { isDisable: nowTime.isAfter(tickTime) });
+        });
     }
 
     /**
@@ -187,6 +211,12 @@ export class IssueTicketComponent implements OnInit {
         this.ticketSelect.ticketLanguageName = "";
         this.ticketSelect.time = "";
         this.isHiddenSelectSeat = true;
+
+        this.ticketTime.forEach((item) => {
+            const nowTime = moment();
+            const tickTime = moment(`${this.ticketSelect.date} ${item.name}`, "YYYY-MM-DD HH:mm").subtract(1, "hours");
+            Object.assign(item, { isDisable: nowTime.isAfter(tickTime) });
+        });
     }
 
     /**

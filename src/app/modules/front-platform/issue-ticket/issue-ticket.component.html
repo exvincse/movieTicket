@@ -81,19 +81,30 @@
         <a href="#" appStopPropagation class="c-dateTab__prev"></a>
         <a href="#" appStopPropagation class="c-dateTab__next"></a>
     </div>
-    <div class="u-gapT-sm">
+    <div class="u-gapT-sm u-gapH-md-t">
         <table class="c-table c-table--card c-table--underline">
+            <colgroup>
+                <col>
+                <col>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>語言</th>
+                    <th>時間</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr *ngFor="let item of ticketLanguage">
-                    <td data-label="語言" class="is-center">{{ item.categoryName }}</td>
+                    <td data-label="語言">{{ item.categoryName }}</td>
                     <td data-label="時間">
                         <div class="l-radio">
                             <div class="l-radio__item" *ngFor="let time of ticketTime">
                                 <label class="o-radiobox o-radiobox--btn o-radiobox--lg">
                                     <input type="radio" name="category" class="o-radiobox__input"
-                                        [checked]="ticketSelect.ticketLanguageCode === item.categoryCode && ticketSelect.time === time"
-                                        (change)="selectTicketTime(item, time)">
-                                    <div class="o-radiobox__text">{{ time }}</div>
+                                        [disabled]="time.isDisable"
+                                        [checked]="ticketSelect.ticketLanguageCode === item.categoryCode && ticketSelect.time === time.name"
+                                        (change)="selectTicketTime(item, time.name)">
+                                    <div class="o-radiobox__text">{{ time.name }}</div>
                                 </label>
                             </div>
                         </div>
