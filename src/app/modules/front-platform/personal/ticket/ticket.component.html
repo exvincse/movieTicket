@@ -1,85 +1,95 @@
-<table class="c-table c-table--card c-table--collapse">
-    <colgroup>
-        <col style="width: 200px;">
-        <col style="width: 100px;">
-        <col style="width: 180px;">
-        <col style="width: 130px;">
-        <col style="width: 100px;">
-        <col style="width: 130px;">
-    </colgroup>
-    <thead>
-        <tr>
-            <th>電影名稱</th>
-            <th>語言</th>
-            <th class="is-center">時間</th>
-            <th class="is-center">狀態</th>
-            <th class="is-center">付款連結</th>
-            <th class="is-center">更多</th>
-        </tr>
-    </thead>
-    <tbody *ngFor="let item of ticketPersonalList; let index = index">
-        <tr>
-            <td data-label="電影名稱">{{ item.movieName }}</td>
-            <td data-label="語言">{{ item.ticketLanguageName }}</td>
-            <td data-label="時間" class="is-center">
-                <span>{{ item.ticketDate | date:'YYYY年MM月dd日 HH:mm' }}</span>
-            </td>
-            <td data-label="狀態" class="is-center">
-                <span>{{ item.ticketStatusName }}</span>
-            </td>
-            <td data-label="付款連結" class="is-center">
-                <a href="#" appStopPropagation class="c-btn" *ngIf="item.ticketStatusId === 2"
-                    (click)="getPayPalLink(item.createOrderId)">連結</a>
-            </td>
-            <td data-label="更多" class="is-center">
-                <a href="#" class="o-link o-link--primary" appStopPropagation (click)="toggleVisibility(index)">
-                    <fa-icon [icon]="menuList[index] ? faChevronUp : faChevronDown"></fa-icon>
-                </a>
-            </td>
-        </tr>
-        <tr class="c-table__accordionWrap" *ngIf="menuList[index] === true">
-            <td colspan="6" class="c-table__accordion">
-                <table class="c-table c-table--card">
-                    <colgroup>
-                        <col style="width: 200px;">
-                        <col style="width: 100px;">
-                        <col style="width: 180px;">
-                        <col style="width: 130px;">
-                        <col style="width: 100px;">
-                        <col style="width: 130px;">
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>票種</th>
-                            <th>座位</th>
-                            <th class="is-center">票價</th>
-                            <th class="u-hidden"></th>
-                            <th class="u-hidden"></th>
-                            <th class="u-hidden"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let seat of item.ticketPersonalItem">
-                            <td data-label="票種">
-                                <span>{{ seat.ticketCategoryName }}</span>
-                            </td>
-                            <td data-label="座位">
-                                <span>{{ seat.ticketColumn }}排{{ seat.ticketSeat }}號</span>
-                            </td>
-                            <td class="is-center" data-label="票價">
-                                <span>{{ seat.ticketMoney }}</span>
-                            </td>
-                            <td class="u-hidden"></td>
-                            <td class="u-hidden"></td>
-                            <td class="u-hidden"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
 <ng-container *ngIf="total > 0">
+    <table class="c-table c-table--card c-table--collapse">
+        <colgroup>
+            <col style="width: 200px;">
+            <col style="width: 100px;">
+            <col style="width: 180px;">
+            <col style="width: 130px;">
+            <col style="width: 100px;">
+            <col style="width: 130px;">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>電影名稱</th>
+                <th>語言</th>
+                <th class="is-center">時間</th>
+                <th class="is-center">狀態</th>
+                <th class="is-center">付款連結</th>
+                <th class="is-center">更多</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let item of ticketPersonalList; let index = index">
+            <tr>
+                <td data-label="電影名稱">{{ item.movieName }}</td>
+                <td data-label="語言">{{ item.ticketLanguageName }}</td>
+                <td data-label="時間" class="is-center">
+                    <span>{{ item.ticketDate | date:'YYYY年MM月dd日 HH:mm' }}</span>
+                </td>
+                <td data-label="狀態" class="is-center">
+                    <span>{{ item.ticketStatusName }}</span>
+                </td>
+                <td data-label="付款連結" class="is-center">
+                    <a href="#" appStopPropagation class="c-btn" *ngIf="item.ticketStatusId === 2"
+                        (click)="getPayPalLink(item.createOrderId)">連結</a>
+                </td>
+                <td data-label="更多" class="is-center">
+                    <a href="#" class="o-link o-link--primary" appStopPropagation (click)="toggleVisibility(index)">
+                        <fa-icon [icon]="menuList[index] ? faChevronUp : faChevronDown"></fa-icon>
+                    </a>
+                </td>
+            </tr>
+            <tr class="c-table__accordionWrap" *ngIf="menuList[index] === true">
+                <td colspan="6" class="c-table__accordion">
+                    <table class="c-table c-table--card">
+                        <colgroup>
+                            <col style="width: 200px;">
+                            <col style="width: 100px;">
+                            <col style="width: 180px;">
+                            <col style="width: 130px;">
+                            <col style="width: 100px;">
+                            <col style="width: 130px;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>票種</th>
+                                <th>座位</th>
+                                <th class="is-center">票價</th>
+                                <th class="u-hidden"></th>
+                                <th class="u-hidden"></th>
+                                <th class="u-hidden"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let seat of item.ticketPersonalItem">
+                                <td data-label="票種">
+                                    <span>{{ seat.ticketCategoryName }}</span>
+                                </td>
+                                <td data-label="座位">
+                                    <span>{{ seat.ticketColumn }}排{{ seat.ticketSeat }}號</span>
+                                </td>
+                                <td class="is-center" data-label="票價">
+                                    <span>{{ seat.ticketMoney }}</span>
+                                </td>
+                                <td class="u-hidden"></td>
+                                <td class="u-hidden"></td>
+                                <td class="u-hidden"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <app-pager [total]="total" [nowPage]="nowPage" (changePageEmitter)="changePageEmitter($event)"></app-pager>
 </ng-container>
+
+<div class="l-card">
+    <div class="l-card__content">
+        <div class="o-statusBox">
+            <fa-icon [icon]="faFileAlt" [size]="'6x'" class="o-statusBox__img"></fa-icon>
+            <p class="o-statusBox__msg">
+                <span class="u-font-lg">沒有資料</span><br>
+            </p>
+        </div>
+    </div>
+</div>

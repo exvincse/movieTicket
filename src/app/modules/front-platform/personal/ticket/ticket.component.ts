@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { TextAlertComponent } from "@app/shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "@app/shared/base/component/sweet-alert/service/sweet-alert.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp, faFileAlt } from "@fortawesome/free-solid-svg-icons";
 import { Subscription } from "rxjs";
 
 import { TicketRepositoryService } from "../../../../core/api/middleware/ticket/ticket-repository.service";
@@ -61,6 +61,7 @@ export class TicketComponent implements OnInit {
 
     faChevronDown = faChevronDown;
     faChevronUp = faChevronUp;
+    faFileAlt = faFileAlt;
 
     userNo = 0;
 
