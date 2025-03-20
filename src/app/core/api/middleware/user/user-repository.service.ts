@@ -72,8 +72,7 @@ export class UserRepositoryService {
                     this.refreshProgress = false;
                     this.refreshTokenSubject.error(error);
                     return throwError(() => error);
-                }),
-                concatMap((res) => of(res))
+                })
             );
         }
 
