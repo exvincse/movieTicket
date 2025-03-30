@@ -12,7 +12,7 @@ import {
     throwError
 } from "rxjs";
 
-import { CookieService } from "../../services/cookie.service";
+import { CookieService } from "../../services/cookie/cookie.service";
 import { LoaderService } from "../../services/loader/loader.service";
 import { UserStoreService } from "../../store/user/service/user-store.service";
 import { UserRepositoryService } from "../api/middleware/user/user-repository.service";

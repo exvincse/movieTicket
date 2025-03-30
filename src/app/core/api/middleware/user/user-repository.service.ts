@@ -112,7 +112,7 @@ export class UserRepositoryService {
      * @param params params
      * @returns any
      */
-    postSendMail(params: any): Observable<any> {
+    postSendMail(params: any): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.post(UserUrl.postSendMail, params);
     }
 
@@ -121,7 +121,7 @@ export class UserRepositoryService {
      * @param params params
      * @returns any
      */
-    postValidOtp(params: any): Observable<any> {
+    postValidOtp(params: any): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.post(UserUrl.postValidOtp, params);
     }
 

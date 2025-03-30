@@ -6,9 +6,8 @@ import {
     FormBuilder, FormGroup, FormsModule, ReactiveFormsModule,
     Validators
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
 import moment from "moment";
-import { lastValueFrom } from "rxjs";
+import { filter, lastValueFrom, tap } from "rxjs";
 
 import { UserRepositoryService } from "../../../../core/api/middleware/user/user-repository.service";
 import { AddressEntity, DistrictEntity } from "../../../../core/models/entities/user/user-address-entity";
@@ -17,7 +16,7 @@ import { FormValidatorService } from "../../../../services/form-validator/form-v
 import { DatePickerComponent } from "../../../../shared/base/component/date-picker/date-picker.component";
 import { TextAlertComponent } from "../../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../../../shared/base/component/sweet-alert/service/sweet-alert.service";
-import { StopPropagationDirective } from "../../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../../../shared/base/directives/stop-propagation/stop-propagation.directive";
 import { UserStoreService } from "../../../../store/user/service/user-store.service";
 
 /**
@@ -42,7 +41,6 @@ export class BaseComponent implements OnInit {
      * @param userRepositoryService UserRepositoryService
      * @param userStoreService UserStoreService
      * @param formValidatorService FormValidatorService
-     * @param route ActivatedRoute
      * @param fb FormBuilder
      * @param sweetAlertService SweetAlertService
      */
@@ -50,43 +48,46 @@ export class BaseComponent implements OnInit {
         public userRepositoryService: UserRepositoryService,
         public userStoreService: UserStoreService,
         public formValidatorService: FormValidatorService,
-        public route: ActivatedRoute,
         public fb: FormBuilder,
         public sweetAlertService: SweetAlertService
     ) {
         this.personalForm = this.fb.group({
-            userNo: [""],
+            userNo: "",
             name: ["", [Validators.required, Validators.maxLength(30)]],
-            // email: [""],
-            countyCode: [""],
-            districtCode: [""],
-            postalCode: [""],
-            sexCode: ["001"],
+            countyCode: "",
+            districtCode: "",
+            postalCode: "",
+            sexCode: "001",
             address: ["", [Validators.maxLength(50)]],
             birthday: [moment().format("YYYY-MM-DD"), [this.formValidatorService.dateFormatValidator()]]
         });
 
         this.personalForm.get("postalCode")?.disable();
 
-        this.personalForm.get("countyCode")?.valueChanges.subscribe((res) => {
-            if (res !== "") {
-                this.district = this.loaction.find((item) => item.countyCode === res)?.district || [];
+        this.personalForm.get("countyCode")?.valueChanges
+            .pipe(
+                filter((item) => item !== ""),
+                tap((res) => {
+                    this.district = this.loaction.find((item) => item.countyCode === res)?.district || [];
 
-                this.personalForm.patchValue({
-                    district: [""],
-                    postalCode: [""]
-                });
-            }
-        });
+                    this.personalForm.patchValue({
+                        district: "",
+                        postalCode: ""
+                    });
+                })
+            ).subscribe();
 
-        this.personalForm.get("districtCode")?.valueChanges.subscribe((res) => {
-            if (res !== "") {
-                const district = this.district.find((item) => item.districtCode === res);
-                if (district) {
-                    this.personalForm.get("postalCode")?.setValue(district.postalCode);
-                }
-            }
-        });
+        this.personalForm.get("districtCode")?.valueChanges
+            .pipe(
+                filter((item) => item !== ""),
+                tap((res) => {
+                    const district = this.district.find((item) => item.districtCode === res);
+                    if (district) {
+                        this.personalForm.get("postalCode")?.setValue(district.postalCode);
+                    }
+                })
+            )
+            .subscribe();
     }
 
     loaction: AddressEntity[] = [];
@@ -94,8 +95,6 @@ export class BaseComponent implements OnInit {
     district: DistrictEntity[] = [];
 
     personalForm: FormGroup;
-
-    isModifySuccess = true;
 
     /**
      * ngOnInit
@@ -129,16 +128,14 @@ export class BaseComponent implements OnInit {
             };
 
             this.userRepositoryService.putUserProfile(params).subscribe((res) => {
-                this.isModifySuccess = res.result;
-
-                if (this.isModifySuccess === true) {
+                if (res.result === true) {
                     this.userRepositoryService.getUserProfile();
                 }
 
                 this.sweetAlertService.open(TextAlertComponent, {
-                    icon: this.isModifySuccess ? "success" : "error",
+                    icon: res.result ? "success" : "error",
                     data: {
-                        text: this.isModifySuccess ? "修改成功" : "修改失敗"
+                        text: res.result ? "修改成功" : "修改失敗"
                     }
                 });
             });

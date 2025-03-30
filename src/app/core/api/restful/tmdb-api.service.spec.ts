@@ -49,11 +49,11 @@ describe("TmdbRestfulApiService", () => {
         httpMock.verify();
     });
 
-    it("should be created", () => {
+    it("建立service", () => {
         expect(service).toBeTruthy();
     });
 
-    it("test get api", () => {
+    it("測試get方法", () => {
         const mockDate = {
             data: "test"
         };

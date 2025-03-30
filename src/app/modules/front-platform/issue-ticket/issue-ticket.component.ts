@@ -22,8 +22,8 @@ import {
 import { TickSeatInputModel } from "../../../core/models/inputViewModels/ticket/ticket-seat-input.model";
 import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
-import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
-import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
+import { StopPropagationDirective } from "../../../shared/base/directives/stop-propagation/stop-propagation.directive";
+import { SwiperDirective } from "../../../shared/base/directives/swiper/swiper.directive";
 import { UserStoreService } from "../../../store/user/service/user-store.service";
 import { SeatChartComponent } from "../seat-chart/seat-chart.component";
 
@@ -176,7 +176,7 @@ export class IssueTicketComponent implements OnInit {
     getTickCategory() {
         this.ticketRepositoryService.getTicketCategory().subscribe((res) => {
             this.ticketCategory = res.result;
-            this.ticketSelect.ticketCategory = res.result.map((item: any) => ({
+            this.ticketSelect.ticketCategory = res.result.map((item) => ({
                 ...item,
                 count: 0
             }));
@@ -235,13 +235,11 @@ export class IssueTicketComponent implements OnInit {
     }
 
     /**
-     * 取得總票卷數
+     * 取得總票數
      * @returns tickCategoryCount
      */
     get tickCategoryCount() {
-        const count = this.ticketSelect.ticketCategory.map((x) => x.count).reduce((a, b) => a + b, 0);
-        if (count === 0) this.isHiddenSelectSeat = true;
-        return count;
+        return this.ticketSelect.ticketCategory.map((x) => x.count).reduce((a, b) => a + b, 0);
     }
 
     /**
@@ -323,14 +321,7 @@ export class IssueTicketComponent implements OnInit {
             ticketLanguageCode: this.ticketSelect.ticketLanguageCode
         };
 
-        this.postSelectSeat(param);
-    }
-
-    /**
-     * 取得已選座位
-     * @param param param
-     */
-    postSelectSeat(param: TickSeatInputModel) {
+        // 取得座位狀態
         this.ticketRepositoryService.postSelectSeat(param).subscribe((res) => {
             this.disableSeatSeat = res.result;
             this.isHiddenSelectSeat = false;

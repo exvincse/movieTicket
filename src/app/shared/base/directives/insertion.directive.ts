@@ -11,7 +11,7 @@ import { Directive, ViewContainerRef } from "@angular/core";
 export class InsertionDirective {
     /**
      * Creates an instance of host directive.
-     * @param viewContainerRef c
+     * @param viewContainerRef viewContainerRef
      */
     constructor(public viewContainerRef: ViewContainerRef) { }
 }

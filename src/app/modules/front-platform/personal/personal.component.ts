@@ -3,7 +3,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { Router, RouterModule, RouterOutlet } from "@angular/router";
 import { SwiperOptions } from "swiper/types";
 
-import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
+import { SwiperDirective } from "../../../shared/base/directives/swiper/swiper.directive";
 import { UserStoreService } from "../../../store/user/service/user-store.service";
 
 /**

@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
+import { Observable } from "rxjs";
 
 import { LoaderService } from "../../../../services/loader/loader.service";
 
@@ -14,16 +15,13 @@ import { LoaderService } from "../../../../services/loader/loader.service";
     styleUrl: "./loaders.component.scss"
 })
 export class LoadersComponent {
-    isLoading = false;
+    isLoading = new Observable<boolean>();
 
     /**
      * constructor
      * @param loaderService loaderService
      */
     constructor(public loaderService: LoaderService) {
-        // 監聽loading狀態
-        this.loaderService.loading$.subscribe((loading) => {
-            this.isLoading = loading;
-        });
+        this.isLoading = loaderService.loading$;
     }
 }

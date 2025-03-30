@@ -2,11 +2,12 @@ import { CommonModule } from "@angular/common";
 import {
     Component, EventEmitter, Input, OnInit, Output
 } from "@angular/core";
+import { TicketCategoryCountEntity } from "@app/core/models/entities/ticket/ticket-category-entity";
 
 import {
-    Seat, SeatChart, SpcialSeat, TicketSelect
+    Seat, SeatChart, SpcialSeat
 } from "../../../core/models/entities/ticket/ticket-select.entity";
-import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../../shared/base/directives/stop-propagation/stop-propagation.directive";
 
 /**
  * SeatChartComponent
@@ -19,7 +20,7 @@ import { StopPropagationDirective } from "../../../shared/base/directives/stopPr
     styleUrl: "./seat-chart.component.scss"
 })
 export class SeatChartComponent implements OnInit {
-    @Input() ticketSelect!: TicketSelect;
+    @Input() ticketCategory: TicketCategoryCountEntity[] = [];
     @Input() disableSeatSeat: Seat[] = [];
     @Output() submitTicket = new EventEmitter<any>();
 
@@ -39,7 +40,7 @@ export class SeatChartComponent implements OnInit {
      * @returns 位子
      */
     get seatCount() {
-        return this.ticketSelect.ticketCategory.map((item) => item.count).reduce((a, b) => a + b, 0);
+        return this.ticketCategory.map((item) => item.count).reduce((a, b) => a + b, 0);
     }
 
     /**
@@ -48,6 +49,7 @@ export class SeatChartComponent implements OnInit {
     initSeatNo() {
         const column = 10;
         let maxRowSeat = 17;
+        this.seatChart = [];
 
         this.spcialSeat = [
             {

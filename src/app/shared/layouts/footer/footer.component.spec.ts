@@ -17,7 +17,7 @@ describe("FooterComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should create", () => {
+    it("建立元件", () => {
         expect(component).toBeTruthy();
     });
 });

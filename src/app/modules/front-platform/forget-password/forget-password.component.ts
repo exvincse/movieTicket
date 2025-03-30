@@ -9,7 +9,7 @@ import { lastValueFrom } from "rxjs";
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
 import { FormValidatorService } from "../../../services/form-validator/form-validator.service";
-import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../../shared/base/directives/stop-propagation/stop-propagation.directive";
 import { OtpValidComponent } from "../otp-valid/otp-valid.component";
 import { ResetPasswordComponent } from "../reset-password/reset-password.component";
 

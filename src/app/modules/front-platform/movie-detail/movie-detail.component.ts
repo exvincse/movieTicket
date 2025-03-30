@@ -1,7 +1,9 @@
 import { CommonModule } from "@angular/common";
 import { AfterViewInit, Component } from "@angular/core";
 import * as OpenCC from "opencc-js";
-import { lastValueFrom } from "rxjs";
+import {
+    forkJoin, lastValueFrom
+} from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { SweetAlertConfig } from "../../../shared/base/component/sweet-alert/sweet-alert-config";
@@ -44,13 +46,11 @@ export class MovieDetailComponent implements AfterViewInit {
     async getMovieDetail() {
         const converter = OpenCC.Converter({ from: "cn", to: "tw" });
 
-        const api = [
-            this.getMovieList(),
-            this.getMovieDetailCredits(),
-            this.getMovieDetailRate()
-        ];
-
-        const [list, credits, rate] = await Promise.all(api);
+        const { list, credits, rate } = await lastValueFrom(forkJoin({
+            list: this.getMovieList(),
+            credits: this.getMovieDetailCredits(),
+            rate: this.getMovieDetailRate()
+        }));
 
         const movieDetailRate = rate.results.find((item: any) => item.iso_3166_1 === "US");
 

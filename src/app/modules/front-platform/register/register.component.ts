@@ -12,11 +12,11 @@ import { lastValueFrom } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
-import { CookieService } from "../../../services/cookie.service";
+import { CookieService } from "../../../services/cookie/cookie.service";
 import { FormValidatorService } from "../../../services/form-validator/form-validator.service";
 import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
-import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../../shared/base/directives/stop-propagation/stop-propagation.directive";
 import { OtpValidComponent } from "../otp-valid/otp-valid.component";
 
 /**
@@ -94,10 +94,10 @@ export class RegisterComponent implements OnInit {
     }
 
     /**
-     * Gets the email form control.
-     * @returns {AbstractControl | null} The email form control.
+     * 取得otpemail.
+     * @returns otpemail value.
      */
-    get otpEmail() {
+    get otpEmail(): string {
         return this.registerForm.get("email")?.value;
     }
 

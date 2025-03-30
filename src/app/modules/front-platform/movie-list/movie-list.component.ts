@@ -14,7 +14,7 @@ import { FormValidatorService } from "../../../services/form-validator/form-vali
 import { DatePickerComponent } from "../../../shared/base/component/date-picker/date-picker.component";
 import { PagerComponent } from "../../../shared/base/component/pager/pager.component";
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
-import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../../shared/base/directives/stop-propagation/stop-propagation.directive";
 import { MovieDetailComponent } from "../movie-detail/movie-detail.component";
 
 /**

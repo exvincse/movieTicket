@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { TicketRepositoryService } from "@app/core/api/middleware/ticket/ticket-repository.service";
 import { PaypalOrderOutputModel } from "@app/core/models/outputViewModels/paypal/paypal-order-output.model";
-import { StopPropagationDirective } from "@app/shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "@app/shared/base/directives/stop-propagation/stop-propagation.directive";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 

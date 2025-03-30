@@ -5,7 +5,7 @@ import { provideRouter } from "@angular/router";
 import { of } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
-import { SwiperDirective } from "../../../shared/base/directives/swiper.directive";
+import { SwiperDirective } from "../../../shared/base/directives/swiper/swiper.directive";
 import { IndexPageComponent } from "./index-page.component";
 
 const mockMovieResponse = {
@@ -54,7 +54,7 @@ describe("IndexPageComponent", () => {
         fixture.detectChanges();
     });
 
-    it("should create the component", () => {
+    it("建立元件", () => {
         expect(component).toBeTruthy();
     });
 
@@ -80,7 +80,7 @@ describe("IndexPageComponent", () => {
         expect(component.comingMovieList).toEqual(mockMovieResponse.results);
     });
 
-    it("should call initialize on SwiperDirective", () => {
+    it("掛載SwiperDirective", () => {
         const swiperElement = fixture.debugElement.query(By.directive(SwiperDirective)).injector.get(SwiperDirective);
         swiperElement.ngAfterViewInit();
         expect(swiperElement.el.nativeElement.initialize).toHaveBeenCalled();

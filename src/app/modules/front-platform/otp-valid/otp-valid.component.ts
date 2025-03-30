@@ -5,11 +5,14 @@ import {
 import {
     FormArray, FormBuilder, FormGroup, ReactiveFormsModule
 } from "@angular/forms";
+import {
+    catchError, filter, tap, throwError
+} from "rxjs";
 
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
 import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
-import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../../shared/base/directives/stop-propagation/stop-propagation.directive";
 
 /**
  * OtpValidComponent
@@ -103,32 +106,40 @@ export class OtpValidComponent {
             otp: value.otp.join("")
         };
 
-        this.userRepositoryService.postValidOtp(params).subscribe((res) => {
-            if (res.result === true) {
-                this.emitValidOtp.emit(res.result);
-                this.otpForm.reset();
-                this.otpInput.first?.nativeElement.focus();
-            } else {
-                this.sweetAlertService.open(TextAlertComponent, {
-                    icon: "error",
-                    data: {
-                        text: res.message
+        this.userRepositoryService.postValidOtp(params)
+            .pipe(
+                tap((res) => {
+                    if (res.result === false) {
+                        this.sweetAlertService.open(TextAlertComponent, {
+                            icon: "error",
+                            data: {
+                                text: res.message
+                            }
+                        });
                     }
-                });
-            }
-        });
+                }),
+                filter((res) => res.result === true),
+                tap(() => {
+                    this.emitValidOtp.emit(true);
+                    this.otpForm.reset();
+                    this.otpInput.first?.nativeElement.focus();
+                }),
+                catchError((error) => throwError(() => error))
+            ).subscribe();
     }
 
     /**
      * resendOtp
      */
     resendOtp() {
-        this.userRepositoryService.postSendMail({ email: this.otpEmail }).subscribe((res) => {
-            if (res.result === true) {
-                this.second = 60;
-                this.sendMailCountDown();
-            }
-        });
+        this.userRepositoryService.postSendMail({ email: this.otpEmail })
+            .pipe(
+                filter((res) => res.result === true),
+                tap(() => {
+                    this.second = 60;
+                    this.sendMailCountDown();
+                })
+            ).subscribe();
     }
 
     /**

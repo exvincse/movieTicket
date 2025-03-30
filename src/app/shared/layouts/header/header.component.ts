@@ -16,11 +16,10 @@ import {
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
-import { CookieService } from "../../../services/cookie.service";
 import { UserStoreService } from "../../../store/user/service/user-store.service";
 import { TextAlertComponent } from "../../base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../base/component/sweet-alert/service/sweet-alert.service";
-import { StopPropagationDirective } from "../../base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../base/directives/stop-propagation/stop-propagation.directive";
 
 /**
  * HeaderComponent
@@ -29,7 +28,6 @@ import { StopPropagationDirective } from "../../base/directives/stopPropagation/
     selector: "app-header",
     standalone: true,
     imports: [CommonModule, FontAwesomeModule, RouterModule, StopPropagationDirective, OverlayscrollbarsModule],
-    providers: [],
     templateUrl: "./header.component.html",
     styleUrl: "./header.component.scss",
     animations: [
@@ -54,7 +52,6 @@ export class HeaderComponent implements OnInit {
      * @param tmdbRepositoryService tmdbRepositoryService
      * @param userRepositoryService UserRepositoryService
      * @param userStoreService UserStoreService
-     * @param cookieService CookieService
      * @param router Router
      * @param sweetAlertService SweetAlertService
      */
@@ -62,7 +59,6 @@ export class HeaderComponent implements OnInit {
         public tmdbRepositoryService: TmdbRepositoryService,
         public userRepositoryService: UserRepositoryService,
         public userStoreService: UserStoreService,
-        public cookieService: CookieService,
         private router: Router,
         public sweetAlertService: SweetAlertService
     ) {
@@ -85,7 +81,6 @@ export class HeaderComponent implements OnInit {
     faUserCircle = faUserCircle;
     isShowMobileList = false;
     menuList = [false, false];
-    isVisible = true;
     genresList: any[] = [];
     userList: any[] = [
         {
@@ -100,8 +95,6 @@ export class HeaderComponent implements OnInit {
         }
     ];
     isHiddenMenu = false;
-    elapsedSeconds = 0;
-    intervalId: any;
 
     /**
      * userData
@@ -119,7 +112,7 @@ export class HeaderComponent implements OnInit {
 
         this.userStoreService.getUserIsLogin().subscribe((res) => {
             if (res === true) {
-                this.getUserProfile();
+                this.userRepositoryService.getUserProfile();
             }
         });
     }
@@ -137,13 +130,6 @@ export class HeaderComponent implements OnInit {
      */
     toggleList() {
         this.isShowMobileList = !this.isShowMobileList;
-    }
-
-    /**
-     * openLoginDialog
-     */
-    openLoginDialog() {
-        this.defaultMenu();
     }
 
     /**
@@ -169,23 +155,18 @@ export class HeaderComponent implements OnInit {
     }
 
     /**
-     * getUserProfile
-     */
-    getUserProfile(): void {
-        this.userRepositoryService.getUserProfile();
-    }
-
-    /**
      * 登出
      */
     async postLogout() {
+        await lastValueFrom(this.userRepositoryService.postLogout());
+
         const ref = this.sweetAlertService.open(TextAlertComponent, {
             icon: "success",
             data: {
                 text: "已登出"
             }
         });
-        await lastValueFrom(this.userRepositoryService.postLogout());
+
         ref.instance.afterClose.subscribe((res) => {
             if (res === true) {
                 this.defaultMenu();

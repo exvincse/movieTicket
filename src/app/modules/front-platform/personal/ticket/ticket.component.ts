@@ -13,7 +13,7 @@ import {
     TicketPersonalItem
 } from "../../../../core/models/outputViewModels/ticket/ticket-presonal-list-output.model";
 import { PagerComponent } from "../../../../shared/base/component/pager/pager.component";
-import { StopPropagationDirective } from "../../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../../../shared/base/directives/stop-propagation/stop-propagation.directive";
 import { UserStoreService } from "../../../../store/user/service/user-store.service";
 
 /**

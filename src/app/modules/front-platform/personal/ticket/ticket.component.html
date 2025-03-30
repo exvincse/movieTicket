@@ -1,4 +1,4 @@
-<ng-container *ngIf="total > 0">
+<ng-container *ngIf="total > 0; else noData">
     <table class="c-table c-table--card c-table--collapse">
         <colgroup>
             <col style="width: 200px;">
@@ -83,13 +83,15 @@
     <app-pager [total]="total" [nowPage]="nowPage" (changePageEmitter)="changePageEmitter($event)"></app-pager>
 </ng-container>
 
-<div class="l-card">
-    <div class="l-card__content">
-        <div class="o-statusBox">
-            <fa-icon [icon]="faFileAlt" [size]="'6x'" class="o-statusBox__img"></fa-icon>
-            <p class="o-statusBox__msg">
-                <span class="u-font-lg">沒有資料</span><br>
-            </p>
+<ng-template #noData>
+    <div class="l-card">
+        <div class="l-card__content">
+            <div class="o-statusBox">
+                <fa-icon [icon]="faFileAlt" [size]="'6x'" class="o-statusBox__img"></fa-icon>
+                <p class="o-statusBox__msg">
+                    <span class="u-font-lg">沒有資料</span><br>
+                </p>
+            </div>
         </div>
     </div>
-</div>
+</ng-template>

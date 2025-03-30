@@ -5,7 +5,7 @@ import { inject } from "@angular/core";
 import { Observable } from "rxjs";
 
 import { environment } from "../../../environments/environment";
-import { CookieService } from "../../services/cookie.service";
+import { CookieService } from "../../services/cookie/cookie.service";
 import { LoaderService } from "../../services/loader/loader.service";
 
 /**

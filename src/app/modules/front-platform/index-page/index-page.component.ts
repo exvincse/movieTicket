@@ -3,11 +3,11 @@ import {
     Component, CUSTOM_ELEMENTS_SCHEMA, OnInit,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
+import { StopPropagationDirective } from "@app/shared/base/directives/stop-propagation/stop-propagation.directive";
+import { SwiperDirective } from "@app/shared/base/directives/swiper/swiper.directive";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faChevronLeft, faChevronRight, faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import { SweetAlertService } from "@shared/base/component/sweet-alert/service/sweet-alert.service";
-import { StopPropagationDirective } from "@shared/base/directives/stopPropagation/stop-propagation-directive.directive";
-import { SwiperDirective } from "@shared/base/directives/swiper.directive";
 import moment from "moment";
 import { lastValueFrom } from "rxjs";
 import { SwiperOptions } from "swiper/types";

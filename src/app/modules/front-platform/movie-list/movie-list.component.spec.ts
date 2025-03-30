@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
+import { FormValidatorService } from "@app/services/form-validator/form-validator.service";
 import { of } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
@@ -24,7 +25,9 @@ describe("MovieListComponent", () => {
     let fixture: ComponentFixture<MovieListComponent>;
 
     const apiServiceSpy = jasmine.createSpyObj(["TmdbRepositoryService", "getMovieList"]);
+    const formValidatorService = jasmine.createSpyObj("FormValidatorService", ["dateRangeValidator"]);
     apiServiceSpy.getMovieList.and.returnValue(of(mockMovieResponse));
+    formValidatorService.dateRangeValidator.and.returnValue(null);
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -34,7 +37,8 @@ describe("MovieListComponent", () => {
             ],
             providers: [
                 provideRouter([]),
-                { provide: TmdbRepositoryService, useValue: apiServiceSpy }
+                { provide: TmdbRepositoryService, useValue: apiServiceSpy },
+                { provide: FormValidatorService, useValue: formValidatorService }
             ]
         })
             .compileComponents();
@@ -78,6 +82,7 @@ describe("MovieListComponent", () => {
             queryParams: {
                 startDate: "2024-03-03",
                 endDate: "2024-03-20",
+                genres: "",
                 page: 1,
             }
         });
@@ -92,6 +97,7 @@ describe("MovieListComponent", () => {
             queryParams: {
                 startDate: "",
                 endDate: "",
+                genres: "",
                 page: 10,
             }
         });

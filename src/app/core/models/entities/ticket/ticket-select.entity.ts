@@ -1,4 +1,4 @@
-import { TicketCategoryEntity } from "./ticket-category-entity";
+import { TicketCategoryCountEntity } from "./ticket-category-entity";
 
 // 選取票卷資訊
 export interface TicketSelect {
@@ -6,7 +6,7 @@ export interface TicketSelect {
     ticketLanguageCode: string;
     ticketLanguageName: string;
     time: string;
-    ticketCategory: (TicketCategoryEntity & { count: number })[];
+    ticketCategory: TicketCategoryCountEntity[];
 }
 
 export interface Seat {

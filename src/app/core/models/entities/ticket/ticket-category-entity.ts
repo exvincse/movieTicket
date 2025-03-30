@@ -4,3 +4,5 @@ export interface TicketCategoryEntity {
     categoryName: string;
     cost: number;
 }
+
+export type TicketCategoryCountEntity = TicketCategoryEntity & { count: number };

@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import Cookies from "js-cookie";
-import { BehaviorSubject } from "rxjs";
 
 /**
  * CookieService
@@ -9,8 +8,6 @@ import { BehaviorSubject } from "rxjs";
     providedIn: "root"
 })
 export class CookieService {
-    private sub: BehaviorSubject<string> = new BehaviorSubject<string>("");
-
     /**
      * 設定 Cookie
      * @param name 設定cookie名稱
@@ -19,7 +16,6 @@ export class CookieService {
      */
     set(name: string, value: string, minutes: number): void {
         Cookies.set(name, value, { expires: minutes / (24 * 60) });
-        this.sub.next(value);
     }
 
     /**

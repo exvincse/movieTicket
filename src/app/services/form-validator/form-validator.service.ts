@@ -77,12 +77,12 @@ export class FormValidatorService {
      */
     dateFormatValidator(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
-            if (control.value) return null;
+            if (!control.value) return null;
 
             const startMoment = moment(control.value, "YYYY-MM-DD", true);
 
             if (!startMoment.isValid()) {
-                control.setErrors({ invalidDate: true });
+                return { invalidDate: true };
             }
 
             return null;
@@ -100,10 +100,6 @@ export class FormValidatorService {
 
             if (!password || !checkPassword) {
                 return null;
-            }
-
-            if (!checkPassword?.value) {
-                checkPassword?.setErrors({ required: true });
             }
 
             if (!password.value || !checkPassword.value) {
@@ -129,11 +125,11 @@ export class FormValidatorService {
             }
 
             if (control.value.includes("@gmail") === false) {
-                return of({ emailExistGmail: true, message: "email不符合gmail格式" });
+                return of({ emailExistGmail: true });
             }
 
             return this.userRepositoryService.postValidEmail({ email: control.value }).pipe(
-                map((res) => (res.result ? { emailExist: true, message: res.message } : null)),
+                map((res) => (res.result ? { emailExist: true } : null)),
                 catchError(() => of(null))
             );
         };

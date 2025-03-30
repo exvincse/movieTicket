@@ -4,16 +4,14 @@ import {
     FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
-import { UserStoreService } from "@app/store/user/service/user-store.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 import { UserRepositoryService } from "../../../core/api/middleware/user/user-repository.service";
-import { CookieService } from "../../../services/cookie.service";
 import { FormValidatorService } from "../../../services/form-validator/form-validator.service";
 import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
-import { StopPropagationDirective } from "../../../shared/base/directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../../shared/base/directives/stop-propagation/stop-propagation.directive";
 
 /**
  * ResetPasswordComponent
@@ -47,8 +45,6 @@ export class ResetPasswordComponent {
      * @param formValidatorService FormValidatorService
      * @param router Router
      * @param userRepositoryService UserRepositoryService
-     * @param userStoreService UserStoreService
-     * @param cookieService CookieService
      * @param sweetAlertService SweetAlertService
      */
     constructor(
@@ -56,8 +52,6 @@ export class ResetPasswordComponent {
         public formValidatorService: FormValidatorService,
         public router: Router,
         public userRepositoryService: UserRepositoryService,
-        public userStoreService: UserStoreService,
-        public cookieService: CookieService,
         public sweetAlertService: SweetAlertService
     ) {
         this.registerForm = this.fb.group({
@@ -108,39 +102,5 @@ export class ResetPasswordComponent {
                 });
             });
         }
-    }
-
-    /**
-     * otpValid
-     */
-    emitValidOtp() {
-        const param = {
-            email: this.registerForm.get("email")?.value,
-            password: this.registerForm.get("password")?.value
-        };
-
-        this.userRepositoryService.postRegister(param).subscribe((res) => {
-            if (res.result.accessToken) {
-                const ref = this.sweetAlertService.open(TextAlertComponent, {
-                    icon: "success",
-                    data: {
-                        text: "註冊成功"
-                    }
-                });
-                ref.instance.afterClose.subscribe(() => {
-                    this.cookieService.set("accessToken", res.result.accessToken, 60);
-                    this.userStoreService.setUserIsLogin(true);
-                    this.userRepositoryService.getUserProfile();
-                    this.router.navigate(["/"]);
-                });
-            } else {
-                this.sweetAlertService.open(TextAlertComponent, {
-                    icon: "error",
-                    data: {
-                        text: "註冊失敗"
-                    }
-                });
-            }
-        });
     }
 }

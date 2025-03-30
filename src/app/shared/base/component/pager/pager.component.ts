@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
-import { StopPropagationDirective } from "../../directives/stopPropagation/stop-propagation-directive.directive";
+import { StopPropagationDirective } from "../../directives/stop-propagation/stop-propagation.directive";
 
 /**
  * PagerComponent
