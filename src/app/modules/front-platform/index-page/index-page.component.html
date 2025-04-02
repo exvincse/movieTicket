@@ -3,7 +3,7 @@
         <swiper-slide *ngFor="let item of bannerImg">
             <div class="c-banner">
                 <div class="c-banner__img" [ngStyle]="{
-                    'background-image': 'url('+ 'https://image.tmdb.org/t/p/original' + item.backdrop_path + ')',
+                    'background-image': 'url('+ 'https://image.tmdb.org/t/p/original' + item + ')',
                   }"></div>
             </div>
         </swiper-slide>

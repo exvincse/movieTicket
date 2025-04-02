@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 
@@ -14,9 +12,9 @@ import { RestfulApiService } from "./restful-api.service";
 })
 export class TmdbRestfulApiService extends RestfulApiService {
     protected override baseApiUrl = environmentTMDB.apiUrl;
-    private baseApiKey = environmentTMDB.apiKey;
+    protected baseApiKey = environmentTMDB.apiKey;
 
-    private options = {
+    protected options = {
         headers: {
             accept: "application/json",
             Authorization: `Bearer ${this.baseApiKey}`,
@@ -62,10 +60,6 @@ export class TmdbRestfulApiService extends RestfulApiService {
      * @returns req
      */
     override put(url: string, data: any): Observable<any> {
-        const options = {
-            headers: new HttpHeaders().set("Content-Type", "application/json"),
-        };
-
-        return this.http.put(`${this.baseApiUrl}/${url}`, data, options);
+        return this.http.put(`${this.baseApiUrl}/${url}`, data, this.options);
     }
 }

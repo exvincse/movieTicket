@@ -11,7 +11,6 @@ import { filter, lastValueFrom, tap } from "rxjs";
 
 import { UserRepositoryService } from "../../../../core/api/middleware/user/user-repository.service";
 import { AddressEntity, DistrictEntity } from "../../../../core/models/entities/user/user-address-entity";
-import { AddressOutputModelEntity } from "../../../../core/models/outputViewModels/user/user-address-output-model";
 import { FormValidatorService } from "../../../../services/form-validator/form-validator.service";
 import { DatePickerComponent } from "../../../../shared/base/component/date-picker/date-picker.component";
 import { TextAlertComponent } from "../../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
@@ -114,7 +113,7 @@ export class BaseComponent implements OnInit {
      * 取得縣市鄉鎮
      */
     async getLocation() {
-        this.loaction = (await lastValueFrom(this.userRepositoryService.getLocation<AddressOutputModelEntity>())).result || [];
+        this.loaction = (await lastValueFrom(this.userRepositoryService.getLocation())).result || [];
     }
 
     /**

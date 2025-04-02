@@ -2,23 +2,31 @@ import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
+import { MovieListOutputModel } from "@app/core/models/outputViewModels/movie/movie-list-output.model";
 import { of } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { SwiperDirective } from "../../../shared/base/directives/swiper/swiper.directive";
 import { IndexPageComponent } from "./index-page.component";
 
-const mockMovieResponse = {
-    total_results: 100,
-    results: [
-        {
-            title: "Test Movie",
-            overview: "Test Overview",
-            release_date: "2024-01-01",
-            poster_path: "/test.jpg"
-        }
-    ]
-};
+const mockMovieResponse: MovieListOutputModel["results"][number][] = [
+    {
+        adult: false,
+        backdrop_path: "",
+        genre_ids: [],
+        id: 0,
+        original_language: "",
+        original_title: "",
+        overview: "",
+        popularity: 0,
+        poster_path: "",
+        release_date: "",
+        title: "",
+        video: false,
+        vote_average: 0,
+        vote_count: 0
+    }
+];
 
 describe("IndexPageComponent", () => {
     let component: IndexPageComponent;
@@ -76,8 +84,8 @@ describe("IndexPageComponent", () => {
     it("測試nginit取得電影列表", async () => {
         await component.ngOnInit();
 
-        expect(component.hotMovieList).toEqual(mockMovieResponse.results);
-        expect(component.comingMovieList).toEqual(mockMovieResponse.results);
+        expect(component.hotMovieList).toEqual(mockMovieResponse);
+        expect(component.comingMovieList).toEqual(mockMovieResponse);
     });
 
     it("掛載SwiperDirective", () => {

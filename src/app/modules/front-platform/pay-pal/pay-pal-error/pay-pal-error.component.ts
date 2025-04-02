@@ -45,11 +45,15 @@ export class PayPalErrorComponent implements OnInit {
      */
     ngOnInit() {
         const token = this.route.snapshot.queryParamMap.get("token");
-        this.ticketRepositoryService.getOrderDetail({ orderId: token }).subscribe((res) => {
-            if (res.result !== null) {
-                this.orderDetail = res.result;
-            }
-        });
+        if (token) {
+            this.ticketRepositoryService.getOrderDetail({ orderId: token }).subscribe((res) => {
+                if (res.result !== null) {
+                    this.orderDetail = res.result;
+                }
+            });
+        } else {
+            this.navigateNoBack("/");
+        }
     }
 
     /**

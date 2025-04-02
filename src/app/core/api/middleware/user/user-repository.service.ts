@@ -1,4 +1,9 @@
 import { Injectable } from "@angular/core";
+import { UserLoginInputModel, UserValidEmailInputModel, UserValidOtpInputModel } from "@app/core/models/inputViewModels/user/user-login-input.model";
+import { UserProfileInputModel } from "@app/core/models/inputViewModels/user/user-profile-input.model";
+import { AddressOutputModelEntity } from "@app/core/models/outputViewModels/user/user-address-output-model";
+import { UserLoginOutputModelEntity } from "@app/core/models/outputViewModels/user/user-login-output.model";
+import { UserProfileOutputModelEntity } from "@app/core/models/outputViewModels/user/user-profile-output.model";
 import {
     BehaviorSubject, catchError, concatMap, filter, Observable, of, tap,
     throwError
@@ -26,8 +31,8 @@ export class UserRepositoryService {
         public userStoreService: UserStoreService,
     ) { }
 
-    private refreshTokenSubject = new BehaviorSubject<string | null>(null);
-    private refreshProgress = false;
+    protected refreshTokenSubject = new BehaviorSubject<string | null>(null);
+    protected refreshProgress = false;
 
     /**
      * 確認是否有登入
@@ -42,7 +47,7 @@ export class UserRepositoryService {
      * @param params params
      * @returns any
      */
-    postLogin<T>(params: T): Observable<BaseApiOutputModel<{ accessToken: string }>> {
+    postLogin(params: UserLoginInputModel): Observable<UserLoginOutputModelEntity> {
         return this.restfulApiService.post(UserUrl.postLogin, params);
     }
 
@@ -50,7 +55,7 @@ export class UserRepositoryService {
      * 登出
      * @returns any
      */
-    postLogout(): Observable<void> {
+    postLogout(): Observable<BaseApiOutputModel<null>> {
         return this.restfulApiService.post(UserUrl.postLogout, {});
     }
 
@@ -58,11 +63,11 @@ export class UserRepositoryService {
      * 換發token
      * @returns any
      */
-    getReFreshToken(): Observable<BaseApiOutputModel<{ accessToken: string }>> {
+    getReFreshToken(): Observable<UserLoginOutputModelEntity> {
         // 如果有多支api報401且都是換發token狀態，利用flag只發出去1次換發。其他api訂閱被通知後拿到換發後新token
         if (this.refreshProgress === false) {
             this.refreshProgress = true;
-            return this.restfulApiService.get<BaseApiOutputModel<{ accessToken: string }>>(UserUrl.getReFreshToken).pipe(
+            return this.restfulApiService.get<UserLoginOutputModelEntity>(UserUrl.getReFreshToken).pipe(
                 tap((res) => {
                     this.refreshTokenSubject.next(res.result.accessToken);
                     this.refreshProgress = false;
@@ -93,7 +98,7 @@ export class UserRepositoryService {
      * 取得個人資料
      */
     getUserProfile() {
-        this.restfulApiService.get<any>(UserUrl.getUserProfile).subscribe((res) => {
+        this.restfulApiService.get<UserProfileOutputModelEntity>(UserUrl.getUserProfile).subscribe((res) => {
             this.userStoreService.setUserData(res.result);
         });
     }
@@ -103,7 +108,7 @@ export class UserRepositoryService {
      * @param params params
      * @returns any
      */
-    postRegister(params: any): Observable<any> {
+    postRegister(params: UserLoginInputModel): Observable<UserLoginOutputModelEntity> {
         return this.restfulApiService.post(UserUrl.postRegister, params);
     }
 
@@ -112,7 +117,7 @@ export class UserRepositoryService {
      * @param params params
      * @returns any
      */
-    postSendMail(params: any): Observable<BaseApiOutputModel<boolean>> {
+    postSendMail(params: Pick<UserLoginInputModel, "email">): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.post(UserUrl.postSendMail, params);
     }
 
@@ -121,7 +126,7 @@ export class UserRepositoryService {
      * @param params params
      * @returns any
      */
-    postValidOtp(params: any): Observable<BaseApiOutputModel<boolean>> {
+    postValidOtp(params: UserValidOtpInputModel): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.post(UserUrl.postValidOtp, params);
     }
 
@@ -130,23 +135,15 @@ export class UserRepositoryService {
      * @param params params
      * @returns any
      */
-    postValidEmail(params: any): Observable<any> {
+    postValidEmail(params: UserValidEmailInputModel): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.post(UserUrl.postValidEmail, params);
-    }
-
-    /**
-     * 取得otp Email
-     * @returns any
-     */
-    getOtpEmail(): Observable<any> {
-        return this.restfulApiService.get(UserUrl.getOtpEmail);
     }
 
     /**
      * 取得縣市
      * @returns any
      */
-    getLocation<T>(): Observable<T> {
+    getLocation(): Observable<AddressOutputModelEntity> {
         return this.restfulApiService.get(UserUrl.getLocation);
     }
 
@@ -155,7 +152,7 @@ export class UserRepositoryService {
      * @param param 使用者資料
      * @returns any
      */
-    putUserProfile<T>(param: T): Observable<BaseApiOutputModel<any>> {
+    putUserProfile(param: UserProfileInputModel): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.put(UserUrl.putUserProfile, param);
     }
 
@@ -164,7 +161,7 @@ export class UserRepositoryService {
      * @param param 使用者資料
      * @returns any
      */
-    putResetPassword<T>(param: T): Observable<BaseApiOutputModel<any>> {
+    putResetPassword(param: UserLoginInputModel): Observable<BaseApiOutputModel<boolean>> {
         return this.restfulApiService.put(UserUrl.putResetPassword, param);
     }
 }

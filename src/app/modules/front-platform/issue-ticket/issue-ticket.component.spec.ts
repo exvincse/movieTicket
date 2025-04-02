@@ -1,6 +1,8 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+    ComponentFixture, fakeAsync, TestBed, tick
+} from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
-import { provideRouter } from "@angular/router";
+import { ActivatedRoute, provideRouter } from "@angular/router";
 import { TicketRepositoryService } from "@app/core/api/middleware/ticket/ticket-repository.service";
 import { SweetAlertService } from "@app/shared/base/component/sweet-alert/service/sweet-alert.service";
 import { UserStoreService } from "@app/store/user/service/user-store.service";
@@ -12,137 +14,27 @@ import { StopPropagationDirective } from "../../../shared/base/directives/stop-p
 import { SwiperDirective } from "../../../shared/base/directives/swiper/swiper.directive";
 import { IssueTicketComponent } from "./issue-ticket.component";
 
-const credits = {
-    id: 912649,
-    cast: [
-        {
-            adult: false,
-            gender: 2,
-            id: 1763709,
-            known_for_department: "Acting",
-            name: "亞倫·皮埃爾",
-            original_name: "Aaron Pierre",
-            popularity: 49.103,
-            profile_path: "/hNwZWdT2KxKj1YLbipvtUhNjfAp.jpg",
-            cast_id: 12,
-            character: "Mufasa (voice)",
-            credit_id: "61290e9ee8a3e100623cdc79",
-            order: 0
-        },
-    ],
-    crew: [
-        {
-            adult: false,
-            gender: 2,
-            id: 92784,
-            known_for_department: "Directing",
-            name: "Barry Jenkins",
-            original_name: "Barry Jenkins",
-            popularity: 9.317,
-            profile_path: "/6nld5eQwiJmuLmyesk4EUeCaoo3.jpg",
-            credit_id: "5fa9c38b1b7294003b96e62b",
-            department: "Directing",
-            job: "Director"
-        }
-    ]
-};
-
-const rate = {
-    id: 912649,
-    results: [
-        {
-            iso_3166_1: "US",
-            release_dates: [
-                {
-                    certification: "PG",
-                    descriptors: [],
-                    iso_639_1: "",
-                    note: "Los Angeles, California",
-                    release_date: "2024-12-09T00:00:00.000Z",
-                    type: 1
-                },
-            ]
-        }
-    ]
-};
-
-const detailMock = {
-    adult: false,
-    backdrop_path: "/oHPoF0Gzu8xwK4CtdXDaWdcuZxZ.jpg",
-    belongs_to_collection: {
-        id: 762512,
-        name: "The Lion King (Reboot) Collection",
-        poster_path: "/dGpIRn4Nqi63JO1RlKxjcPbQSAw.jpg",
-        backdrop_path: "/jIgM7YNVft0YGeXsqrh3oG5TWLx.jpg"
-    },
-    budget: 200000000,
-    genres: [
-        {
-            id: 12,
-            name: "冒险"
-        },
-        {
-            id: 10751,
-            name: "家庭"
-        },
-        {
-            id: 18,
-            name: "剧情"
-        },
-        {
-            id: 16,
-            name: "动画"
-        }
-    ],
-    homepage: "",
-    id: 762509,
-    imdb_id: "tt13186482",
-    origin_country: [
-        "US"
-    ],
-    original_language: "en",
-    original_title: "Mufasa: The Lion King",
-    overview: "123",
-    popularity: 3139.872,
-    poster_path: "/14XzKeHrKCjTIDUoct26Sbsh5T5.jpg",
-    production_companies: [
-        {
-            id: 2,
-            logo_path: "/wdrCwmRnLFJhEoH8GSfymY85KHT.png",
-            name: "Walt Disney Pictures",
-            origin_country: "US"
-        }
-    ],
-    production_countries: [
-        {
-            iso_3166_1: "US",
-            name: "United States of America"
-        }
-    ],
-    release_date: "2024-12-18",
-    revenue: 125644218,
-    runtime: 118,
-    spoken_languages: [
-        {
-            english_name: "English",
-            iso_639_1: "en",
-            name: "English"
-        }
-    ],
-    status: "Released",
-    tagline: "從孤兒 到異響 終成王",
-    title: "獅子王：木法沙",
-    video: false,
-    vote_average: 7,
-    vote_count: 193
-};
-
 describe("IssueTicketComponent", () => {
     let component: IssueTicketComponent;
     let fixture: ComponentFixture<IssueTicketComponent>;
 
     let swiperElement: SwiperDirective;
     let stopPropagationElement: StopPropagationDirective;
+
+    const mergeDetailMock = {
+        list: { genres: [{ name: "動作" }], title: "測試電影" },
+        credits: {
+            crew: [{ job: "Director", name: "導演A" }],
+            cast: [
+                { order: 1, name: "演員1" },
+                { order: 2, name: "演員2" },
+                { order: 3, name: "演員3" },
+            ],
+        },
+        rate: {
+            results: [{ iso_3166_1: "US", release_dates: [{ certification: "R" }] }],
+        },
+    };
 
     const sweetAlertServiceMock = {
         instance: {
@@ -185,7 +77,7 @@ describe("IssueTicketComponent", () => {
         }
     ];
 
-    const tmdbRepositoryService = jasmine.createSpyObj("TmdbRepositoryService", ["getMovieDetail", "getMovieDetailCredits", "getMovieDetailRate"]);
+    const tmdbRepositoryService = jasmine.createSpyObj("TmdbRepositoryService", ["getMovieMergeDetail"]);
     const ticketRepositoryService = jasmine.createSpyObj("TicketRepositoryService", [
         "getTicketCategory",
         "getTicketLanguage",
@@ -198,9 +90,7 @@ describe("IssueTicketComponent", () => {
     beforeEach(() => {
         sweetAlertService.open.and.returnValue(sweetAlertServiceMock);
 
-        tmdbRepositoryService.getMovieDetail.and.returnValue(of(detailMock));
-        tmdbRepositoryService.getMovieDetailCredits.and.returnValue(of(credits));
-        tmdbRepositoryService.getMovieDetailRate.and.returnValue(of(rate));
+        tmdbRepositoryService.getMovieMergeDetail.and.returnValue(of(mergeDetailMock));
 
         ticketRepositoryService.getTicketCategory.and.returnValue(of({ result: ticketCategoryMock }));
         ticketRepositoryService.getTicketLanguage.and.returnValue(of({ result: ticketLanguageMock }));
@@ -218,7 +108,11 @@ describe("IssueTicketComponent", () => {
                 { provide: TmdbRepositoryService, useValue: tmdbRepositoryService },
                 { provide: TicketRepositoryService, useValue: ticketRepositoryService },
                 { provide: SweetAlertService, useValue: sweetAlertService },
-                { provide: UserStoreService, useValue: userStoreService }
+                { provide: UserStoreService, useValue: userStoreService },
+                {
+                    provide: ActivatedRoute,
+                    useValue: { snapshot: { params: { id: "123" } } },
+                },
             ]
         }).compileComponents();
 
@@ -241,6 +135,17 @@ describe("IssueTicketComponent", () => {
     it("建立元件", () => {
         expect(component).toBeTruthy();
     });
+
+    it("取得電影合併資料", fakeAsync(() => {
+        component.getMovieDetail();
+        tick();
+
+        expect(component.movieDetail.title).toBe("測試電影");
+        expect(component.movieDetail.director).toBe("導演A");
+        expect(component.movieDetail.cast).toBe("演員1、演員2、演員3");
+        expect(component.movieDetail.rate).toBe("R");
+        expect(component.movieDetail.rateImg).toBe("rating_18");
+    }));
 
     it("取得電影票卷分類", () => {
         expect(component.ticketCategory).toEqual(ticketCategoryMock);

@@ -17,8 +17,6 @@ export const UserUrl = {
     postValidOtp: "User/PostValidOtp",
     // 驗證Email
     postValidEmail: "User/PostValidEmail",
-    // 取得otp Email
-    getOtpEmail: "User/GetOtpEmail",
     // 取得縣市
     getLocation: "User/GetLocation",
     // 修改個人資料

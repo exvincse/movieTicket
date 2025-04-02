@@ -3,6 +3,7 @@ import {
     Component, CUSTOM_ELEMENTS_SCHEMA, OnInit,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
+import { MovieListOutputModel } from "@app/core/models/outputViewModels/movie/movie-list-output.model";
 import { StopPropagationDirective } from "@app/shared/base/directives/stop-propagation/stop-propagation.directive";
 import { SwiperDirective } from "@app/shared/base/directives/swiper/swiper.directive";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -84,11 +85,11 @@ export class IndexPageComponent implements OnInit {
         },
     };
 
-    hotMovieList: any[] = [];
+    hotMovieList: MovieListOutputModel["results"][number][] = [];
 
-    bannerImg: any[] = [];
+    bannerImg: string[] = [];
 
-    comingMovieList: any[] = [];
+    comingMovieList: MovieListOutputModel["results"][number][] = [];
 
     /**
      * on init
@@ -98,7 +99,7 @@ export class IndexPageComponent implements OnInit {
         const hotEndDate = moment().endOf("month");
         const hotRes = await this.getAllMovieList(1, hotStartDate.format("YYYY-MM-DD"), hotEndDate.format("YYYY-MM-DD"));
         this.hotMovieList = hotRes.results;
-        this.bannerImg = this.hotMovieList.filter((item) => item.backdrop_path !== null);
+        this.bannerImg = this.hotMovieList.filter((item) => item.backdrop_path !== null).map((x) => x.backdrop_path);
 
         const comingStartDate = moment().startOf("month").add(1, "month");
         const comingEndDate = moment().endOf("month").add(1, "month");

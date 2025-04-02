@@ -1,9 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { AfterViewInit, Component } from "@angular/core";
+import { MovieDetailEntity } from "@app/core/models/entities/movie/movie-detail-entity";
 import * as OpenCC from "opencc-js";
-import {
-    forkJoin, lastValueFrom
-} from "rxjs";
+import { lastValueFrom } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
 import { SweetAlertConfig } from "../../../shared/base/component/sweet-alert/sweet-alert-config";
@@ -29,7 +28,38 @@ export class MovieDetailComponent implements AfterViewInit {
         public option: SweetAlertConfig
     ) { }
 
-    movieDetail: any = {};
+    movieDetail: MovieDetailEntity = {
+        id: 0,
+        title: "",
+        genres: "",
+        director: "",
+        cast: "",
+        rate: "",
+        rateImg: "",
+        adult: false,
+        backdrop_path: "",
+        belongs_to_collection: "",
+        budget: 0,
+        homepage: "",
+        imdb_id: "",
+        original_language: "",
+        original_title: "",
+        overview: "",
+        popularity: 0,
+        poster_path: "",
+        production_companies: [],
+        production_countries: [],
+        release_date: "",
+        revenue: 0,
+        runtime: 0,
+        spoken_languages: [],
+        status: "",
+        tagline: "",
+        video: false,
+        vote_average: 0,
+        vote_count: 0,
+        origin_country: []
+    };
 
     /**
      * on init
@@ -41,25 +71,32 @@ export class MovieDetailComponent implements AfterViewInit {
     }
 
     /**
-     * getMovieDetail
+     * 取得電影合併資料
      */
     async getMovieDetail() {
         const converter = OpenCC.Converter({ from: "cn", to: "tw" });
 
-        const { list, credits, rate } = await lastValueFrom(forkJoin({
-            list: this.getMovieList(),
-            credits: this.getMovieDetailCredits(),
-            rate: this.getMovieDetailRate()
-        }));
+        const movieId = this.option.data.id;
 
-        const movieDetailRate = rate.results.find((item: any) => item.iso_3166_1 === "US");
+        const params = {
+            language: "zh-TW",
+        };
+
+        const { list, credits, rate } = await lastValueFrom(this.tmdbRepositoryService.getMovieMergeDetail(movieId, params));
+
+        const movieDetailRate = rate.results.find((item) => item.iso_3166_1 === "US");
+
+        const director = credits.crew.find((item) => item.job === "Director")?.name || "";
+
+        const cast = credits.cast.filter((item) => item.order < 5).map((item) => item.name).join("、") || "";
 
         this.movieDetail = {
             ...list,
-            genres: converter(list.genres.map((item: { name: any; }) => item.name).join("、")),
-            director: credits.crew.find((item: any) => item.job === "Director"),
-            cast: credits.cast.filter((item: any) => item.order < 5).map((item: any) => item.name).join("、"),
-            rate: movieDetailRate ? movieDetailRate.release_dates[0].certification : ""
+            genres: converter(list.genres.map((item) => item.name).join("、")),
+            director,
+            cast,
+            rate: movieDetailRate ? movieDetailRate.release_dates[0].certification : "",
+            rateImg: ""
         };
 
         switch (this.movieDetail.rate) {
@@ -76,35 +113,5 @@ export class MovieDetailComponent implements AfterViewInit {
                 this.movieDetail.rateImg = "rating";
                 break;
         }
-    }
-
-    /**
-     * getMovieList
-     * @returns movieList
-     */
-    async getMovieList() {
-        return lastValueFrom(this.tmdbRepositoryService.getMovieDetail(`${this.option.data.id}`, {
-            language: "zh-TW"
-        }));
-    }
-
-    /**
-     * getMovieDetailCredits
-     * @returns movieList
-     */
-    async getMovieDetailCredits() {
-        return lastValueFrom(this.tmdbRepositoryService.getMovieDetailCredits(`${this.option.data.id}`, {
-            language: "zh-TW"
-        }));
-    }
-
-    /**
-    * getMovieDetailRate
-    * @returns movieList
-    */
-    async getMovieDetailRate() {
-        return lastValueFrom(this.tmdbRepositoryService.getMovieDetailRate(`${this.option.data.id}`, {
-            language: "zh-TW"
-        }));
     }
 }

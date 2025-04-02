@@ -4,6 +4,7 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+import { MovieDetailEntity } from "@app/core/models/entities/movie/movie-detail-entity";
 import { TicketDateTimeEntity } from "@app/core/models/entities/ticket/ticket-date-time-entity";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
@@ -19,7 +20,6 @@ import { TicketLanguageEntity } from "../../../core/models/entities/ticket/ticke
 import {
     Seat, TicketParam, TicketSelect
 } from "../../../core/models/entities/ticket/ticket-select.entity";
-import { TickSeatInputModel } from "../../../core/models/inputViewModels/ticket/ticket-seat-input.model";
 import { TextAlertComponent } from "../../../shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "../../../shared/base/component/sweet-alert/service/sweet-alert.service";
 import { StopPropagationDirective } from "../../../shared/base/directives/stop-propagation/stop-propagation.directive";
@@ -55,7 +55,38 @@ export class IssueTicketComponent implements OnInit {
         public userStoreService: UserStoreService,
     ) { }
 
-    movieDetail: any = {};
+    movieDetail: MovieDetailEntity = {
+        id: 0,
+        title: "",
+        genres: "",
+        director: "",
+        cast: "",
+        rate: "",
+        rateImg: "",
+        adult: false,
+        backdrop_path: "",
+        belongs_to_collection: "",
+        budget: 0,
+        homepage: "",
+        imdb_id: "",
+        original_language: "",
+        original_title: "",
+        overview: "",
+        popularity: 0,
+        poster_path: "",
+        production_companies: [],
+        production_countries: [],
+        release_date: "",
+        revenue: 0,
+        runtime: 0,
+        spoken_languages: [],
+        status: "",
+        tagline: "",
+        video: false,
+        vote_average: 0,
+        vote_count: 0,
+        origin_country: []
+    };
 
     faGreaterThan = faGreaterThan;
 
@@ -129,29 +160,32 @@ export class IssueTicketComponent implements OnInit {
     }
 
     /**
-     * getMovieDetail
+     * 取得電影合併資料
      */
     async getMovieDetail() {
         const converter = OpenCC.Converter({ from: "cn", to: "tw" });
+
+        const movieId = this.route.snapshot.params["id"];
 
         const params = {
             language: "zh-TW",
         };
 
-        const list = await lastValueFrom(this.tmdbRepositoryService.getMovieDetail(`${this.route.snapshot.params["id"]}`, params));
+        const { list, credits, rate } = await lastValueFrom(this.tmdbRepositoryService.getMovieMergeDetail(movieId, params));
 
-        const credits = await lastValueFrom(this.tmdbRepositoryService.getMovieDetailCredits(`${this.route.snapshot.params["id"]}`, params));
+        const movieDetailRate = rate.results.find((item) => item.iso_3166_1 === "US");
 
-        const rate = await lastValueFrom(this.tmdbRepositoryService.getMovieDetailRate(`${this.route.snapshot.params["id"]}`, params));
+        const director = credits.crew.find((item) => item.job === "Director")?.name || "";
 
-        const movieDetailRate = rate.results.find((item: any) => item.iso_3166_1 === "US");
+        const cast = credits.cast.filter((item) => item.order < 5).map((item) => item.name).join("、") || "";
 
         this.movieDetail = {
             ...list,
-            genres: converter(list.genres.map((item: { name: any; }) => item.name).join("、")),
-            director: credits.crew.find((item: any) => item.job === "Director"),
-            cast: credits.cast.filter((item: any) => item.order < 5).map((item: any) => item.name).join("、"),
-            rate: movieDetailRate ? movieDetailRate.release_dates[0].certification : ""
+            genres: converter(list.genres.map((item) => item.name).join("、")),
+            director,
+            cast,
+            rate: movieDetailRate ? movieDetailRate.release_dates[0].certification : "",
+            rateImg: ""
         };
 
         switch (this.movieDetail.rate) {
@@ -290,7 +324,7 @@ export class IssueTicketComponent implements OnInit {
                 this.ticketRepositoryService.postSealTicket(param).subscribe((res) => {
                     if (res.result !== false) {
                         // 後端回傳paypal付款連結
-                        window.location.href = res.result;
+                        window.location.href = res.result as string;
                     } else {
                         this.sweetAlertService.open(TextAlertComponent, {
                             icon: "error",

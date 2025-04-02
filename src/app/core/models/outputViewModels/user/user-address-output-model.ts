@@ -12,7 +12,7 @@ export interface AddressOutputModel {
 }
 
 // 鄉鎮區號
-export type District = Pick<AddressOutputModel["district"][number], "districtName" | "districtCode" | "postalCode">;
+// export type District = Pick<AddressOutputModel["district"][number], "districtName" | "districtCode" | "postalCode">;
 
 // 縣市鄉鎮區號(含基本回傳格式)
 export type AddressOutputModelEntity = BaseApiOutputModel<AddressOutputModel[]>;

@@ -6,6 +6,7 @@ import {
     Component, OnInit
 } from "@angular/core";
 import { NavigationEnd, Router, RouterModule } from "@angular/router";
+import { MovieGenreOutputModel } from "@app/core/models/outputViewModels/movie/movie-genre-output.model";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faBars, faTimes, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import * as OpenCC from "opencc-js";
@@ -81,7 +82,7 @@ export class HeaderComponent implements OnInit {
     faUserCircle = faUserCircle;
     isShowMobileList = false;
     menuList = [false, false];
-    genresList: any[] = [];
+    genresList: MovieGenreOutputModel[] = [];
     userList: any[] = [
         {
             url: "/personal/base",
