@@ -8,13 +8,6 @@ import { TmdbRestfulApiService } from "./tmdb-restful-api.service";
 describe("TmdbRestfulApiService", () => {
     let service: TmdbRestfulApiService;
 
-    const options = {
-        headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${environmentTMDB.apiKey}`,
-        }
-    };
-
     const mockParam = {
         test: ""
     };
@@ -46,7 +39,7 @@ describe("TmdbRestfulApiService", () => {
             expect(res).toEqual(mockResponse);
         });
 
-        expect(httpClientMock.get).toHaveBeenCalledWith(`${environmentTMDB.apiUrl}/123`, options);
+        expect(httpClientMock.get).toHaveBeenCalledWith(`${environmentTMDB.apiUrl}/123`);
     });
 
     it("測試post方法", () => {
@@ -56,7 +49,7 @@ describe("TmdbRestfulApiService", () => {
             expect(res).toEqual(mockResponse);
         });
 
-        expect(httpClientMock.post).toHaveBeenCalledWith(`${environmentTMDB.apiUrl}/123`, mockParam, options);
+        expect(httpClientMock.post).toHaveBeenCalledWith(`${environmentTMDB.apiUrl}/123`, mockParam);
     });
 
     it("測試put方法", () => {
@@ -66,6 +59,6 @@ describe("TmdbRestfulApiService", () => {
             expect(res).toEqual(mockResponse);
         });
 
-        expect(httpClientMock.put).toHaveBeenCalledWith(`${environmentTMDB.apiUrl}/123`, mockParam, options);
+        expect(httpClientMock.put).toHaveBeenCalledWith(`${environmentTMDB.apiUrl}/123`, mockParam);
     });
 });

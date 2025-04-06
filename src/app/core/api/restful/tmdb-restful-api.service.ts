@@ -12,14 +12,6 @@ import { RestfulApiService } from "./restful-api.service";
 })
 export class TmdbRestfulApiService extends RestfulApiService {
     protected override baseApiUrl = environmentTMDB.apiUrl;
-    protected baseApiKey = environmentTMDB.apiKey;
-
-    protected options = {
-        headers: {
-            accept: "application/json",
-            Authorization: `Bearer ${this.baseApiKey}`,
-        }
-    };
 
     /**
      * restful get
@@ -37,10 +29,10 @@ export class TmdbRestfulApiService extends RestfulApiService {
                 }
             });
 
-            return this.http.get(`${this.baseApiUrl}/${url}?${newParams.toString()}`, this.options);
+            return this.http.get(`${this.baseApiUrl}/${url}?${newParams.toString()}`);
         }
 
-        return this.http.get(`${this.baseApiUrl}/${url}`, this.options);
+        return this.http.get(`${this.baseApiUrl}/${url}`);
     }
 
     /**
@@ -50,7 +42,7 @@ export class TmdbRestfulApiService extends RestfulApiService {
      * @returns req
      */
     override post(url: string, data: any): Observable<any> {
-        return this.http.post(`${this.baseApiUrl}/${url}`, data, this.options);
+        return this.http.post(`${this.baseApiUrl}/${url}`, data);
     }
 
     /**
@@ -60,6 +52,6 @@ export class TmdbRestfulApiService extends RestfulApiService {
      * @returns req
      */
     override put(url: string, data: any): Observable<any> {
-        return this.http.put(`${this.baseApiUrl}/${url}`, data, this.options);
+        return this.http.put(`${this.baseApiUrl}/${url}`, data);
     }
 }

@@ -1,5 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+    ComponentFixture, fakeAsync, TestBed, tick
+} from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { provideRouter } from "@angular/router";
 import { MovieListOutputModel } from "@app/core/models/outputViewModels/movie/movie-list-output.model";
@@ -33,7 +35,7 @@ describe("IndexPageComponent", () => {
     let fixture: ComponentFixture<IndexPageComponent>;
 
     const apiServiceSpy = jasmine.createSpyObj(["TmdbRepositoryService", "getMovieList"]);
-    apiServiceSpy.getMovieList.and.returnValue(of(mockMovieResponse));
+    apiServiceSpy.getMovieList.and.returnValue(of({ results: mockMovieResponse }));
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -66,10 +68,11 @@ describe("IndexPageComponent", () => {
         expect(component).toBeTruthy();
     });
 
-    it("測試電影列表資料", async () => {
+    it("測試電影列表資料", fakeAsync(() => {
         const tmdbRepositoryService = TestBed.inject(TmdbRepositoryService);
 
-        await component.getAllMovieList(1, "2024-12-12", "2024-12-25");
+        component.getAllMovieList(1, "2024-12-12", "2024-12-25");
+        tick();
 
         const params = {
             language: "zh-TW",
@@ -79,14 +82,14 @@ describe("IndexPageComponent", () => {
             page: 1
         };
         expect(tmdbRepositoryService.getMovieList).toHaveBeenCalledWith(params);
-    });
+    }));
 
-    it("測試nginit取得電影列表", async () => {
-        await component.ngOnInit();
-
+    it("測試nginit取得電影列表", fakeAsync(() => {
+        component.ngOnInit();
+        tick();
         expect(component.hotMovieList).toEqual(mockMovieResponse);
         expect(component.comingMovieList).toEqual(mockMovieResponse);
-    });
+    }));
 
     it("掛載SwiperDirective", () => {
         const swiperElement = fixture.debugElement.query(By.directive(SwiperDirective)).injector.get(SwiperDirective);

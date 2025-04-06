@@ -98,13 +98,13 @@ export class IndexPageComponent implements OnInit {
         const hotStartDate = moment().startOf("month");
         const hotEndDate = moment().endOf("month");
         const hotRes = await this.getAllMovieList(1, hotStartDate.format("YYYY-MM-DD"), hotEndDate.format("YYYY-MM-DD"));
-        this.hotMovieList = hotRes.results;
+        this.hotMovieList = hotRes.results || [];
         this.bannerImg = this.hotMovieList.filter((item) => item.backdrop_path !== null).map((x) => x.backdrop_path);
 
         const comingStartDate = moment().startOf("month").add(1, "month");
         const comingEndDate = moment().endOf("month").add(1, "month");
         const comingRes = await this.getAllMovieList(1, comingStartDate.format("YYYY-MM-DD"), comingEndDate.format("YYYY-MM-DD"));
-        this.comingMovieList = comingRes.results;
+        this.comingMovieList = comingRes.results || [];
     }
 
     /**
@@ -124,7 +124,7 @@ export class IndexPageComponent implements OnInit {
         };
 
         const res = await lastValueFrom(this.tmdbRepositoryService.getMovieList(params));
-        return res;
+        return res || { results: [] };
     }
 
     /**

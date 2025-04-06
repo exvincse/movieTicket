@@ -49,7 +49,7 @@ export class TicketRepositoryService {
      * @returns any
      */
     postSelectSeat(param: TickSeatInputModel): Observable<TicketSeatOutputModelEntity> {
-        return this.restfulApiService.post<TicketSeatOutputModelEntity>(TicketUrl.postSelectSeat, param);
+        return this.restfulApiService.post(TicketUrl.postSelectSeat, param);
     }
 
     /**

@@ -66,7 +66,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
                         });
                         return next(modifiedReq);
                     }),
-                    catchError(() => {
+                    catchError((tokenError: HttpErrorResponse) => {
                         userStoreService.setClearUserData();
                         userStoreService.setUserIsLogin(false);
                         const ref = sweetAlertService.open(TextAlertComponent, {
@@ -80,7 +80,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
                             router.navigate(["/"]);
                         });
 
-                        return throwError(() => error);
+                        return throwError(() => tokenError);
                     })
                 );
             }
