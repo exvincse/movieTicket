@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { LoaderService } from "@app/services/loader/loader.service";
 import { TextAlertComponent } from "@app/shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
 import { SweetAlertService } from "@app/shared/base/component/sweet-alert/service/sweet-alert.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -39,6 +40,7 @@ export class TicketComponent implements OnInit {
      * @param sweetAlertService SweetAlertService
      * @param router router
      * @param route activatedRoute
+     * @param loaderService LoaderService
      */
     constructor(
         public ticketRepositoryService: TicketRepositoryService,
@@ -46,6 +48,7 @@ export class TicketComponent implements OnInit {
         public sweetAlertService: SweetAlertService,
         public router: Router,
         public route: ActivatedRoute,
+        private loaderService: LoaderService,
     ) {
         this.sub = this.route.queryParams.subscribe((params: any) => {
             if (this.userNo === 0) return;
@@ -125,6 +128,7 @@ export class TicketComponent implements OnInit {
         this.ticketRepositoryService.getOrderLink({ orderId }).subscribe((res) => {
             if (res.result !== null) {
                 window.location.href = res.result;
+                this.loaderService.startLoadingCount();
             } else {
                 this.sweetAlertService.open(TextAlertComponent, {
                     icon: "error",

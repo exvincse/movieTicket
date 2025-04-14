@@ -6,12 +6,12 @@ import {
     OnDestroy,
     TemplateRef,
     Type,
-    ViewChild
+    ViewChild,
+    ViewContainerRef
 } from "@angular/core";
 import { SwalComponent, SwalPortalTargets, SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { Subject } from "rxjs";
 
-import { InsertionDirective } from "../../directives/insertion.directive";
 import { SweetAlertConfig } from "./sweet-alert-config";
 
 /**
@@ -20,15 +20,15 @@ import { SweetAlertConfig } from "./sweet-alert-config";
 @Component({
     selector: "app-sweet-alert",
     standalone: true,
-    imports: [CommonModule, SweetAlert2Module, InsertionDirective],
+    imports: [CommonModule, SweetAlert2Module],
     templateUrl: "./sweet-alert.component.html",
     styleUrls: ["./sweet-alert.component.scss"]
 })
 export class SweetAlertComponent implements AfterViewInit, OnDestroy {
     @ViewChild("swalComponent") swalComponent!: SwalComponent;
-    @ViewChild(InsertionDirective, { static: false }) insertionPoint!: InsertionDirective;
+    @ViewChild("templateRef", { read: ViewContainerRef }) templateRef!: ViewContainerRef;
 
-    afterClose = new Subject();
+    afterClose = new Subject<boolean>();
 
     // 掛載component或template
     slotTemplate!: Type<any> | TemplateRef<any>;
@@ -94,10 +94,9 @@ export class SweetAlertComponent implements AfterViewInit, OnDestroy {
      * @param component Component
      */
     loadSlotComponent(component: Type<any>) {
-        const { viewContainerRef } = this.insertionPoint;
-        viewContainerRef.clear();
+        this.templateRef.clear();
 
-        this.componentRef = viewContainerRef.createComponent(component, {
+        this.componentRef = this.templateRef.createComponent(component, {
             injector: this.slotInjector
         });
     }
@@ -107,8 +106,7 @@ export class SweetAlertComponent implements AfterViewInit, OnDestroy {
      * @param template TemplateRef
      */
     loadSlotTemplate(template: TemplateRef<any>) {
-        const { viewContainerRef } = this.insertionPoint;
-        viewContainerRef.clear();
-        viewContainerRef.createEmbeddedView(template, this.option.data);
+        this.templateRef.clear();
+        this.templateRef.createEmbeddedView(template, this.option.data);
     }
 }

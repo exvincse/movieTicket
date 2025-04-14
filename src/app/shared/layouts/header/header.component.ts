@@ -60,7 +60,7 @@ export class HeaderComponent implements OnInit {
         public tmdbRepositoryService: TmdbRepositoryService,
         public userRepositoryService: UserRepositoryService,
         public userStoreService: UserStoreService,
-        private router: Router,
+        public router: Router,
         public sweetAlertService: SweetAlertService
     ) {
         this.router.events

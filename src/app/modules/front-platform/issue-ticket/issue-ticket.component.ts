@@ -6,6 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { MovieDetailEntity } from "@app/core/models/entities/movie/movie-detail-entity";
 import { TicketDateTimeEntity } from "@app/core/models/entities/ticket/ticket-date-time-entity";
+import { LoaderService } from "@app/services/loader/loader.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
@@ -46,6 +47,7 @@ export class IssueTicketComponent implements OnInit {
      * @param ticketRepositoryService ticketRepositoryService
      * @param sweetAlertService SweetAlertService
      * @param userStoreService UserStoreService
+     * @param loaderService LoaderService
      */
     constructor(
         public route: ActivatedRoute,
@@ -53,6 +55,7 @@ export class IssueTicketComponent implements OnInit {
         public ticketRepositoryService: TicketRepositoryService,
         public sweetAlertService: SweetAlertService,
         public userStoreService: UserStoreService,
+        public loaderService: LoaderService
     ) { }
 
     movieDetail: MovieDetailEntity = {
@@ -325,6 +328,7 @@ export class IssueTicketComponent implements OnInit {
                     if (res.result !== false) {
                         // 後端回傳paypal付款連結
                         window.location.href = res.result as string;
+                        this.loaderService.startLoadingCount();
                     } else {
                         this.sweetAlertService.open(TextAlertComponent, {
                             icon: "error",

@@ -75,8 +75,8 @@ export class PagerComponent {
     _nowPage = 1;
 
     /**
-     * Gets rendered pages
-     * @returns pagesAry 取得要呈現的頁碼
+     * 取得呈現的分頁
+     * @returns pagesAry
      */
     get renderPages(): number[] {
         const currentPage = this.nowPage;
@@ -105,8 +105,8 @@ export class PagerComponent {
     }
 
     /**
-     * page
-     * @param page page
+     * 改變分頁
+     * @param page 當前頁
      */
     changePage(page: number) {
         this._nowPage = page;
