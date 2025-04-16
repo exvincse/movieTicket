@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
-import { UserLoginInputModel, UserValidEmailInputModel, UserValidOtpInputModel } from "@app/core/models/inputViewModels/user/user-login-input.model";
+import {
+    UserGoogleLoginInputModel, UserLoginInputModel, UserValidEmailInputModel, UserValidOtpInputModel
+} from "@app/core/models/inputViewModels/user/user-login-input.model";
 import { UserProfileInputModel } from "@app/core/models/inputViewModels/user/user-profile-input.model";
 import { AddressOutputModelEntity } from "@app/core/models/outputViewModels/user/user-address-output-model";
 import { UserLoginOutputModelEntity } from "@app/core/models/outputViewModels/user/user-login-output.model";
@@ -49,6 +51,15 @@ export class UserRepositoryService {
      */
     postLogin(params: UserLoginInputModel): Observable<UserLoginOutputModelEntity> {
         return this.restfulApiService.post(UserUrl.postLogin, params);
+    }
+
+    /**
+     * Google登入
+     * @param params params
+     * @returns any
+     */
+    postGoogleLogin(params: UserGoogleLoginInputModel): Observable<UserLoginOutputModelEntity> {
+        return this.restfulApiService.post(UserUrl.postGoogleLogin, params);
     }
 
     /**

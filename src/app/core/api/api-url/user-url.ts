@@ -3,6 +3,8 @@ export const UserUrl = {
     getIsCheckLogin: "User/GetIsCheckLogin",
     // 登入
     postLogin: "User/Login",
+    // google登入
+    postGoogleLogin: "User/GoogleLogin",
     // 登出
     postLogout: "User/Logout",
     // 換發token

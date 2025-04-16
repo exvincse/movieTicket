@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
 import {
+    AfterViewInit,
     Component, OnInit
 } from "@angular/core";
 import {
@@ -10,6 +11,7 @@ import {
     Validators
 } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
+import { GoogleAuthService } from "@app/services/google/google-login.service";
 import { UserStoreService } from "@app/store/user/service/user-store.service";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -39,7 +41,7 @@ import { StopPropagationDirective } from "../../../shared/base/directives/stop-p
     templateUrl: "./login.component.html",
     styleUrl: "./login.component.scss"
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
     /**
      * constructor
      * @param fb FormBuilder
@@ -49,6 +51,7 @@ export class LoginComponent implements OnInit {
      * @param userStoreService UserStoreService
      * @param cookieService CookieService
      * @param sweetAlertService SweetAlertService
+     * @param googleAuthService GoogleAuthService
      */
     constructor(
         public fb: FormBuilder,
@@ -57,7 +60,8 @@ export class LoginComponent implements OnInit {
         public tmdbRepositoryService: TmdbRepositoryService,
         public userStoreService: UserStoreService,
         public cookieService: CookieService,
-        public sweetAlertService: SweetAlertService
+        public sweetAlertService: SweetAlertService,
+        public googleAuthService: GoogleAuthService
     ) {
         this.loginForm = this.fb.group({
             email: ["", [
@@ -83,6 +87,13 @@ export class LoginComponent implements OnInit {
     async ngOnInit() {
         const res = await this.getMovieDetail();
         this.bgPic = res.backdrop_path;
+    }
+
+    /**
+     * ngAfterViewInit
+     */
+    ngAfterViewInit() {
+        this.googleAuthService.loadGoogleAuth();
     }
 
     /**

@@ -4,6 +4,10 @@ export interface UserLoginInputModel {
     password: string;
 }
 
+export interface UserGoogleLoginInputModel {
+    googleToken: string;
+}
+
 type Replace<T, K extends keyof T, V extends string, Z> = Omit<T, K> & { [P in V]: Z };
 
 export type UserValidOtpInputModel = Replace<UserLoginInputModel, "password", "otp", string>;

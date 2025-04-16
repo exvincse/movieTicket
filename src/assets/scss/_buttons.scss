@@ -119,6 +119,11 @@
             width: 100%;
             margin: 0;
         }
+
+        &--center {
+            display: flex;
+            justify-content: center;
+        }
     }
 
     &__item + &__item {
