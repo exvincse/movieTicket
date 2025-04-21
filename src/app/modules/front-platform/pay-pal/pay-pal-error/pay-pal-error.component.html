@@ -1,4 +1,4 @@
-<div class="l-statusBox">
+<div class="l-statusBox" *ngIf="orderDetail.orderId !== ''">
     <div class="o-statusBox">
         <fa-icon [icon]="faTimesCircle" [size]="'10x'" class="o-statusBox__img u-light-red"></fa-icon>
         <p class="o-statusBox__msg">付款失敗!</p>

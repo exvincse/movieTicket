@@ -1,4 +1,4 @@
-<div class="l-statusBox">
+<div class="l-statusBox" *ngIf="orderDetail.orderId !== ''">
     <div class="o-statusBox">
         <fa-icon [icon]="faCircleCheck" [size]="'10x'" class="o-statusBox__img u-light-green"></fa-icon>
         <p class="o-statusBox__msg">
