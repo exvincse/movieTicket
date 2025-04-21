@@ -16,10 +16,10 @@
                                 <div class="c-form__item c-form__item--column">
                                     <div class="c-form__text">
                                         <input type="text" formControlName="email"
-                                            [class.is-error]="!registerForm.controls['email'].valid && registerForm.controls['email'].touched"
+                                            [class.is-error]="registerForm.controls['email'].invalid && registerForm.controls['email'].dirty"
                                             class="o-inputbox o-inputbox--full" placeholder="請輸入信箱">
                                     </div>
-                                    <ng-container *ngIf="registerForm.controls['email'].touched">
+                                    <ng-container *ngIf="registerForm.controls['email'].dirty">
                                         <div class="c-form__error"
                                             *ngIf="registerForm.controls['email'].hasError('required')">
                                             請輸入信箱
@@ -44,7 +44,7 @@
                                         <div class="c-login__input">
                                             <input [type]="isHiddenEye ? 'password' : 'text'" formControlName="password"
                                                 class="o-inputbox o-inputbox--full o-inputbox--icon"
-                                                [class.is-error]="!registerForm.controls['password'].valid && registerForm.controls['password'].touched"
+                                                [class.is-error]="registerForm.controls['password'].invalid && registerForm.controls['password'].dirty"
                                                 placeholder="請輸入密碼">
                                             <a href="#" appStopPropagation class="c-login__eye" (click)="toggleEye()">
                                                 <fa-icon [icon]="isHiddenEye ? faEyeSlash : faEye" class="u-font-gy"
@@ -52,7 +52,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <ng-container *ngIf="registerForm.controls['password'].touched">
+                                    <ng-container *ngIf="registerForm.controls['password'].dirty">
                                         <div class="c-form__error"
                                             *ngIf="registerForm.controls['password'].hasError('required')">
                                             請輸入密碼
@@ -73,7 +73,7 @@
                                         <div class="c-login__input">
                                             <input [type]="isHiddenCheckEye ? 'password' : 'text'"
                                                 formControlName="checkPassword"
-                                                [class.is-error]="!registerForm.controls['checkPassword'].valid && registerForm.controls['checkPassword'].touched"
+                                                [class.is-error]="registerForm.controls['checkPassword'].invalid && registerForm.controls['checkPassword'].dirty"
                                                 class="o-inputbox o-inputbox--full o-inputbox--icon" placeholder="確認密碼">
                                             <a href="#" appStopPropagation class="c-login__eye"
                                                 (click)="toggleCheckEye()">
@@ -82,7 +82,7 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <ng-container *ngIf="registerForm.controls['checkPassword'].touched">
+                                    <ng-container *ngIf="registerForm.controls['checkPassword'].dirty">
                                         <div class="c-form__error"
                                             *ngIf="registerForm.controls['checkPassword'].hasError('required')">
                                             請輸入密碼

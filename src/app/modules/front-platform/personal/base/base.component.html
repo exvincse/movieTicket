@@ -3,12 +3,15 @@
         <div class="c-form__label">姓名</div>
         <div class="c-form__text">
             <input type="text" class="o-inputbox o-inputbox--full"
-                [class.is-error]="!personalForm.controls['name'].valid" formControlName="name">
+                [class.is-error]="personalForm.controls['name'].invalid && personalForm.controls['name'].dirty"
+                formControlName="name">
         </div>
-        <div class="c-form__error" *ngIf="personalForm.controls['name'].hasError('required')">
+        <div class="c-form__error"
+            *ngIf="personalForm.controls['name'].hasError('required') && personalForm.controls['name'].dirty">
             請輸入姓名
         </div>
-        <div class="c-form__error" *ngIf="personalForm.controls['name'].hasError('maxlength')">
+        <div class="c-form__error"
+            *ngIf="personalForm.controls['name'].hasError('maxlength') && personalForm.controls['name'].dirty">
             姓名最多30個字
         </div>
     </div>
@@ -45,12 +48,13 @@
                 </div>
                 <div class="l-address__item is-full">
                     <input type="text" class="o-inputbox o-inputbox--full" [placeholder]="'請輸入地址'"
-                        [class.is-error]="personalForm.controls['address'].hasError('maxlength')"
+                        [class.is-error]="personalForm.controls['address'].hasError('maxlength') && personalForm.controls['address'].dirty"
                         formControlName="address">
                 </div>
             </div>
         </div>
-        <div class="c-form__error" *ngIf="personalForm.controls['address'].hasError('maxlength')">
+        <div class="c-form__error"
+            *ngIf="personalForm.controls['address'].hasError('maxlength') && personalForm.controls['address'].dirty">
             通訊地址最多50個字
         </div>
     </div>
@@ -85,10 +89,11 @@
         <div class="c-form__label">出生日期</div>
         <div class="c-form__text">
             <app-date-picker formControlName="birthday"
-                [isError]="personalForm.controls['birthday'].hasError('invalidDate') && personalForm.controls['birthday'].touched"
+                [isError]="personalForm.controls['birthday'].invalid && personalForm.controls['birthday'].dirty"
                 [placeholder]="'請輸入出生日期'"></app-date-picker>
         </div>
-        <div class="c-form__error" *ngIf="personalForm.controls['birthday'].hasError('invalidDate')">
+        <div class="c-form__error"
+            *ngIf="personalForm.controls['birthday'].invalid && personalForm.controls['birthday'].dirty">
             請輸入正確日期格式
         </div>
     </div>
