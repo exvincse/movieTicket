@@ -1,12 +1,13 @@
 import { CommonModule } from "@angular/common";
 import {
-    Component, OnDestroy, OnInit
+    Component, OnDestroy
 } from "@angular/core";
 import {
     FormBuilder, FormGroup, FormsModule, ReactiveFormsModule,
     Validators
 } from "@angular/forms";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { MovieList } from "@app/core/models/outputViewModels/movie/movie-list-output.model";
 import { Subscription } from "rxjs";
 
 import { TmdbRepositoryService } from "../../../core/api/middleware/tmdb/tmdb-repository.service";
@@ -35,7 +36,7 @@ import { MovieDetailComponent } from "../movie-detail/movie-detail.component";
     templateUrl: "./movie-list.component.html",
     styleUrl: "./movie-list.component.scss"
 })
-export class MovieListComponent implements OnInit, OnDestroy {
+export class MovieListComponent implements OnDestroy {
     /**
      * constructor
      * @param tmdbRepositoryService TmdbRepositoryService
@@ -73,7 +74,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
 
     sub: Subscription;
 
-    movieList: any[] = [];
+    movieList: MovieList[] = [];
 
     total = 0;
 
@@ -86,13 +87,6 @@ export class MovieListComponent implements OnInit, OnDestroy {
     lightboxOptions = {
         zoomable: true
     };
-
-    /**
-     * on init
-     */
-    ngOnInit() {
-        this.getAllMovieList();
-    }
 
     /**
      * destory
@@ -145,7 +139,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
         };
 
         this.tmdbRepositoryService.getMovieList(params).subscribe((res) => {
-            this.total = res.total_results;
+            this.total = res.total_pages;
             this.movieList = res.results;
         });
     }

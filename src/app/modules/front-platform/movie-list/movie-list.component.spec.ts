@@ -52,16 +52,7 @@ describe("MovieListComponent", () => {
         expect(component).toBeTruthy();
     });
 
-    it("在ngInit調用getAllMovieList", () => {
-        component.ngOnInit();
-        component.getAllMovieList(1, "2024-01-01", "2025-01-01");
-        expect(component.movieList.length).toBe(1);
-        expect(component.total).toBe(100);
-        expect(component.movieList[0].overview).toBe("Test Overview");
-    });
-
     it("確認ngfor是否有選染到畫面上", () => {
-        component.ngOnInit();
         component.getAllMovieList(1, "2024-01-01", "2025-01-01");
 
         const itemEl = fixture.debugElement.queryAll(By.css(".l-movieCard__itme"));

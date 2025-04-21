@@ -23,3 +23,5 @@ export interface MovieListOutputModel {
 
 // 電影列表
 export type MovieListOutputModelEntity = MovieListOutputModel;
+
+export type MovieList = MovieListOutputModel["results"][number];

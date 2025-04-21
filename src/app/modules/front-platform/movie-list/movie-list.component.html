@@ -15,21 +15,23 @@
                             <div class="c-form__require">
                                 <div class="c-form__text">
                                     <app-date-picker formControlName="startDate"
-                                        [isError]="!searchForm.controls['startDate'].valid && searchForm.controls['startDate'].touched"
+                                        [isError]="searchForm.controls['startDate'].invalid && searchForm.controls['startDate'].dirty"
                                         [placeholder]="'請輸入起始日'" (input)="formTouch()"></app-date-picker>
                                 </div>
-                                <div class="c-form__error"
-                                    *ngIf="searchForm.controls['startDate'].hasError('required') && searchForm.controls['startDate'].touched">
-                                    請輸入起始日
-                                </div>
-                                <div class="c-form__error"
-                                    *ngIf="searchForm.controls['startDate'].hasError('invalidDate')">
-                                    請輸入正確日期格式
-                                </div>
-                                <div class="c-form__error"
-                                    *ngIf="searchForm.controls['startDate'].hasError('startDateAfterEndDate')">
-                                    起始日需小於结束日
-                                </div>
+                                <ng-container *ngIf="searchForm.controls['startDate'].dirty">
+                                    <div class="c-form__error"
+                                        *ngIf="searchForm.controls['startDate'].hasError('required')">
+                                        請輸入起始日
+                                    </div>
+                                    <div class="c-form__error"
+                                        *ngIf="searchForm.controls['startDate'].hasError('invalidDate')">
+                                        請輸入正確日期格式
+                                    </div>
+                                    <div class="c-form__error"
+                                        *ngIf="searchForm.controls['startDate'].hasError('startDateAfterEndDate')">
+                                        起始日需小於结束日
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
 
@@ -37,21 +39,23 @@
                             <div class="c-form__require">
                                 <div class="c-form__text">
                                     <app-date-picker formControlName="endDate"
-                                        [isError]="!searchForm.controls['endDate'].valid && searchForm.controls['endDate'].touched"
+                                        [isError]="searchForm.controls['endDate'].invalid && searchForm.controls['endDate'].dirty"
                                         [placeholder]="'請輸入結束日'" (input)="formTouch()"></app-date-picker>
                                 </div>
-                                <div class="c-form__error"
-                                    *ngIf="searchForm.controls['endDate'].hasError('required') && searchForm.controls['endDate'].touched">
-                                    請輸入結束日
-                                </div>
-                                <div class="c-form__error"
-                                    *ngIf="searchForm.controls['endDate'].hasError('invalidDate')">
-                                    請輸入正確日期格式
-                                </div>
-                                <div class="c-form__error"
-                                    *ngIf="searchForm.controls['endDate'].hasError('startDateAfterEndDate')">
-                                    结束日需大於起始日
-                                </div>
+                                <ng-container *ngIf="searchForm.controls['endDate'].dirty">
+                                    <div class="c-form__error"
+                                        *ngIf="searchForm.controls['endDate'].hasError('required')">
+                                        請輸入結束日
+                                    </div>
+                                    <div class="c-form__error"
+                                        *ngIf="searchForm.controls['endDate'].hasError('invalidDate')">
+                                        請輸入正確日期格式
+                                    </div>
+                                    <div class="c-form__error"
+                                        *ngIf="searchForm.controls['endDate'].hasError('startDateAfterEndDate')">
+                                        结束日需大於起始日
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
 
