@@ -1,4 +1,4 @@
-import { createReducer, on } from "@ngrx/store";
+import { createFeature, createReducer, on } from "@ngrx/store";
 
 import * as UserActions from "./user.actions";
 import { initUserData } from "./user.state";
@@ -9,3 +9,8 @@ export const userReducer = createReducer(
     on(UserActions.setUserIsLoginData, (state, { isLogin }) => ({ ...state, isLogin })),
     on(UserActions.clearUserData, () => initUserData)
 );
+
+export const userFeature = createFeature({
+    name: "user",
+    reducer: userReducer
+});

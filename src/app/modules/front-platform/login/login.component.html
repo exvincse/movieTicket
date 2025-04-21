@@ -14,14 +14,16 @@
                         <div class="c-form__item c-form__item--column">
                             <div class="c-form__text">
                                 <input type="text" formControlName="email"
-                                    [class.is-error]="!loginForm.controls['email'].valid && loginForm.controls['email'].touched"
+                                    [class.is-error]="loginForm.controls['email'].invalid && loginForm.controls['email'].dirty"
                                     class="o-inputbox o-inputbox--full" placeholder="請輸入信箱">
                             </div>
-                            <ng-container *ngIf="loginForm.controls['email'].touched">
-                                <div class="c-form__error" *ngIf="loginForm.controls['email'].hasError('required')">
+                            <ng-container *ngIf="loginForm.controls['email'].dirty">
+                                <div class="c-form__error"
+                                    *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].dirty">
                                     請輸入信箱
                                 </div>
-                                <div class="c-form__error" *ngIf="loginForm.controls['email'].hasError('pattern')">
+                                <div class="c-form__error"
+                                    *ngIf="loginForm.controls['email'].hasError('pattern') && loginForm.controls['email'].dirty">
                                     請輸入正確email格式
                                 </div>
                             </ng-container>
@@ -32,7 +34,7 @@
                                 <div class="c-login__input">
                                     <input [type]="isHiddenEye ? 'password' : 'text'" formControlName="password"
                                         class="o-inputbox o-inputbox--full o-inputbox--icon"
-                                        [class.is-error]="!loginForm.controls['password'].valid && loginForm.controls['password'].touched"
+                                        [class.is-error]="loginForm.controls['password'].invalid && loginForm.controls['password'].dirty"
                                         placeholder="請輸入密碼">
                                     <a href="#" appStopPropagation class="c-login__eye" (click)="toggleEye()">
                                         <fa-icon [icon]="isHiddenEye ? faEyeSlash : faEye" class="u-font-gy"
@@ -40,11 +42,13 @@
                                     </a>
                                 </div>
                             </div>
-                            <ng-container *ngIf="loginForm.controls['password'].touched">
-                                <div class="c-form__error" *ngIf="loginForm.controls['password'].hasError('required')">
+                            <ng-container *ngIf="loginForm.controls['password'].dirty">
+                                <div class="c-form__error"
+                                    *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].dirty">
                                     請輸入密碼
                                 </div>
-                                <div class="c-form__error" *ngIf="loginForm.controls['password'].hasError('minlength')">
+                                <div class="c-form__error"
+                                    *ngIf="loginForm.controls['password'].hasError('minlength') && loginForm.controls['password'].dirty">
                                     密碼長度需大於8碼
                                 </div>
                             </ng-container>

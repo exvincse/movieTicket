@@ -5,6 +5,7 @@ import { provideRouter } from "@angular/router";
 import { TmdbRepositoryService } from "@app/core/api/middleware/tmdb/tmdb-repository.service";
 import { UserRepositoryService } from "@app/core/api/middleware/user/user-repository.service";
 import { CookieService } from "@app/services/cookie/cookie.service";
+import { GoogleAuthService } from "@app/services/google/google-login.service";
 import { SweetAlertService } from "@app/shared/base/component/sweet-alert/service/sweet-alert.service";
 import { UserStoreService } from "@app/store/user/service/user-store.service";
 import { of } from "rxjs";
@@ -24,6 +25,7 @@ describe("LoginComponent", () => {
     const cookieServiceMock = jasmine.createSpyObj("CookieService", ["set"]);
     const tmdbApiMock = jasmine.createSpyObj("TmdbRepositoryService", ["getMovieDetail"]);
     const sweetAlertService = jasmine.createSpyObj("SweetAlertService", ["open"]);
+    const GoogleAuthServiceMock = jasmine.createSpyObj("GoogleAuthService", ["loadGoogleAuth", "handleResponse"]);
     tmdbApiMock.getMovieDetail.and.returnValue(of(mockMovieResponse));
 
     beforeEach(async () => {
@@ -34,6 +36,7 @@ describe("LoginComponent", () => {
             ],
             providers: [
                 provideRouter([]),
+                { provide: GoogleAuthService, useValue: GoogleAuthServiceMock },
                 { provide: TmdbRepositoryService, useValue: tmdbApiMock },
                 { provide: UserRepositoryService, useValue: UserapiMock },
                 { provide: UserStoreService, useValue: UsetStoreApiMock },
@@ -105,7 +108,6 @@ describe("LoginComponent", () => {
 
         component.login();
         expect(component.userRepositoryService.postLogin).toHaveBeenCalled();
-        expect(component.userRepositoryService.getUserProfile).toHaveBeenCalled();
         expect(component.userStoreService.setUserIsLogin).toHaveBeenCalledOnceWith(true);
         expect(component.cookieService.set).toHaveBeenCalledWith("accessToken", "xxxx", 60);
         expect(routerSpy).toHaveBeenCalledWith(["/"]);

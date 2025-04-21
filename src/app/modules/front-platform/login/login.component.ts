@@ -131,7 +131,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
                 if (res.result.accessToken) {
                     this.cookieService.set("accessToken", res.result.accessToken, 60);
                     this.userStoreService.setUserIsLogin(true);
-                    this.userRepositoryService.getUserProfile();
                     this.router.navigate(["/"]);
                 } else {
                     this.sweetAlertService.open(TextAlertComponent, {

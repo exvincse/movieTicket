@@ -66,11 +66,6 @@ describe("HeaderComponent", () => {
         expect(component).toBeTruthy();
     });
 
-    it("取得使用者資訊", () => {
-        component.ngOnInit();
-        expect(userRepositoryService.getUserProfile).toHaveBeenCalled();
-    });
-
     it("登出", fakeAsync(() => {
         const spy = spyOn(component, "defaultMenu");
         component.postLogout();

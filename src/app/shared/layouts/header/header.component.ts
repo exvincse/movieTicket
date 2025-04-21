@@ -83,7 +83,7 @@ export class HeaderComponent implements OnInit {
     isShowMobileList = false;
     menuList = [false, false];
     genresList: MovieGenreOutputModel[] = [];
-    userList: any[] = [
+    userList = [
         {
             url: "/personal/base",
             name: "個人資料",
@@ -110,12 +110,6 @@ export class HeaderComponent implements OnInit {
      */
     ngOnInit() {
         this.getAllMovieList();
-
-        this.userStoreService.getUserIsLogin().subscribe((res) => {
-            if (res === true) {
-                this.userRepositoryService.getUserProfile();
-            }
-        });
     }
 
     /**

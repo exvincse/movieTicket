@@ -1,8 +1,5 @@
-import { ActionReducerMap } from "@ngrx/store";
+import { userFeature } from "./user/user.reducer";
 
-import { AppState } from "./app.state";
-import { userReducer } from "./user/user.reducer";
-
-export const appReducer: ActionReducerMap<AppState> = {
-    user: userReducer
-};
+export const appReducer = [
+    userFeature
+];

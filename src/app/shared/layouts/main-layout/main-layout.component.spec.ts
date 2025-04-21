@@ -3,7 +3,7 @@ import { provideHttpClientTesting } from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { provideRouter } from "@angular/router";
 import { appReducer } from "@app/store/app.reducer";
-import { provideStore } from "@ngrx/store";
+import { provideState, provideStore } from "@ngrx/store";
 
 import { MainLayoutComponent } from "./main-layout.component";
 
@@ -18,7 +18,8 @@ describe("MainLayoutComponent", () => {
                 provideRouter([]),
                 provideHttpClient(),
                 provideHttpClientTesting(),
-                provideStore(appReducer)
+                provideStore(),
+                ...appReducer.map(provideState),
             ]
         })
             .compileComponents();

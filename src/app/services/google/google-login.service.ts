@@ -66,7 +66,6 @@ export class GoogleAuthService {
             if (res.result.accessToken) {
                 this.cookieService.set("accessToken", res.result.accessToken, 60);
                 this.userStoreService.setUserIsLogin(true);
-                this.userRepositoryService.getUserProfile();
                 this.router.navigate(["/"]);
             } else {
                 this.sweetAlertService.open(TextAlertComponent, {
