@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable, InjectionToken } from "@angular/core";
 import { Router } from "@angular/router";
 import { UserRepositoryService } from "@app/core/api/middleware/user/user-repository.service";
 import { TextAlertComponent } from "@app/shared/base/component/sweet-alert/base-component/text-alert/text-alert.component";
@@ -7,15 +7,33 @@ import { UserStoreService } from "@app/store/user/service/user-store.service";
 
 import { CookieService } from "../cookie/cookie.service";
 
-declare const google: any;
+declare global {
+    interface Window {
+        google: any;
+    }
+}
+
+export const GOOGLE = new InjectionToken<any>("google", {
+    providedIn: "root",
+    /**
+     * factory
+     * @returns window.google
+     */
+    factory: () => {
+        if (!window.google) {
+            throw new Error("Google script not loaded!");
+        }
+        return window.google;
+    }
+});
 
 /**
- * GoogleAuthService
+ * GoogleLoginService
  */
 @Injectable({
     providedIn: "root"
 })
-export class GoogleAuthService {
+export class GoogleLoginService {
     private clientId = "194845046746-ind8shn8n3c52pjiishd4gbelkq379pe.apps.googleusercontent.com";
 
     /**
@@ -25,13 +43,15 @@ export class GoogleAuthService {
      * @param userStoreService UserStoreService
      * @param router Router
      * @param sweetAlertService SweetAlertService
+     * @param google Google API
      */
     constructor(
         private userRepositoryService: UserRepositoryService,
         private cookieService: CookieService,
         private userStoreService: UserStoreService,
         private router: Router,
-        private sweetAlertService: SweetAlertService
+        private sweetAlertService: SweetAlertService,
+        @Inject(GOOGLE) private google: any
     ) { }
 
     /**
@@ -39,7 +59,7 @@ export class GoogleAuthService {
      * 返回 Promise 確保 Google API 初始化完成
      */
     loadGoogleAuth() {
-        google.accounts.id.initialize({
+        this.google.accounts.id.initialize({
             client_id: this.clientId,
             callback: this.handleResponse.bind(this),
             auto_select: false
@@ -47,7 +67,7 @@ export class GoogleAuthService {
 
         const button = document.getElementById("googleSign");
 
-        google.accounts.id.renderButton(
+        this.google.accounts.id.renderButton(
             button,
             {
                 theme: "outline",
@@ -60,8 +80,19 @@ export class GoogleAuthService {
      * handleResponse
      * @param response 回應資料
      */
-    handleResponse(response: any): void {
+    handleResponse(response: any) {
         const googleToken = response.credential;
+
+        if (!googleToken) {
+            this.sweetAlertService.open(TextAlertComponent, {
+                icon: "error",
+                data: {
+                    text: "登入失敗"
+                }
+            });
+            return;
+        }
+
         this.userRepositoryService.postGoogleLogin({ googleToken }).subscribe((res) => {
             if (res.result.accessToken) {
                 this.cookieService.set("accessToken", res.result.accessToken, 60);
