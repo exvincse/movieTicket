@@ -1,0 +1,30 @@
+<nav class="l-header">
+    <a [routerLink]="['/']" class="c-logo">
+        <h1 class="c-logo__text">Movie Tick</h1>
+    </a>
+</nav>
+
+<div class="l-main">
+    <main class="l-main__content">
+        <div class="l-wrap">
+            <div class="l-statusBox">
+                <div class="o-statusBox">
+                    <fa-icon [icon]="faExclamationTriangle" [size]="'10x'"
+                        class="o-statusBox__img u-light-red"></fa-icon>
+                    <p class="o-statusBox__msg">
+                        <span class="u-font-lg">找不到此頁面</span>
+                    </p>
+                </div>
+                <div class="l-btn l-btn--center u-gapV-sm">
+                    <div class="l-btn__item l-btn__item--full">
+                        <a [routerLink]="['/']" class="c-btn c-btn--rounded c-btn--reverseColor">
+                            返回首頁
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<app-footer></app-footer>

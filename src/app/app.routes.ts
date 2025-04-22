@@ -59,4 +59,9 @@ export const routes: Routes = [
             },
         ]
     },
+    {
+        path: "**",
+        // eslint-disable-next-line jsdoc/require-jsdoc
+        loadComponent: () => import("./shared/layouts/page-not-found/page-not-found.component").then((m) => m.PageNotFoundComponent)
+    },
 ];
