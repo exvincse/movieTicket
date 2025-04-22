@@ -10,5 +10,10 @@ export const personalRoutes: Routes = [
         path: "ticket",
         // eslint-disable-next-line jsdoc/require-jsdoc
         loadComponent: () => import("./ticket/ticket.component").then((m) => m.TicketComponent),
+    },
+    {
+        path: "**",
+        redirectTo: "base",
+        pathMatch: "full",
     }
 ];
