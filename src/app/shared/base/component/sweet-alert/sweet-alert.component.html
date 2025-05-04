@@ -1,4 +1,5 @@
-<swal #swalComponent [icon]="option.icon" (didOpen)="swalDidOpen()" (didClose)="swalDidClose()">
+<swal #swalComponent [icon]="option.icon" [confirmButtonText]="option.confirmButtonText" (didOpen)="swalDidOpen()"
+    (didClose)="swalDidClose()">
     <ng-container *swalPortal="swalTargets.content">
         <ng-template #templateRef></ng-template>
     </ng-container>

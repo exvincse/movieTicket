@@ -34,9 +34,9 @@ export class SweetAlertService {
      * @param option option
      * @returns componentRef
      */
-    open(component: any, option?: any) {
+    open(component: any, option?: SweetAlertConfig) {
         return this.create(component, {
-            ...SweetAlertConfig,
+            ...new SweetAlertConfig(),
             ...option
         });
     }
@@ -54,7 +54,7 @@ export class SweetAlertService {
      * @param option option
      * @returns componentRef
      */
-    create<T>(component: Type<T>, option?: any): ComponentRef<SweetAlertComponent> {
+    create<T>(component: Type<T>, option?: SweetAlertConfig): ComponentRef<SweetAlertComponent> {
         if (!this.componentRef) {
             const hostElement = document.createElement("div");
             document.body.appendChild(hostElement);

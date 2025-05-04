@@ -48,7 +48,7 @@ describe("SweetAlertService", () => {
         const dummyComponent = {} as any;
         service.open(dummyComponent, { icon: "success" });
         mockComponentRef.instance.afterClose.next(true);
-        expect(service.create).toHaveBeenCalledWith(dummyComponent, { icon: "success" });
+        expect(service.create).toHaveBeenCalledWith(dummyComponent, { icon: "success", confirmButtonText: "關閉", data: undefined });
     });
 
     it("銷毀元件", () => {
