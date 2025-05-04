@@ -165,7 +165,7 @@ export class MovieListComponent implements OnDestroy {
      * openLightbox
      * @param id id
      */
-    openLightbox(id: any) {
+    openLightbox(id: number) {
         this.sweetAlertService.open(MovieDetailComponent, {
             data: {
                 id

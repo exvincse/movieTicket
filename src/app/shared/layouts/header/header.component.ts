@@ -134,7 +134,7 @@ export class HeaderComponent implements OnInit {
         this.tmdbRepositoryService.getMovieGenre({ language: "zh-TW" }).subscribe((res) => {
             const converter = OpenCC.Converter({ from: "cn", to: "tw" });
 
-            this.genresList = res.genres.map((item: any) => ({
+            this.genresList = res.genres.map((item) => ({
                 ...item,
                 name: converter(item.name)
             }));
