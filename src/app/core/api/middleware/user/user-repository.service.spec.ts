@@ -55,7 +55,7 @@ describe("UserRepositoryService", () => {
         };
 
         restfulApiService.get.and.returnValue(of(mockResponse));
-        service.getIsCheckLogin().subscribe((res) => {
+        service.getIsLogin().subscribe((res) => {
             expect(res).toEqual(mockResponse);
         });
     });
@@ -176,7 +176,7 @@ describe("UserRepositoryService", () => {
         };
 
         restfulApiService.post.and.returnValue(of(mockResponse));
-        service.postRegister(mockParam).subscribe((res) => {
+        service.postRegisterAccount(mockParam).subscribe((res) => {
             expect(res).toEqual(mockResponse);
         });
     });

@@ -65,13 +65,13 @@ describe("RequestInterceptor", () => {
         const mockResponse = new HttpResponse({
             status: 200,
             body: { result: false },
-            url: "/GetIsCheckLogin"
+            url: "/IsLogin"
         });
 
-        http.get("/GetIsCheckLogin").subscribe();
+        http.get("/IsLogin").subscribe();
 
-        const req = httpMock.expectOne("/GetIsCheckLogin");
-        expect(req.request.urlWithParams).toBe("/GetIsCheckLogin");
+        const req = httpMock.expectOne("/IsLogin");
+        expect(req.request.urlWithParams).toBe("/IsLogin");
 
         req.flush(mockResponse.body);
         httpMock.verify();

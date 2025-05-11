@@ -72,11 +72,13 @@
                 <div class="l-movieCard__wrap">
                     <div class="l-movieCard__itme l-movieCard__itme--sm" *ngFor="let item of movieList">
                         <div class="c-movieCard c-movieCard--column c-movieCard--zoom">
-                            <a href="#" appStopPropagation class="o-link" (click)="openLightbox(item.id)">
-                                <div class="c-movieCard__img"
-                                    [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ item.poster_path + ')'}">
-                                </div>
-                            </a>
+                            <div class="c-movieCard__head">
+                                <a href="#" appStopPropagation class="o-link" (click)="openLightbox(item.id)">
+                                    <div class="c-movieCard__img"
+                                        [ngStyle]="{ 'background-image': 'url(' + 'https://image.tmdb.org/t/p/w342'+ item.poster_path + ')'}">
+                                    </div>
+                                </a>
+                            </div>
                             <div class="c-movieCard__content c-movieCard__content--gary">
                                 <div class="c-movieCard__title">
                                     {{ item.title }}

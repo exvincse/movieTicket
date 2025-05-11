@@ -21,7 +21,7 @@ describe("RegisterComponent", () => {
         backdrop_path: "/test"
     };
 
-    const userRepositoryService = jasmine.createSpyObj("UserRepositoryService", ["getUserProfile", "postSendMail", "postRegister"]);
+    const userRepositoryService = jasmine.createSpyObj("UserRepositoryService", ["getUserProfile", "postSendMail", "postRegisterAccount"]);
     const userStoreService = jasmine.createSpyObj("UserStoreService", ["setUserIsLogin"]);
     const cookieService = jasmine.createSpyObj("CookieService", ["set"]);
     const tmdbRepositoryService = jasmine.createSpyObj("TmdbRepositoryService", ["getMovieDetail"]);
@@ -97,7 +97,7 @@ describe("RegisterComponent", () => {
     });
 
     it("驗證otp", () => {
-        userRepositoryService.postRegister.and.returnValue(of({ result: { accessToken: "123456" } }));
+        userRepositoryService.postRegisterAccount.and.returnValue(of({ result: { accessToken: "123456" } }));
         sweetAlertService.open.and.returnValue({
             instance: {
                 afterClose: of(null)

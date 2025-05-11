@@ -40,8 +40,8 @@ export class UserRepositoryService {
      * 確認是否有登入
      * @returns any
      */
-    getIsCheckLogin(): Observable<BaseApiOutputModel<boolean>> {
-        return this.restfulApiService.get(UserUrl.getIsCheckLogin);
+    getIsLogin(): Observable<BaseApiOutputModel<boolean>> {
+        return this.restfulApiService.get(UserUrl.getIsLogin);
     }
 
     /**
@@ -119,8 +119,8 @@ export class UserRepositoryService {
      * @param params params
      * @returns any
      */
-    postRegister(params: UserLoginInputModel): Observable<UserLoginOutputModelEntity> {
-        return this.restfulApiService.post(UserUrl.postRegister, params);
+    postRegisterAccount(params: UserLoginInputModel): Observable<UserLoginOutputModelEntity> {
+        return this.restfulApiService.post(UserUrl.postRegisterAccount, params);
     }
 
     /**

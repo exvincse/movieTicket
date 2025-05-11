@@ -43,7 +43,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
 
     return next(req).pipe(
         tap((response) => {
-            if (response instanceof HttpResponse && response.url?.includes("GetIsCheckLogin") === true) {
+            if (response instanceof HttpResponse && response.url?.includes("IsLogin") === true) {
                 const responseBody = response.body as BaseApiOutputModel<boolean>;
                 if (responseBody.result === false) {
                     userStoreService.setClearUserData();

@@ -138,7 +138,7 @@ export class RegisterComponent implements OnInit {
             password: this.registerForm.get("password")?.value
         };
 
-        this.userRepositoryService.postRegister(param).subscribe((res) => {
+        this.userRepositoryService.postRegisterAccount(param).subscribe((res) => {
             if (res.result.accessToken) {
                 const ref = this.sweetAlertService.open(TextAlertComponent, {
                     icon: "success",

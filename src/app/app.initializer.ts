@@ -15,7 +15,7 @@ export function isLoginFactory(injector: Injector) {
         const userStoreService = injector.get(UserStoreService);
 
         try {
-            const res = await lastValueFrom(userRepositoryService.getIsCheckLogin());
+            const res = await lastValueFrom(userRepositoryService.getIsLogin());
             userStoreService.setUserIsLogin(res.result);
         } catch (error) {
             userStoreService.setUserIsLogin(false);
