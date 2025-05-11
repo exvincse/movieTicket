@@ -293,56 +293,45 @@ export class IssueTicketComponent implements OnInit {
      * @param seat 座位
      */
     submitTicket(seat: Seat[]) {
-        this.userStoreService.getUserData().subscribe((user) => {
-            if (user !== null && user.userNo !== 0) {
-                const ticketCategory: TicketParam[] = [];
+        const ticketCategory: TicketParam[] = [];
 
-                let count = 0;
-                // 把票卷語言分類、票種、座位資料合併
-                this.ticketSelect.ticketCategory.filter((x) => x.count > 0).forEach((y) => {
-                    for (let i = 0; i < y.count; i += 1) {
-                        ticketCategory.push({
-                            ...y,
-                            column: seat[count].column,
-                            seat: seat[count].seat ?? 0,
-                        });
-
-                        count += 1;
-                    }
+        let count = 0;
+        // 把票卷語言分類、票種、座位資料合併
+        this.ticketSelect.ticketCategory.filter((x) => x.count > 0).forEach((y) => {
+            for (let i = 0; i < y.count; i += 1) {
+                ticketCategory.push({
+                    ...y,
+                    column: seat[count].column,
+                    seat: seat[count].seat ?? 0,
                 });
 
-                // 總金額
-                const { cost } = ticketCategory.reduce((acc, cur) => ({ cost: acc.cost + cur.cost }), { cost: 0 });
+                count += 1;
+            }
+        });
 
-                const param = {
-                    movieId: this.movieDetail.id,
-                    movieName: this.movieDetail.title,
-                    ticketDateTime: moment(`${this.ticketSelect.date} ${this.ticketSelect.time}`, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm:ss"),
-                    ticketLanguageCode: this.ticketSelect.ticketLanguageCode,
-                    ticketLanguageName: this.ticketSelect.ticketLanguageName,
-                    ticketCategory,
-                    totalCost: cost
-                };
+        // 總金額
+        const { cost } = ticketCategory.reduce((acc, cur) => ({ cost: acc.cost + cur.cost }), { cost: 0 });
 
-                this.ticketRepositoryService.postSealTicket(param).subscribe((res) => {
-                    if (res.result !== false) {
-                        // 後端回傳paypal付款連結
-                        window.location.href = res.result as string;
-                        this.loaderService.startLoadingCount();
-                    } else {
-                        this.sweetAlertService.open(TextAlertComponent, {
-                            icon: "error",
-                            data: {
-                                text: res.message
-                            }
-                        });
-                    }
-                });
+        const param = {
+            movieId: this.movieDetail.id,
+            movieName: this.movieDetail.title,
+            ticketDateTime: moment(`${this.ticketSelect.date} ${this.ticketSelect.time}`, "YYYY-MM-DD HH:mm").format("YYYY-MM-DDTHH:mm:ss"),
+            ticketLanguageCode: this.ticketSelect.ticketLanguageCode,
+            ticketLanguageName: this.ticketSelect.ticketLanguageName,
+            ticketCategory,
+            totalCost: cost
+        };
+
+        this.ticketRepositoryService.postSealTicket(param).subscribe((res) => {
+            if (res.result !== false) {
+                // 後端回傳paypal付款連結
+                window.location.href = res.result as string;
+                this.loaderService.startLoadingCount();
             } else {
                 this.sweetAlertService.open(TextAlertComponent, {
                     icon: "error",
                     data: {
-                        text: "請先登入"
+                        text: res.message
                     }
                 });
             }
