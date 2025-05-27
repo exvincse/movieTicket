@@ -77,7 +77,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
                         });
 
                         ref.instance.afterClose.subscribe(() => {
-                            router.navigate(["/"]);
+                            router.navigate(["/login"]);
                         });
 
                         return throwError(() => tokenError);
@@ -96,7 +96,7 @@ export const ResponseInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, ne
                 });
 
                 ref.instance.afterClose.subscribe(() => {
-                    router.navigate(["/"]);
+                    router.navigate(["/login"]);
                 });
             }
 
