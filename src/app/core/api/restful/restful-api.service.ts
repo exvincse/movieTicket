@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import {
+    catchError, map, Observable, throwError
+} from "rxjs";
 
 import { environment } from "../../../../environments/environment";
 
@@ -36,7 +38,11 @@ export class RestfulApiService {
                 }
             });
 
-            return this.http.get<T>(`${this.baseApiUrl}/${url}?${newParams.toString()}`);
+            return this.http.get<T>(`${this.baseApiUrl}/${url}?${newParams.toString()}`)
+                .pipe(
+                    map((response) => response),
+                    catchError((error) => throwError(() => error))
+                );
         }
 
         return this.http.get<T>(`${this.baseApiUrl}/${url}`);
@@ -45,20 +51,28 @@ export class RestfulApiService {
     /**
      * restful post
      * @param url url
-     * @param data data
+     * @param params params
      * @returns req
      */
-    post<T>(url: string, data: any): Observable<T> {
-        return this.http.post<T>(`${this.baseApiUrl}/${url}`, data);
+    post<T>(url: string, params: any): Observable<T> {
+        return this.http.post<T>(`${this.baseApiUrl}/${url}`, params)
+            .pipe(
+                map((response) => response),
+                catchError((error) => throwError(() => error))
+            );
     }
 
     /**
      * restful put
      * @param url url
-     * @param data data
+     * @param params params
      * @returns req
      */
-    put<T>(url: string, data: any): Observable<T> {
-        return this.http.put<T>(`${this.baseApiUrl}/${url}`, data);
+    put<T>(url: string, params: any): Observable<T> {
+        return this.http.put<T>(`${this.baseApiUrl}/${url}`, params)
+            .pipe(
+                map((response) => response),
+                catchError((error) => throwError(() => error))
+            );
     }
 }
