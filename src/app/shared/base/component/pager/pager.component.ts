@@ -2,6 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 import { CommonModule } from "@angular/common";
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter, Input, Output
 } from "@angular/core";
@@ -17,7 +18,8 @@ import { StopPropagationDirective } from "../../directives/stop-propagation/stop
     standalone: true,
     imports: [FormsModule, CommonModule, StopPropagationDirective],
     templateUrl: "./pager.component.html",
-    styleUrl: "./pager.component.scss"
+    styleUrl: "./pager.component.scss",
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PagerComponent {
     @Output() changePageEmitter = new EventEmitter<any>();
