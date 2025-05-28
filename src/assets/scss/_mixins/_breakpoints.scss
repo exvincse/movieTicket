@@ -5,9 +5,7 @@
         @media only screen and (min-width: $min) {
             @content;
         }
-    }
-
-    @else {
+    } @else {
         @content;
     }
 }
@@ -19,9 +17,7 @@
         @media only screen and (max-width: $max) {
             @content;
         }
-    }
-
-    @else {
+    } @else {
         @content;
     }
 }
@@ -34,39 +30,12 @@
         @media (min-width: $min) and (max-width: $max) {
             @content;
         }
-    }
-
-    @else if ($max==null) {
+    } @else if ($max==null) {
         @include breakpoint-up($device) {
             @content;
         }
-    }
-
-    @else if ($min==null) {
+    } @else if ($min==null) {
         @include breakpoint-down($device) {
-            @content;
-        }
-    }
-}
-
-@mixin breakpoint-between($lower, $upper) {
-    $min: map-get($width-min, $lower);
-    $max: map-get($width-max, $upper);
-
-    @if ($min !=null and $max !=null) {
-        @media (min-width: $min) and (max-width: $max) {
-            @content;
-        }
-    }
-
-    @else if ($max==null) {
-        @include breakpoint-up($lower) {
-            @content;
-        }
-    }
-
-    @else if ($min==null) {
-        @include breakpoint-down($upper) {
             @content;
         }
     }
