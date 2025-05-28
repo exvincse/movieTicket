@@ -116,7 +116,7 @@
 </div>
 
 <ng-container *ngIf="ticketSelect.time !== ''">
-    <div class="l-headingBar">
+    <div class="l-headingBar" #ticketCategortTargetSection>
         <div class="l-headingBar__wrap">
             <div class="l-headingBar__content">
                 <div class="l-headingBar__title">選取票種</div>
@@ -174,7 +174,7 @@
 </ng-container>
 
 <ng-container *ngIf="isHiddenSelectSeat === false && tickCategoryCount > 0">
-    <div class="l-headingBar">
+    <div class="l-headingBar" #ticketSeatTargetSection>
         <div class="l-headingBar__wrap">
             <div class="l-headingBar__content">
                 <div class="l-headingBar__title">選取座位</div>

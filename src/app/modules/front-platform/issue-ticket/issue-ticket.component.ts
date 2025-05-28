@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
-    Component, CUSTOM_ELEMENTS_SCHEMA, OnInit
+    Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, OnInit,
+    ViewChild
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
@@ -40,6 +41,9 @@ import { SeatChartComponent } from "../seat-chart/seat-chart.component";
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IssueTicketComponent implements OnInit {
+    @ViewChild("ticketCategortTargetSection") ticketCategortTargetSection!: ElementRef;
+    @ViewChild("ticketSeatTargetSection") ticketSeatTargetSection!: ElementRef;
+
     /**
      * constructor
      * @param route ActivatedRoute
@@ -163,6 +167,15 @@ export class IssueTicketComponent implements OnInit {
     }
 
     /**
+     * 滑到目標區塊
+     * @param target target
+     */
+    scrollToSection(target: "ticketCategortTargetSection" | "ticketSeatTargetSection") {
+        this[target].nativeElement.style.scrollMarginTop = "68px";
+        this[target].nativeElement.scrollIntoView({ behavior: "smooth" });
+    }
+
+    /**
      * 取得電影合併資料
      */
     async getMovieDetail() {
@@ -269,6 +282,10 @@ export class IssueTicketComponent implements OnInit {
             ...x,
             count: 0
         }));
+
+        setTimeout(() => {
+            this.scrollToSection("ticketCategortTargetSection");
+        });
     }
 
     /**
@@ -352,6 +369,10 @@ export class IssueTicketComponent implements OnInit {
         this.ticketRepositoryService.postSelectSeat(param).subscribe((res) => {
             this.disableSeatSeat = res.result;
             this.isHiddenSelectSeat = false;
+
+            setTimeout(() => {
+                this.scrollToSection("ticketSeatTargetSection");
+            }, 50);
         });
     }
 }
