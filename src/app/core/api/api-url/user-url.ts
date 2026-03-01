@@ -1,4 +1,6 @@
 export const UserUrl = {
+    // 取得環境設定
+    getSetting: "User/Setting",
     // 確認是否有登入
     getIsLogin: "User/IsLogin",
     // 登入

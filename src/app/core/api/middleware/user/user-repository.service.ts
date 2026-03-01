@@ -6,6 +6,7 @@ import { UserProfileInputModel } from "@app/core/models/inputViewModels/user/use
 import { AddressOutputModelEntity } from "@app/core/models/outputViewModels/user/user-address-output-model";
 import { UserLoginOutputModelEntity } from "@app/core/models/outputViewModels/user/user-login-output.model";
 import { UserProfileOutputModelEntity } from "@app/core/models/outputViewModels/user/user-profile-output.model";
+import { UserSettingOutputModelEntity } from "@app/core/models/outputViewModels/user/user-setting-output.model";
 import {
     BehaviorSubject, catchError, concatMap, filter, Observable, of, tap,
     throwError
@@ -35,6 +36,14 @@ export class UserRepositoryService {
 
     protected refreshTokenSubject = new BehaviorSubject<string | null>(null);
     protected refreshProgress = false;
+
+    /**
+     * 取得環境設定
+     * @returns any
+     */
+    getSetting(): Observable<UserSettingOutputModelEntity> {
+        return this.restfulApiService.get(UserUrl.getSetting);
+    }
 
     /**
      * 確認是否有登入

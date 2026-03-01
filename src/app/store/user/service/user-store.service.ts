@@ -2,9 +2,11 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
-import { clearUserData, setUserData, setUserIsLoginData } from "../user.actions";
-import { selectUserData, selectUserIsLoginData } from "../user.selectors";
-import { UserDataType } from "../user.state";
+import {
+    clearUserData, setSettingData, setUserData, setUserIsLoginData
+} from "../user.actions";
+import { selectSettingData, selectUserData, selectUserIsLoginData } from "../user.selectors";
+import { SettingDataType, UserDataType } from "../user.state";
 
 /**
  * UserStoreService
@@ -28,11 +30,27 @@ export class UserStoreService {
     }
 
     /**
+     * 取得環境設定資料
+     * @returns 環境設定資料
+     */
+    getSettingData(): Observable<SettingDataType> {
+        return this.store.select(selectSettingData);
+    }
+
+    /**
      * 取得使用者資料
      * @returns 使用者資料
      */
     getUserData(): Observable<UserDataType> {
         return this.store.select(selectUserData);
+    }
+
+    /**
+     * 環境設定
+     * @param setting 環境設定資料
+     */
+    setSettingData(setting: SettingDataType): void {
+        this.store.dispatch(setSettingData({ setting }));
     }
 
     /**

@@ -10,9 +10,15 @@ export interface UserDataType {
     birthday: string;
 }
 
+export interface SettingDataType {
+    tmdbApiKey: string;
+    pdAzureSubKey: string;
+}
+
 export interface UserState {
     userData: UserDataType;
     isLogin: boolean;
+    setting: SettingDataType;
 }
 
 export const initUserData: UserState = {
@@ -27,5 +33,9 @@ export const initUserData: UserState = {
         sexCode: "001",
         birthday: ""
     },
-    isLogin: false
+    isLogin: false,
+    setting: {
+        tmdbApiKey: "",
+        pdAzureSubKey: ""
+    }
 };

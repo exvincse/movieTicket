@@ -1,6 +1,8 @@
 import { createAction, props } from "@ngrx/store";
 
-import { UserDataType } from "./user.state";
+import { SettingDataType, UserDataType } from "./user.state";
+
+export const setSettingData = createAction("[User] Set SettingData", props<{ setting: SettingDataType }>());
 
 export const setUserData = createAction("[User] Set UserData", props<{ userData: UserDataType }>());
 

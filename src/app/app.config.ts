@@ -12,7 +12,7 @@ import { provideStoreDevtools } from "@ngrx/store-devtools";
 import { SweetAlert2Module } from "@sweetalert2/ngx-sweetalert2";
 import { environment } from "src/environments/environment";
 
-import { isLoginFactory } from "./app.initializer";
+import { isLoginFactory, settingFactory } from "./app.initializer";
 import { routes } from "./app.routes";
 import { RequestInterceptor } from "./core/interceptor/request-interceptor";
 import { ResponseInterceptor } from "./core/interceptor/response-interceptor";
@@ -41,6 +41,12 @@ export const appConfig: ApplicationConfig = {
             maxAge: 25,
             logOnly: !isDevMode(),
         }),
+        {
+            provide: APP_INITIALIZER,
+            useFactory: settingFactory,
+            deps: [Injector],
+            multi: true
+        },
         {
             provide: APP_INITIALIZER,
             useFactory: isLoginFactory,
