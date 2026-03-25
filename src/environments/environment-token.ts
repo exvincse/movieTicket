@@ -5,7 +5,6 @@ import { environment } from "./environment";
 export const ENVIRONMENT = new InjectionToken<{
     production: boolean;
     apiUrl: string;
-    azureSubKey: string;
 }>("environment", {
     providedIn: "root",
     /**
